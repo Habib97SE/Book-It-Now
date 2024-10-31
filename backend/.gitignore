@@ -34,3 +34,6 @@ build/
 
 # ignore all files that ends with .yml
 *.yml
+
+# ignore the data folder
+data/
