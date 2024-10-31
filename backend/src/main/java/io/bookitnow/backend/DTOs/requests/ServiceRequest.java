@@ -1,0 +1,40 @@
+package io.bookitnow.backend.DTOs.requests;
+
+
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
+
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@Builder
+public class ServiceRequest {
+
+    @NotNull(message = "Name is required")
+    @NotEmpty(message = "Name is required")
+    private String name;
+
+    private String description;
+
+    @NotNull(message = "Price is required")
+    @Min(value = 0, message = "Price must be greater than 0")
+    private Double price;
+
+    @NotNull(message = "Duration is required")
+    private Double durationInMinutes;
+
+    private String image;
+
+    @NotNull(message = "Category is required")
+    private String category;
+
+    @NotNull(message = "Provider is required")
+    @Min(value = 1, message = "Provider must be greater than 0")
+    private Long providerId;
+
+
+}

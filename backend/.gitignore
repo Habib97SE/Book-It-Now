@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# ignore all files that ends with .yml
+*.yml
+
