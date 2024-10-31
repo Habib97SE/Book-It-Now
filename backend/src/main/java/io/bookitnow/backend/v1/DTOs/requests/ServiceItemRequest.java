@@ -1,4 +1,4 @@
-package io.bookitnow.backend.DTOs.requests;
+package io.bookitnow.backend.v1.DTOs.requests;
 
 
 import jakarta.validation.constraints.Min;
@@ -12,7 +12,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class ServiceRequest {
+public class ServiceItemRequest {
 
     @NotNull(message = "Name is required")
     @NotEmpty(message = "Name is required")

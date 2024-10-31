@@ -1,4 +1,4 @@
-package io.bookitnow.backend.exception;
+package io.bookitnow.backend.v1.exception;
 
 import org.apache.coyote.BadRequestException;
 import org.springframework.dao.DataIntegrityViolationException;

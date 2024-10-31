@@ -1,4 +1,4 @@
-package io.bookitnow.backend.DTOs.responses;
+package io.bookitnow.backend.v1.DTOs.responses;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class ServiceResponse {
+public class ServiceItemResponse {
     private Long id;
     private String name;
     private String description;

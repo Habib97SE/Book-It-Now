@@ -1,6 +1,6 @@
-package io.bookitnow.backend.DTOs.responses;
+package io.bookitnow.backend.v1.DTOs.responses;
 
-import io.bookitnow.backend.entity.Provider;
+import io.bookitnow.backend.v1.entity.Provider;
 import lombok.*;
 
 import java.time.LocalDateTime;

@@ -1,4 +1,4 @@
-package io.bookitnow.backend.entity;
+package io.bookitnow.backend.v1.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;

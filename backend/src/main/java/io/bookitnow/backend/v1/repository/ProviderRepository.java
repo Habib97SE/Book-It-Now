@@ -1,6 +1,6 @@
-package io.bookitnow.backend.repository;
+package io.bookitnow.backend.v1.repository;
 
-import io.bookitnow.backend.entity.Provider;
+import io.bookitnow.backend.v1.entity.Provider;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

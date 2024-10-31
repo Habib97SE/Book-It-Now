@@ -1,4 +1,4 @@
-package io.bookitnow.backend.DTOs.requests;
+package io.bookitnow.backend.v1.DTOs.requests;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;

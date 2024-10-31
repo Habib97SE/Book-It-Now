@@ -1,4 +1,4 @@
-package io.bookitnow.backend.entity;
+package io.bookitnow.backend.v1.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
@@ -19,7 +19,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Service {
+public class ServiceItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
