@@ -1,5 +1,6 @@
 package io.bookitnow.backend.DTOs.responses;
 
+import io.bookitnow.backend.entity.Provider;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -27,4 +28,24 @@ public class ProviderResponse {
     private String instagram;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    public ProviderResponse(Provider provider) {
+        this.id = provider.getId();
+        this.name = provider.getName();
+        this.email = provider.getEmail();
+        this.phone = provider.getPhone();
+        this.address = provider.getAddress();
+        this.city = provider.getCity();
+        this.state = provider.getState();
+        this.country = provider.getCountry();
+        this.postalCode = provider.getPostalCode();
+        this.website = provider.getWebsite();
+        this.description = provider.getDescription();
+        this.logo = provider.getLogo();
+        this.cover = provider.getCover();
+        this.facebook = provider.getFacebook();
+        this.instagram = provider.getInstagram();
+        this.createdAt = provider.getCreatedAt();
+        this.updatedAt = provider.getUpdatedAt();
+    }
 }
