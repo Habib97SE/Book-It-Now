@@ -17,13 +17,11 @@ import java.util.NoSuchElementException;
 /**
  * Provider service: Handles provider operations and business logic
  *
+ * @version 1.0
  * @see Provider
  * @see ProviderRepository
  * @see ProviderRequest
  * @see ProviderResponse
- *
- * @version 1.0
- *
  * @since 1.0
  */
 @Service
@@ -93,8 +91,8 @@ public class ProviderService {
      *
      * @return List of providers
      */
-    public List<Provider> getAllProviders() {
-        return repo.findAll();
+    public List<ProviderResponse> getAllProviders() {
+        return repo.findAll().stream().map(this::mapToProviderResponse).toList();
     }
 
     /**
@@ -102,14 +100,14 @@ public class ProviderService {
      *
      * @param id Provider id
      * @return Provider response
-     *
      * @throws IllegalArgumentException If provider id is invalid or provider not found
-     * @throws NoSuchElementException If provider not found
-     * @throws Exception If an error occurs while fetching provider
-     *
+     * @throws NoSuchElementException   If provider not found
+     * @throws Exception                If an error occurs while fetching provider
      */
     public ProviderResponse getProviderById(@NotNull Long id) {
-        if (id < 1) { throw new IllegalArgumentException("Invalid provider id"); }
+        if (id < 1) {
+            throw new IllegalArgumentException("Invalid provider id");
+        }
         try {
             Provider provider = repo.findById(id).orElseThrow(() -> new NoSuchElementException("Provider not found"));
             return new ProviderResponse(provider);
@@ -125,12 +123,13 @@ public class ProviderService {
      *
      * @param providerRequest Provider request
      * @return Provider response
-     *
      * @throws IllegalArgumentException If provider request is invalid
-     * @throws RuntimeException If an error occurs while creating provider
+     * @throws RuntimeException         If an error occurs while creating provider
      */
     public ProviderResponse createProvider(@Valid ProviderRequest providerRequest) {
-        if (providerRequest == null) { throw new IllegalArgumentException("Invalid provider request"); }
+        if (providerRequest == null) {
+            throw new IllegalArgumentException("Invalid provider request");
+        }
 
         try {
             Provider provider = mapToProvider(providerRequest);
@@ -143,9 +142,13 @@ public class ProviderService {
         }
     }
 
-    public ProviderResponse updateProvider(@NotNull Long id,@Valid ProviderRequest providerRequest) {
-        if (id < 1) { throw new IllegalArgumentException("Invalid provider id"); }
-        if (providerRequest == null) { throw new IllegalArgumentException("Invalid provider request"); }
+    public ProviderResponse updateProvider(@NotNull Long id, @Valid ProviderRequest providerRequest) {
+        if (id < 1) {
+            throw new IllegalArgumentException("Invalid provider id");
+        }
+        if (providerRequest == null) {
+            throw new IllegalArgumentException("Invalid provider request");
+        }
 
         try {
             Provider provider = repo.findById(id).orElseThrow(() -> new NoSuchElementException("Provider not found"));
@@ -174,15 +177,16 @@ public class ProviderService {
 
     /**
      * Deletes a provider by id if it exists
+     *
      * @param id Provider id
-     *
-     *
      * @throws IllegalArgumentException If provider id is invalid
-     * @throws NoSuchElementException If provider not found
-     * @throws Exception If an error occurs while deleting provider
+     * @throws NoSuchElementException   If provider not found
+     * @throws Exception                If an error occurs while deleting provider
      */
     public void deleteProvider(Long id) {
-        if (id < 1) { throw new IllegalArgumentException("Invalid provider id"); }
+        if (id < 1) {
+            throw new IllegalArgumentException("Invalid provider id");
+        }
 
         try {
             Provider provider = repo.findById(id).orElseThrow(() -> new NoSuchElementException("Provider not found"));

@@ -82,6 +82,6 @@ public class Provider {
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "provider")
-    private List<Service> services;
+    private List<ServiceItem> services;
 
 }
