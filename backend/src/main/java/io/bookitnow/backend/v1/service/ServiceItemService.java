@@ -103,7 +103,7 @@ public class ServiceItemService {
      *
      * @throws Exception if failed to create service item
      */
-    public ServiceItemResponse createServiceItem(@Valid ServiceItemRequest serviceItemRequest) throws Exception {
+    public ServiceItemResponse createServiceItem(@Valid ServiceItemRequest serviceItemRequest)  {
         try {
             ServiceItem serviceItem = mapToServiceItem(serviceItemRequest);
             return mapToResponse(serviceItemRepository.save(serviceItem));
