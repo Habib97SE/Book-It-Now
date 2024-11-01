@@ -47,4 +47,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handleException(Exception e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(ServiceItemCreationException.class)
+    public ResponseEntity<Object> handleServiceItemCreationException(ServiceItemCreationException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 }
