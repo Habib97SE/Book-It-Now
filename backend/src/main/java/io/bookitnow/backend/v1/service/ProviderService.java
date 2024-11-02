@@ -7,6 +7,8 @@ import io.bookitnow.backend.v1.repository.ProviderRepository;
 import io.bookitnow.backend.v1.repository.ServiceItemRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +30,8 @@ import java.util.NoSuchElementException;
 public class ProviderService {
     private final ProviderRepository repo;
     private final ServiceItemRepository serviceRepository;
+
+    private final Logger logger = LoggerFactory.getLogger("mycustomlogger");
 
     public ProviderService(@Autowired ProviderRepository repo,
                            @Autowired ServiceItemRepository serviceItemRepository) {
@@ -109,7 +113,7 @@ public class ProviderService {
             throw new IllegalArgumentException("Invalid provider id");
         }
         try {
-            Provider provider = repo.findById(id).orElseThrow(() -> new NoSuchElementException("Provider not found"));
+            Provider provider = repo.findById(id).orElseThrow(()    -> new NoSuchElementException("Provider not found"));
             return new ProviderResponse(provider);
         } catch (IllegalArgumentException e) {
             throw e;
@@ -129,6 +133,11 @@ public class ProviderService {
     public ProviderResponse createProvider(@Valid ProviderRequest providerRequest) {
         if (providerRequest == null) {
             throw new IllegalArgumentException("Invalid provider request");
+        }
+
+        if (repo.findByEmail(providerRequest.getEmail()) != null) {
+            logger.info(providerRequest.getEmail() + " already exists");
+            throw new IllegalArgumentException("Email already exists");
         }
 
         try {

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- Define the main console appender -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} - %logger{36} - %level - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Define the custom file appender for mycustom.log -->
+    <appender name="CUSTOM_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/mycustom.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/mycustom-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>10</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} - %logger{36} - %level - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Configure a logger to write INFO level messages specifically to CUSTOM_FILE -->
+    <logger name="mycustomLogger" level="INFO" additivity="false">
+        <appender-ref ref="CUSTOM_FILE"/>
+    </logger>
+
+    <!-- Root logger for the rest of the application -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>
