@@ -29,7 +29,7 @@ import java.util.NoSuchElementException;
 public class ServiceItemService {
     private final ServiceItemRepository serviceItemRepository;
 
-    private Logger logger = LoggerFactory.getLogger("serviceItemServiceLog");
+    private final Logger logger = LoggerFactory.getLogger("serviceItemServiceLog");
 
     public ServiceItemService(ServiceItemRepository serviceItemRepository) {
         this.serviceItemRepository = serviceItemRepository;
@@ -78,6 +78,7 @@ public class ServiceItemService {
      * @return List of ServiceItemResponse DTOs
      */
     public List<ServiceItemResponse> getAllServiceItems() {
+        logger.info("Getting all service items");
         return serviceItemRepository.findAll().stream()
                 .map(this::mapToResponse)
                 .toList();
