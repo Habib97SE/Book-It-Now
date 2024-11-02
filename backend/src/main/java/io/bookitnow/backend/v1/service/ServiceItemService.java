@@ -9,6 +9,8 @@ import io.bookitnow.backend.v1.exception.ServiceItemCreationException;
 import io.bookitnow.backend.v1.repository.ServiceItemRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +28,8 @@ import java.util.NoSuchElementException;
 @Service
 public class ServiceItemService {
     private final ServiceItemRepository serviceItemRepository;
+
+    private Logger logger = LoggerFactory.getLogger("serviceItemServiceLog");
 
     public ServiceItemService(ServiceItemRepository serviceItemRepository) {
         this.serviceItemRepository = serviceItemRepository;
@@ -106,8 +110,10 @@ public class ServiceItemService {
     public ServiceItemResponse createServiceItem(@Valid ServiceItemRequest serviceItemRequest)  {
         try {
             ServiceItem serviceItem = mapToServiceItem(serviceItemRequest);
+            logger.info("Service item created: " + serviceItem.getName());
             return mapToResponse(serviceItemRepository.save(serviceItem));
         } catch (Exception e) {
+            logger.info("Failed to create service item: " + e.getMessage());
             throw new ServiceItemCreationException("Failed to create service item");
         }
     }
