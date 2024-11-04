@@ -2,8 +2,13 @@ package io.bookitnow.backend.v1.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalTime;
 
 /**
  * Service Entity: Represents a service provided by a provider.
@@ -40,6 +45,12 @@ public class ServiceItem {
     @Min(value = 0, message = "Duration must be greater than 0")
     private Double durationInMinutes;
 
+    @Column(nullable = false)
+    private LocalTime startTime;
+
+    @Column(nullable = false)
+    private LocalTime endTime;
+
     private String image;
 
     @Enumerated(EnumType.STRING)
@@ -47,6 +58,17 @@ public class ServiceItem {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
     private Provider provider;
+
+    @Column(nullable = false)
+    @PastOrPresent(message = "Start time must be in the past or present")
+    @Temporal(TemporalType.TIME)
+    @CreationTimestamp
+    private LocalTime createdAt;
+
+    @PastOrPresent(message = "End time must be in the past or present")
+    @Temporal(TemporalType.TIME)
+    @UpdateTimestamp
+    private LocalTime updatedAt;
 
 
 

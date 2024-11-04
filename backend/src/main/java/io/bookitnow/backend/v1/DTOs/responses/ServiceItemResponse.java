@@ -2,6 +2,8 @@ package io.bookitnow.backend.v1.DTOs.responses;
 
 import lombok.*;
 
+import java.time.LocalTime;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -16,4 +18,6 @@ public class ServiceItemResponse {
     private String image;
     private String category;
     private Long providerId;
+    private LocalTime startTime;
+    private LocalTime endTime;
 }

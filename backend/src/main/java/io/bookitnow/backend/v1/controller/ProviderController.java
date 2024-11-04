@@ -8,12 +8,15 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 
 /**
@@ -49,20 +52,35 @@ public class ProviderController {
     }
 
     /**
-     * Retrieves a list of all providers.
+     * Retrieves a paginated, sorted, and filtered list of providers.
      *
-     * @return a ResponseEntity containing a list of providers
+     * @param page     the page number to retrieve, defaults to 0 (first page)
+     * @param pageSize the number of providers per page, defaults to 10
+     * @param sort     the sorting criteria (e.g., "name,asc" or "city,desc")
+     * @param category the category to filter providers by (optional)
+     * @param city     the city to filter providers by (optional)
+     * @param name     the name to filter providers by (optional)
+     * @param address  the address to filter providers by (optional)
+     * @return a ResponseEntity containing the paginated, sorted, and filtered list of providers
      */
-    @Operation(summary = "Get all providers")
-    @ApiResponse(responseCode = "200", description = "List of all providers"
-
-    )
-    @ApiResponse(responseCode = "500", description = "Internal server error")
-    @ApiResponse(responseCode = "404", description = "No providers found")
+    @Operation(summary = "Get providers with pagination, sorting, and filtering",
+            description = "Retrieve providers with pagination, sorting, and optional filters")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Providers retrieved successfully"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @GetMapping
-    public ResponseEntity<Object> getProviders() {
-        return ResponseEntity.ok(providerService.getAllProviders());
+    public ResponseEntity<Object> getAllProviders(
+            @RequestParam(defaultValue = "0") @Min(0) int page,
+            @RequestParam(defaultValue = "10") @Min(1) @Max(50) int pageSize,
+            @RequestParam(defaultValue = "name,asc") String sort,
+            @RequestParam(required = false) @Size(max = 50) String category,
+            @RequestParam(required = false) @Size(max = 50) String city,
+            @RequestParam(required = false) @Size(max = 50) String name,
+            @RequestParam(required = false) @Size(max = 100) String address) {
+        return ResponseEntity.ok(providerService.getAllProviders(page, pageSize, sort, category, city, name, address));
     }
+
 
     /**
      * Retrieves details of a provider by ID.
@@ -98,7 +116,7 @@ public class ProviderController {
     })
     @GetMapping("/{id}/services")
     public ResponseEntity<Object> getProviderServices(@NotNull @Min(1) @PathVariable Long id) {
-        return ResponseEntity.ok(providerService.getProviderById(id));
+        return ResponseEntity.ok(providerService.getServiceItemsByProviderId(id));
     }
 
     /**

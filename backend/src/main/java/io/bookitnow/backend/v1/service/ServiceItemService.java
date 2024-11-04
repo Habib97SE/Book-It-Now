@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -35,6 +36,11 @@ public class ServiceItemService {
         this.serviceItemRepository = serviceItemRepository;
     }
 
+    private LocalTime parseTime(String time) {
+        String [] timeParts = time.split(":");
+        return LocalTime.of(Integer.parseInt(timeParts[0]), Integer.parseInt(timeParts[1]));
+    }
+
     /**
      * Maps a ServiceItem entity to a ServiceItemResponse DTO.
      *
@@ -51,8 +57,11 @@ public class ServiceItemService {
                 .image(serviceItem.getImage())
                 .category(serviceItem.getCategory().name())
                 .providerId(serviceItem.getProvider().getId())
+                .startTime(serviceItem.getStartTime())
+                .endTime(serviceItem.getEndTime())
                 .build();
     }
+
 
     /**
      * Maps a ServiceItemRequest DTO to a ServiceItem entity.
@@ -69,6 +78,8 @@ public class ServiceItemService {
                 .image(serviceItemRequest.getImage())
                 .category(Category.valueOf(serviceItemRequest.getCategory()))
                 .provider(Provider.builder().id(serviceItemRequest.getProviderId()).build())
+                .startTime(parseTime(serviceItemRequest.getStartTime()))
+                .endTime(parseTime(serviceItemRequest.getEndTime()))
                 .build();
     }
 
@@ -110,11 +121,10 @@ public class ServiceItemService {
      */
     public ServiceItemResponse createServiceItem(@Valid ServiceItemRequest serviceItemRequest)  {
         try {
+            Provider provider = Provider.builder().id(serviceItemRequest.getProviderId()).build();
             ServiceItem serviceItem = mapToServiceItem(serviceItemRequest);
-            logger.info("Service item created: " + serviceItem.getName());
             return mapToResponse(serviceItemRepository.save(serviceItem));
         } catch (Exception e) {
-            logger.info("Failed to create service item: " + e.getMessage());
             throw new ServiceItemCreationException("Failed to create service item");
         }
     }
@@ -142,6 +152,8 @@ public class ServiceItemService {
             serviceItem.setImage(serviceItemRequest.getImage());
             serviceItem.setCategory(Category.valueOf(serviceItemRequest.getCategory()));
             serviceItem.setProvider(Provider.builder().id(serviceItemRequest.getProviderId()).build());
+            serviceItem.setStartTime(parseTime(serviceItemRequest.getStartTime()));
+            serviceItem.setEndTime(parseTime(serviceItemRequest.getEndTime()));
             return mapToResponse(serviceItemRepository.save(serviceItem));
         } catch (Exception e) {
             throw new Exception("Failed to update service item");

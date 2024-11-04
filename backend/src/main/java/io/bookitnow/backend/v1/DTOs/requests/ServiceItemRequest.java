@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.time.LocalTime;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -35,6 +37,12 @@ public class ServiceItemRequest {
     @NotNull(message = "Provider is required")
     @Min(value = 1, message = "Provider must be greater than 0")
     private Long providerId;
+
+    @NotNull(message = "Start time is required")
+    private String startTime;
+
+    @NotNull(message = "End time is required")
+    private String endTime;
 
 
 }

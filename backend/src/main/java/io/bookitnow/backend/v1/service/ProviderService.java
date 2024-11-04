@@ -2,6 +2,7 @@ package io.bookitnow.backend.v1.service;
 
 import io.bookitnow.backend.v1.DTOs.requests.ProviderRequest;
 import io.bookitnow.backend.v1.DTOs.responses.ProviderResponse;
+import io.bookitnow.backend.v1.DTOs.responses.ServiceItemResponse;
 import io.bookitnow.backend.v1.entity.Provider;
 import io.bookitnow.backend.v1.repository.ProviderRepository;
 import io.bookitnow.backend.v1.repository.ServiceItemRepository;
@@ -10,7 +11,15 @@ import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+
+import java.util.List;
+import java.util.Optional;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -29,14 +38,14 @@ import java.util.NoSuchElementException;
 @Service
 public class ProviderService {
     private final ProviderRepository repo;
-    private final ServiceItemRepository serviceRepository;
+    private final ServiceItemService serviceItemService;
 
     private final Logger logger = LoggerFactory.getLogger("mycustomlogger");
 
     public ProviderService(@Autowired ProviderRepository repo,
                            @Autowired ServiceItemRepository serviceItemRepository) {
         this.repo = repo;
-        this.serviceRepository = serviceItemRepository;
+        this.serviceItemService = new ServiceItemService(serviceItemRepository);
     }
 
     /**
@@ -95,8 +104,40 @@ public class ProviderService {
      *
      * @return List of providers
      */
-    public List<ProviderResponse> getAllProviders() {
-        return repo.findAll().stream().map(this::mapToProviderResponse).toList();
+    public List<ProviderResponse> getAllProviders(int page, int pageSize, String sort, String category, String city, String name, String address) {
+        // Build sorting criteria
+        String[] sortParams = sort.split(",");
+        Sort sortCriteria = Sort.by(Sort.Direction.fromString(sortParams[1]), sortParams[0]);
+        Pageable pageable = PageRequest.of(page, pageSize, sortCriteria);
+
+        // Build filtering specifications
+        Specification<Provider> spec = Specification.where(
+                        category != null ? hasCategory(category) : null)
+                .and(city != null ? hasCity(city) : null)
+                .and(name != null ? hasName(name) : null)
+                .and(address != null ? hasAddress(address) : null);
+
+        Page<Provider> providersPage = repo.findAll(spec, pageable);
+        return providersPage.getContent().stream()
+                .map(this::mapToProviderResponse)
+                .toList();
+    }
+
+    // Filter specifications
+    private Specification<Provider> hasCategory(String category) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("category"), category);
+    }
+
+    private Specification<Provider> hasCity(String city) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("city"), city);
+    }
+
+    private Specification<Provider> hasName(String name) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("name"), "%" + name + "%");
+    }
+
+    private Specification<Provider> hasAddress(String address) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("address"), "%" + address + "%");
     }
 
     /**
@@ -113,12 +154,29 @@ public class ProviderService {
             throw new IllegalArgumentException("Invalid provider id");
         }
         try {
-            Provider provider = repo.findById(id).orElseThrow(()    -> new NoSuchElementException("Provider not found"));
+            Provider provider = repo.findById(id).orElseThrow(() -> new NoSuchElementException("Provider not found"));
             return new ProviderResponse(provider);
         } catch (IllegalArgumentException e) {
             throw e;
         } catch (Exception e) {
             throw new RuntimeException("Error fetching provider");
+        }
+    }
+
+    public List<ServiceItemResponse> getServiceItemsByProviderId(Long providerId) {
+        if (providerId < 1) {
+            throw new IllegalArgumentException("Invalid provider id");
+        }
+
+        if (repo.findById(providerId).isEmpty()) {
+            throw new NoSuchElementException("Provider not found");
+        }
+        try {
+            return serviceItemService.getServiceItemsByProviderId(providerId);
+        } catch (IllegalArgumentException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RuntimeException("Error fetching service items");
         }
     }
 
