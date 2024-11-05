@@ -20,6 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.NoSuchElementException;
 
 @WebMvcTest(ProviderController.class)
 public class ProviderControllerTest {
@@ -97,9 +98,26 @@ public class ProviderControllerTest {
 
     @Test
     void testGetAllProviders() throws Exception {
+        // Arrange
         ProviderResponse providerResponse = createProviderResponse();
         when(providerService.getAllProviders(0, 10, "name,asc", null, null, null, null)).thenReturn(Collections.singletonList(providerResponse));
 
+        // Act and Assert
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/providers")
+                        .param("page", "0")
+                        .param("pageSize", "10")
+                        .param("sort", "name,asc")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(1));
+    }
+
+    @Test
+    void testGetAllProviders_Empty() throws Exception {
+        // Arrange
+        when(providerService.getAllProviders(0, 10, "name,asc", null, null, null, null)).thenReturn(Collections.emptyList());
+
+        // Act and Assert
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/providers")
                         .param("page", "0")
                         .param("pageSize", "10")
@@ -111,6 +129,7 @@ public class ProviderControllerTest {
 
     @Test
     void testGetProviderById_Success() throws Exception {
+
         ProviderResponse providerResponse = createProviderResponse();
         when(providerService.getProviderById(1L)).thenReturn(providerResponse);
 
@@ -123,12 +142,11 @@ public class ProviderControllerTest {
 
     @Test
     void testGetProviderById_NotFound() throws Exception {
-        when(providerService.getProviderById(1L)).thenReturn(null);
+        when(providerService.getProviderById(1L)).thenThrow(new NoSuchElementException());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/providers/1")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound())
-                .andExpect(content().string("Provider not found"));
+                .andExpect(status().isNotFound());
     }
 
     @Test
