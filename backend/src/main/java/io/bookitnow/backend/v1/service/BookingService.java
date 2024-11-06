@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+/**
+ * Service class for booking related operations
+ */
 @Service
 public class BookingService {
 
@@ -20,6 +23,12 @@ public class BookingService {
         this.bookingRepository = bookingRepository;
     }
 
+    /**
+     * Maps a booking entity to a booking response
+     *
+     * @param booking booking entity
+     * @return booking response
+     */
     public BookingResponse mapToResponse(Booking booking) {
         return BookingResponse.builder()
                 .id(booking.getId())
@@ -33,6 +42,12 @@ public class BookingService {
                 .build();
     }
 
+    /**
+     * Maps a booking request to a booking entity
+     *
+     * @param bookingRequest booking request
+     * @return booking entity
+     */
     public Booking mapToBooking(BookingRequest bookingRequest) {
         return Booking.builder()
                 .userId(bookingRequest.getUserId())
@@ -43,11 +58,25 @@ public class BookingService {
                 .build();
     }
 
+    /**
+     * Returns all bookings
+     *
+     * @return list of booking responses
+     */
     public List<BookingResponse> getAllBookings() {
         List<Booking> bookings = bookingRepository.findAll();
         return bookings.stream().map(this::mapToResponse).toList();
     }
 
+    /**
+     * Returns a booking by id
+     *
+     * @param id booking id
+     * @return booking response
+     *
+     * @throws IllegalArgumentException if id is less than 1
+     * @throws NoSuchElementException if booking is not found
+     */
     public BookingResponse getBookingById(@NotNull Long id) {
         if (id < 1) {
             throw new IllegalArgumentException("Invalid booking id");
@@ -56,6 +85,14 @@ public class BookingService {
         return mapToResponse(booking);
     }
 
+    /**
+     * Creates a new booking
+     *
+     * @param bookingRequest booking request
+     * @return booking response
+     *
+     * @throws IllegalArgumentException if booking request is invalid
+     */
     public BookingResponse createBooking(@Valid BookingRequest bookingRequest) {
         try {
             Booking booking = mapToBooking(bookingRequest);
@@ -66,6 +103,16 @@ public class BookingService {
         }
     }
 
+    /**
+     * Updates a booking
+     *
+     * @param id booking id
+     * @param bookingRequest booking request
+     * @return booking response
+     *
+     * @throws IllegalArgumentException if id is less than 1 or booking request is invalid
+     * @throws NoSuchElementException if booking is not found
+     */
     public BookingResponse updateBooking(@NotNull Long id, @Valid BookingRequest bookingRequest) {
         if (id < 1) {
             throw new IllegalArgumentException("Invalid booking id");
@@ -84,6 +131,14 @@ public class BookingService {
         }
     }
 
+    /**
+     * Deletes a booking
+     *
+     * @param id booking id
+     *
+     * @throws IllegalArgumentException if id is less than 1
+     * @throws NoSuchElementException if booking is not found
+     */
     public void deleteBooking(Long id) {
         if (id < 1) {
             throw new IllegalArgumentException("Invalid booking id");
