@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
+import { UserButton } from '@clerk/nextjs';
 
 const Header: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -45,29 +46,7 @@ const Header: React.FC = () => {
                 </nav>
 
                 {/* Dropdown for Language & Currency */}
-                <div className="hidden lg:flex items-center space-x-4">
-                    {/* Language Dropdown */}
-                    <div className="relative">
-                        <Button variant="ghost" className="flex items-center">
-                            <img
-                                src="https://app.truelysell.com/assets/img/flags/gb.svg"
-                                alt="English"
-                                className="h-4 w-4 mr-2"
-                            />
-                            English
-                        </Button>
-                        {/* Add dropdown menu here */}
-                    </div>
-
-                    {/* Currency Dropdown */}
-                    <select
-                        className="border bg-gray-100 p-1 rounded"
-                        defaultValue="USD"
-                    >
-                        <option value="USD">USD</option>
-                        <option value="INR">INR</option>
-                    </select>
-                </div>
+                <UserButton />
             </div>
         </header>
     );
