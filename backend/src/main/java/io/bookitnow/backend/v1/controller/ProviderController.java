@@ -95,7 +95,6 @@ public class ProviderController {
             @ApiResponse(responseCode = "404", description = "Provider not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-
     @GetMapping("/{id}")
     public ResponseEntity<Object> getProviderById(@NotNull @Min(value = 1) @PathVariable Long id) {
         return ResponseEntity.ok(providerService.getProviderById(id));

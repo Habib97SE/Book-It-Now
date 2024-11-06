@@ -113,7 +113,7 @@ public class BookingService {
      * @throws IllegalArgumentException if id is less than 1 or booking request is invalid
      * @throws NoSuchElementException if booking is not found
      */
-    public BookingResponse updateBooking(@NotNull Long id, @Valid BookingRequest bookingRequest) {
+    public BookingResponse updateBooking(@NotNull Long id, @Valid BookingRequest bookingRequest) throws Exception {
         if (id < 1) {
             throw new IllegalArgumentException("Invalid booking id");
         }
@@ -127,7 +127,7 @@ public class BookingService {
             bookingRepository.save(booking);
             return mapToResponse(booking);
         } catch (Exception e) {
-            throw new IllegalArgumentException("Invalid booking request");
+            throw new Exception("Internal server error");
         }
     }
 
