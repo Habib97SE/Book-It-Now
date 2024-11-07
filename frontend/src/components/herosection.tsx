@@ -6,7 +6,6 @@ const HeroSection = () => {
         <section
             className="hero min-h-screen bg-cover bg-center"
             style={{
-                maxHeight: "30vh",
                 backgroundImage: "url('https://app.truelysell.com/assets/img/banner.jpg')"
             }}
         >
@@ -23,19 +22,18 @@ const HeroSection = () => {
                         className="flex flex-col md:flex-row items-center gap-4 bg-white rounded-lg shadow-lg"
                         method="post"
                     >
-                        <input type="hidden" name="csrf_token_name" value="837dc4d02bcc8225067cdcad9ceba2bb" />
 
                         <div className="flex items-center w-full md:w-2/5 border-b ">
-                            <label className="input input-bordered flex items-center gap-2">
+                            <label className="input  flex items-center gap-2 bg-white">
                                 <FaSearch className="text-primaryColor" />
-                                <input type="text" className="grow" placeholder="Search" />
+                                <input type="text" className="grow bg-white text-black" placeholder="Search" />
                             </label>
                         </div>
 
                         <div className="flex items-center w-full md:w-2/5 border-b ">
-                            <label className="input input-bordered flex items-center gap-2">
+                            <label className="input flex items-center gap-2 bg-white">
                                 <FaLocationArrow className="text-primaryColor" />
-                                <input type="text" className="grow " placeholder="Search" />
+                                <input type="text" className="grow bg-white text-black" placeholder="Search" />
                             </label>
                         </div>
 
