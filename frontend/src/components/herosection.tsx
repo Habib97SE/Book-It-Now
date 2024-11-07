@@ -4,8 +4,9 @@ import { FaLocationArrow, FaSearch } from 'react-icons/fa';
 const HeroSection = () => {
     return (
         <section
-            className="hero min-h-screen bg-cover bg-center"
+            className="hero bg-cover bg-center"
             style={{
+                minHeight: "50vh",
                 backgroundImage: "url('https://app.truelysell.com/assets/img/banner.jpg')"
             }}
         >
@@ -19,21 +20,21 @@ const HeroSection = () => {
                     <form
                         action="https://app.truelysell.com/search"
                         id="search_service"
-                        className="flex flex-col md:flex-row items-center gap-4 bg-white rounded-lg shadow-lg"
+                        className="flex flex-col md:flex-row items-center gap-4 bg-white rounded-lg shadow-lg w-full"
                         method="post"
                     >
 
                         <div className="flex items-center w-full md:w-2/5 border-b ">
                             <label className="input  flex items-center gap-2 bg-white">
                                 <FaSearch className="text-primaryColor" />
-                                <input type="text" className="grow bg-white text-black" placeholder="Search" />
+                                <input type="text" className="grow bg-white text-black" placeholder="What are you looking for?" />
                             </label>
                         </div>
 
                         <div className="flex items-center w-full md:w-2/5 border-b ">
-                            <label className="input flex items-center gap-2 bg-white">
+                            <label className="input flex items-center gap-1 bg-white">
                                 <FaLocationArrow className="text-primaryColor" />
-                                <input type="text" className="grow bg-white text-black" placeholder="Search" />
+                                <input type="text" className="grow bg-white text-black" placeholder="Your location" />
                             </label>
                         </div>
 
