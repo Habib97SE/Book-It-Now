@@ -39,8 +39,6 @@ public class MailService {
             System.err.println("Error sending email");
         }
     }
-
-
-    public void sendEmail
+    
 
 }

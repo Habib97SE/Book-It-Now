@@ -13,6 +13,7 @@ const config: Config = {
                 foreground: "var(--foreground)",
                 primaryColor: "#d63384",
                 primaryColorHover: "#c02673",
+                lightPink: "#ffe6f7",
             },
         },
     },

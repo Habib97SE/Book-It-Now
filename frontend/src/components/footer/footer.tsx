@@ -1,6 +1,6 @@
 "use client";
 
-import { FaBuilding, FaEnvelope, FaHeadphones } from "react-icons/fa";
+import { FaAngleDoubleRight, FaBuilding, FaEnvelope, FaHeadphones } from "react-icons/fa";
 
 const links = [
     {
@@ -24,9 +24,9 @@ const links = [
     {
         title: "Contact us",
         links: [
-            { name: "Lustgårdsgatan 19, Stockholm", url: "#" },
-            { name: "324983748", url: "#" },
-            { name: "habib@appliedtechnology.se", url: "#" },
+            { name: <span><FaBuilding /> Lustgardsgatan 19, Stockholm</span>, url: "#" },
+            { name: <span><FaHeadphones /> 340958</span>, url: "#" },
+            { name: <span><FaEnvelope /> habib@appliedtechnology.se</span>, url: "#" },
         ]
     }
 ]
@@ -38,9 +38,9 @@ function Footer() {
             <nav key={index}>
                 <h6 className="footer-title">{link.title}</h6>
                 <ul>
-                    {link.links.map((item, index) => {
+                    {link.links.map((item, secondIndex) => {
                         return (
-                            <li key={index} className="link link-hover">{item.name}</li>
+                            <li key={secondIndex} className="link link-hover"><FaAngleDoubleRight className="text-primaryColor" /> {item.name}</li>
                         );
                     })}
                 </ul>
@@ -58,14 +58,15 @@ function Footer() {
                 <h6 className="footer-title">Newsletter</h6>
                 <fieldset className="form-control w-80">
                     <label className="label">
-                        <span className="label-text">Enter your email address</span>
+                        Enter your email address
                     </label>
-                    <div className="join">
+                    <div className="join bg-white">
                         <input
                             type="text"
                             placeholder="username@site.com"
-                            className="input input-bordered join-item" />
-                        <button className="btn btn-primary join-item">Subscribe</button>
+                            spellCheck="false"
+                            className="input input-bordered join-item text-black bg-white" />
+                        <button className="btn btn-primary join-item bg-primaryColor hover:bg-primaryColorHover text-white">Subscribe</button>
                     </div>
                 </fieldset>
             </form>
