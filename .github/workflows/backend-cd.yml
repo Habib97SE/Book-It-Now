@@ -1,0 +1,57 @@
+name: Deploy Backend
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    build-and-deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v3
+
+            - name: Set up JDK
+              uses: actions/setup-java@v3
+              with:
+                  distribution: "temurin"
+                  java-version: "17"
+
+            - name: Cache Maven Packages
+              uses: actions/cache@v3
+              with:
+                  path: ~/.m2/repository
+                  key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+                  restore-keys: |
+                      ${{ runner.os }}-maven-
+
+            - name: Build Backend
+              working-directory: ./backend
+              run: mvn clean package -DskipTests
+
+            - name: Configure Google Cloud Credentials
+              uses: google-github-actions/auth@v1
+              with:
+                  credentials_json: "${{ secrets.GCP_CREDENTIALS }}"
+
+            - name: Configure Docker for Google Cloud
+              run: gcloud auth configure-docker --quiet
+
+            - name: Build Docker Image
+              working-directory: ./backend
+              run: |
+                  docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/backend:latest .
+
+            - name: Push Docker Image to Google Container Registry
+              run: |
+                  docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/backend:latest
+
+            - name: Deploy to Google Cloud Run
+              run: |
+                  gcloud run deploy backend-service \
+                    --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/backend:latest \
+                    --platform managed \
+                    --region ${{ secrets.GCP_REGION }} \
+                    --allow-unauthenticated
