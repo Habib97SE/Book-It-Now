@@ -16,14 +16,14 @@ const HeroSection = () => {
                     >
 
                         <div className="flex items-center w-full md:w-2/5 border-b ">
-                            <label className="input  flex items-center gap-2 bg-white">
+                            <label className="input gap-1 flex items-center bg-white">
                                 <FaSearch className="text-primaryColor" />
                                 <input type="text" className="grow bg-white text-black" placeholder="What are you looking for?" spellCheck="false" />
                             </label>
                         </div>
 
                         <div className="flex items-center w-full md:w-2/5 border-b ">
-                            <label className="input flex items-center gap-1 bg-white">
+                            <label className="input gap-1 flex items-center bg-white">
                                 <FaLocationArrow className="text-primaryColor" />
                                 <input type="text" className="grow bg-white text-black" placeholder="Your location" spellCheck="false" />
                             </label>
