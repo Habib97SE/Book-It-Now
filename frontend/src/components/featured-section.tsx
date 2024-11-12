@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { FaArrowRight, FaCircle } from 'react-icons/fa';
+import { FaArrowRight, FaCircle, FaClone } from 'react-icons/fa';
 
 const categories = [
     {
@@ -75,6 +75,9 @@ const FeatureSection = () => {
                                     <h3 className="text-lg bg-white text-black px-2 rounded-xl ">
                                         <span className="flex flex-row items-center justify-center "> <FaCircle className="pr-2 text-primaryColor" /> {category.title} </span>
                                     </h3>
+                                </div>
+                                <div className='absolute bottom-4 right-4 z-10'>
+                                    <FaClone className="text-white text-2xl" />
                                 </div>
                             </div>
                         </Link>

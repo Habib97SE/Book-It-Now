@@ -14,6 +14,7 @@ const config: Config = {
                 primaryColor: "#d63384",
                 primaryColorHover: "#c02673",
                 lightPink: "#ffe6f7",
+                pinkTint: "#FFF4FA",
             },
         },
     },

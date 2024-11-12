@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { FaAngleDoubleRight, FaBuilding, FaEnvelope, FaHeadphones } from "react-icons/fa";
 
 const links = [
@@ -24,14 +25,15 @@ const links = [
     {
         title: "Contact us",
         links: [
-            { name: <span className="flex flex-row items-center"><FaBuilding /> Lustgardsgatan 19, Stockholm</span>, url: "#" },
-            { name: <span className="flex flex-row items-center"><FaHeadphones /> 340958</span>, url: "#" },
-            { name: <span className="flex flex-row items-center"><FaEnvelope /> habib@appliedtechnology.se</span>, url: "#" },
+            { name: <span className="flex flex-row items-center"><FaBuilding className="mr-2" /> Lustgardsgatan 19, Stockholm</span>, url: "#" },
+            { name: <span className="flex flex-row items-center"><FaHeadphones className="mr-2" /> 340958</span>, url: "#" },
+            { name: <span className="flex flex-row items-center"><FaEnvelope className="mr-2" /> habib@appliedtechnology.se</span>, url: "#" },
         ]
     }
 ]
 
 function Footer() {
+
 
     const renderLinks = links.map((link, index) => {
         return (
