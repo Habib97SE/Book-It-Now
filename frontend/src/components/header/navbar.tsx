@@ -1,6 +1,6 @@
 function NavBar() {
     return (
-        <div className="fixed top-0 w-full z-50 bg-black/70 backdrop-blur-md">
+        <div className="sticky top-0 w-full z-50 bg-black/70 backdrop-blur-md">
             <div className="navbar max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
                 {/* Navbar Start */}
                 <div className="navbar-start">
