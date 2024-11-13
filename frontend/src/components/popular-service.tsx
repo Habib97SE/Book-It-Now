@@ -1,41 +1,32 @@
+import Link from 'next/link';
+import ServiceCard from './service-card';
+import { FaArrowRight } from 'react-icons/fa';
+
 function PopularService() {
     return (
         <>
-            <div className="popular-service">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-lg-12">
-                            <div className="section-title">
-                                <h2>Popular Services</h2>
-                                <p>Popular services that we offer to our customers.</p>
-                            </div>
+            <section className="bg-white">
+                <div
+                    className="container mx-auto p-4 w-4/5"
+                >
+                    <div className="flex justify-between items-center mb-6">
+                        <div>
+                            <h2 className="text-2xl font-semibold text-black">Featured Categories</h2>
+                            <p className="text-gray-600 mt-2">New Services</p>
                         </div>
+                        <Link href="https://app.truelysell.com/all-categories" className="inline-flex items-center bg-pink-100 rounded-full text-pink-600 font-medium px-5 py-2 transition-all duration-500 hover:bg-pink-500 hover:text-white">
+                            View All <FaArrowRight className="pl-2 " />
+                        </Link>
+
                     </div>
-                    <div className="row">
-                        <div className="col-lg-4 col-md-6">
-                            <div className="single-service">
-                                <i className="fa fa-wrench"></i>
-                                <h3>Repair</h3>
-                                <p>Repair your electronic devices with our expert technicians.</p>
-                            </div>
-                        </div>
-                        <div className="col-lg-4 col-md-6">
-                            <div className="single-service">
-                                <i className="fa fa-cogs"></i>
-                                <h3>Installation</h3>
-                                <p>Install your electronic devices with our expert technicians.</p>
-                            </div>
-                        </div>
-                        <div className="col-lg-4 col-md-6">
-                            <div className="single-service">
-                                <i className="fa fa-cog"></i>
-                                <h3>Maintenance</h3>
-                                <p>Maintain your electronic devices with our expert technicians.</p>
-                            </div>
-                        </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <ServiceCard />
+                        <ServiceCard />
+                        <ServiceCard />
                     </div>
                 </div>
-            </div>
+
+            </section>
         </>
     );
 }

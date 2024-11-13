@@ -1,4 +1,41 @@
+import { SignedIn, SignedOut } from "@clerk/nextjs";
+
 function NavBar() {
+
+    const ProfileMenu = () => {
+        return (
+            <>
+                <SignedIn>
+                    <div className="dropdown dropdown-end">
+                        <div tabIndex={0} role="button" className="btn btn-ghost">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-8 w-8"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M4 6h16M4 12h8m-8 6h16" />
+                            </svg>
+                        </div>
+                        <ul tabIndex={0} className="menu dropdown-content bg-base-100 rounded-box w-52 p-2 shadow-lg">
+                            <li><a href="#">Profile</a></li>
+                            <li><a href="#">Settings</a></li>
+                            <li><a href="#">Logout</a></li>
+                        </ul>
+                    </div>
+                </SignedIn>
+                <SignedOut>
+                    <a href="#" className="mx-3 text-xl text-white">Login</a>
+                    <a href="#" className="btn bg-primaryColor hover:bg-primaryColorHover text-white text-xl">Register</a>
+                </SignedOut>
+            </>
+        );
+    }
+
     return (
         <div className="sticky top-0 w-full z-50 bg-black/70 backdrop-blur-md">
             <div className="navbar max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
@@ -57,8 +94,7 @@ function NavBar() {
 
                 {/* Navbar End */}
                 <div className="navbar-end">
-                    <a href="#" className="mx-3 text-xl text-white">Login</a>
-                    <a href="#" className="btn bg-primaryColor hover:bg-primaryColorHover text-white text-xl">Register</a>
+                    <ProfileMenu />
                 </div>
             </div>
         </div>
