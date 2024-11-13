@@ -5,18 +5,20 @@ import { MdStar } from 'react-icons/md';
 
 function ServiceCard() {
     return (
-        <div
-            className='bg-white p-4 rounded-xl shadow-md inline-block'
-        >
-            <img
-                src="https://app.truelysell.com/uploads/category_images/1631721020category-08_381_286.jpg"
-                alt="Carpentry"
-                className='rounded-lg w-full'
-            />
-            <h2 className="bg-pink-100 text-pink-700 inline-block rounded-xl py-2 px-3 my-2" >Carpentry</h2>
-
-            <h2 className="text-black text-xl font-bold" >House cleaning service</h2>
-            <p className='text-gray-500 flex flex-row items-center my-2' >
+        <div className='bg-white p-4 rounded-xl shadow-md inline-block'>
+            <div className="relative">
+                <img
+                    src="https://app.truelysell.com/uploads/category_images/1631721020category-08_381_286.jpg"
+                    alt="Carpentry"
+                    className='rounded-lg w-full'
+                />
+                <h2 className="absolute top-3 left-3 bg-pinkTint text-primaryColor rounded-xl py-1 px-2">
+                    Carpentry
+                </h2>
+                <img src='https://app.truelysell.com/uploads/profile_img/1631787916.jpg' className='absolute bottom-3 right-3 rounded-full max-w-8' />
+            </div>
+            <h2 className="text-black text-xl font-bold mt-2">House cleaning service</h2>
+            <p className='text-gray-500 flex flex-row items-center my-2'>
                 <FaMapMarkerAlt className='mr-2' /> Lagos, Nigeria
             </p>
             <footer className='text-black flex flex-row justify-between'>
@@ -33,6 +35,7 @@ function ServiceCard() {
                 </h3>
             </footer>
         </div>
+
     );
 }
 

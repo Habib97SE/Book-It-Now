@@ -83,11 +83,18 @@ function Footer() {
 
             </footer>
             <div
-                className="text-center p-4 bg-gray-100 text-gray-500 text-sm"
+                className="text-lg p-4 bg-gray-100 text-gray-500 text-sm flex flex-row items-center justify-between px-5"
             >
-                <p>
-                    &copy; 2024 Applied Technology. All rights reserved.
+                <p
+
+                >
+                    Copyright &copy; 2024 Book It Now. All rights reserved.
                 </p>
+                <div>
+                    <a href="#" className="text-gray-500 hover:text-primaryColor">Terms of Service</a>
+                    <span className="mx-2">|</span>
+                    <a href="#" className="text-gray-500 hover:text-primaryColor">Privacy Policy</a>
+                </div>
             </div>
         </div>
 

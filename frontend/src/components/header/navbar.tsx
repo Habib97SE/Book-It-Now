@@ -26,7 +26,7 @@ function NavBar() {
                             <li>
                                 <a href="#">Parent</a>
                                 <ul className="p-2">
-                                    <li><a href="#">Submenu 1</a></li>
+                                    <li className="w-full" ><a href="#">Submenu 1</a></li>
                                     <li><a href="#">Submenu 2</a></li>
                                 </ul>
                             </li>

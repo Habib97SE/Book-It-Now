@@ -11,7 +11,7 @@ function ServiceSection() {
                 <div className="flex justify-between items-center mb-6">
                     <div>
                         <h2 className="text-2xl font-semibold text-black">Featured Categories</h2>
-                        <p className="text-gray-600 mt-2">What Do You Need To Find?</p>
+                        <p className="text-gray-600 mt-2">New Services</p>
                     </div>
                     <Link href="https://app.truelysell.com/all-categories" className="inline-flex items-center bg-pink-100 rounded-full text-pink-600 font-medium px-5 py-2 transition-all duration-500 hover:bg-pink-500 hover:text-white">
                         View All <FaArrowRight className="pl-2 " />
@@ -23,8 +23,8 @@ function ServiceSection() {
                     <ServiceCard />
                     <ServiceCard />
                 </div>
-
             </div>
+
         </section>
     );
 }
