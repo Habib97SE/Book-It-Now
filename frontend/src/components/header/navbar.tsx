@@ -44,8 +44,8 @@ function NavBar() {
                             <MdKeyboardArrowDown />
                         </div>
                         <ul tabIndex={0} className="menu dropdown-content rounded-box w-52 p-2 shadow-lg bg-white text-black">
-                            <li className="hover:bg-gray-50"><a href="/register/personal">Personal</a></li>
-                            <li className="hover:bg-gray-50"><a href="/register/provider">Provider</a></li>
+                            <li className="hover:bg-gray-50"><a href="/sign-up">Create account for booking</a></li>
+                            <li className="hover:bg-gray-50"><a href="/register/provider">Create account as service provider</a></li>
                         </ul>
                     </div>
                 </SignedOut>

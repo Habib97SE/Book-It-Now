@@ -53,3 +53,7 @@ body {
         z-index: 10;
     }
 }
+
+.breadcrumbs {
+    background: url("/images/breadcrumbs.png") no-repeat;
+}

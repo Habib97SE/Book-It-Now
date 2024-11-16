@@ -5,16 +5,15 @@ type PaginationProps = {
 };
 
 function Pagination({ page, setPage, totalPage }: PaginationProps) {
-    console.log(page, totalPage);
     return (
         <div className="mt-8 flex justify-center space-x-2">
             <button
                 className="btn btn-outline btn-md bg-primaryColor text-white hover:bg-primaryColorHover hover:text-white"
-                onClick={() => setPage(page - 1)} disabled={page === 1}>Prev</button>
-            <button disabled className="btn btn-outline btn-md bg-primaryColor text-black hover:bg-primaryColorHover hover:text-blak">{page}</button>
+                onClick={() => setPage(page - 1)} >Prev</button>
+            <button className="btn btn-outline btn-md bg-white text-black">{page}</button>
             <button
                 className="btn btn-outline btn-md bg-primaryColor text-white hover:bg-primaryColorHover hover:text-white"
-                onClick={() => setPage(page + 1)} disabled={page === totalPage}>Next</button>
+                onClick={() => setPage(page + 1)} disabled={page === totalPage}>Next  </button>
         </div>
     );
 }

@@ -1,8 +1,10 @@
 import { useState } from "react";
 import Image from "next/image";
-import { FaStar } from "react-icons/fa";
+import { FaHeart, FaStar } from "react-icons/fa";
 import Head from "next/head";
 import { Pagination } from "@/components/pagination";
+import { GoDotFill } from "react-icons/go";
+import { BreadCrumbs } from "@/components/BreadCrumbs";
 
 interface Barber {
     id: number;
@@ -12,6 +14,7 @@ interface Barber {
     phone: string;
     rating: number;
     price: number;
+    liked: boolean;
 }
 
 
@@ -20,10 +23,11 @@ const barbersData = [
         id: 1,
         name: "Barber 1",
         image: "https://app.truelysell.com/uploads/services/se_full_1631787687service-11.jpg",
-        location: "stokholm",
+        location: "stockholm",
         phone: "xxxxxxxx74",
         rating: 5,
-        price: 132.00
+        price: 132.00,
+        liked: false
     },
     {
         id: 2,
@@ -32,7 +36,8 @@ const barbersData = [
         location: "stockholm",
         phone: "xxxxxxxx74",
         rating: 5,
-        price: 232.00
+        price: 232.00,
+        liked: true
     },
     {
         id: 3,
@@ -41,7 +46,8 @@ const barbersData = [
         location: "gothenburg",
         phone: "xxxxxxxx74",
         rating: 5,
-        price: 332.00
+        price: 332.00,
+        liked: false
     },
     {
         id: 4,
@@ -50,7 +56,8 @@ const barbersData = [
         location: "malmo",
         phone: "xxxxxxxx74",
         rating: 5,
-        price: 432.00
+        price: 432.00,
+        liked: true
     },
     {
         id: 5,
@@ -58,8 +65,9 @@ const barbersData = [
         image: "https://app.truelysell.com/uploads/services/se_full_1631787687service-11.jpg",
         location: "uppsala",
         phone: "xxxxxxxx74",
-        rating: 5,
-        price: 532.00
+        rating: 3,
+        price: 532.00,
+        liked: false
     }
 ]
 
@@ -93,10 +101,36 @@ function BarbersPage() {
         setData(barbersData);
         return;
 
-
-
-
     }
+
+    const [priceRange, setPriceRange] = useState(1000);
+
+    const onPriceChange = (min: number, max: number) => {
+        setData(barbersData.filter((barber) => barber.price >= min && barber.price <= max));
+    }
+
+    const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        console.log(event.target.value);
+        const newValue = parseInt(event.target.value, 10);
+        setPriceRange(newValue);
+        onPriceChange(0, newValue); // Update parent component or trigger API call
+    };
+
+    const handleLike = (id: number): void => {
+        // Create a new array to avoid mutating the original state
+        const updatedData = data.map((barber) => {
+            if (barber.id === id) {
+                return {
+                    ...barber,
+                    liked: !barber.liked, // Toggle the liked property
+                };
+            }
+            return barber;
+        });
+
+        // Update the state with the new array
+        setData(updatedData);
+    };
 
 
     return (
@@ -105,8 +139,26 @@ function BarbersPage() {
                 <title>Barbers</title>
             </Head>
             <div className="bg-gray-100 min-h-screen">
+
+                {/* Page Header */}
+                <header className="bg-white shadow breadcrumbs flex flex-col justify-center items-center py-10">
+                    <h1 className="text-2xl font-semibold text-black">Barbers</h1>
+                    <BreadCrumbs items={[
+                        {
+                            title: "Home",
+                            url: "/"
+                        },
+                        {
+                            title: "Barbers",
+                            url: "/barbers"
+                        }
+                    ]} />
+                </header>
+
+
                 <div className="container mx-auto px-4 py-10">
                     <div className="flex flex-wrap">
+
 
                         {/* Filter Sidebar */}
                         <aside className="w-full lg:w-1/4 mb-8 lg:mb-0">
@@ -157,19 +209,27 @@ function BarbersPage() {
                                             </select>
                                         </div>
 
-
-
-                                        <div className="form-control mb-4 bg-white text-blackx">
+                                        <div className="form-control mb-4 bg-white text-black">
                                             <label className="label">
                                                 <span className="label-text">Price Range</span>
                                             </label>
                                             <div className="flex items-center justify-between mb-2">
                                                 <span>0 SEK</span>
-                                                <span>500 SEK</span>
+                                                <span>{priceRange} SEK</span>
                                             </div>
-                                            <input type="range" className="range range-primary w-full" min="5" max="500" />
+                                            <input
+                                                type="range"
+                                                className="range w-full bg-white text-primaryColor accent-primaryColor"
+                                                min="0"
+                                                max="1000"
+                                                value={priceRange}
+                                                onChange={handlePriceChange}
+                                            />
                                         </div>
-                                        <button className="btn btn-secondary  w-full">Search</button>
+
+
+
+                                        <button className="btn btn-secondary w-full bg-primaryColor text-white text-lg hover:bg-primaryColorHover">Search</button>
                                     </form>
                                 </div>
                             </div>
@@ -177,34 +237,55 @@ function BarbersPage() {
 
                         {/* Main Content */}
                         <main className="w-full lg:w-3/4">
-                            <div className="flex justify-between items-center mb-6">
-                                <h4 className="text-lg font-semibold">
-                                    {barbersData.length} Barbers Found
-                                </h4>
-                            </div>
+
 
                             {/* Services List */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="dataList">
+                            <div className="m-3 grid grid-cols-3 gap-3" id="dataList">
+
+                                {data.length === 0 && (
+                                    <div
+                                        className="alert alert-danger bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative flex items-center"
+                                    >
+
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="h-6 w-6 shrink-0 stroke-current"
+                                            fill="none"
+                                            viewBox="0 0 24 24">
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth="2"
+                                                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+
+                                        <p>
+                                            No barbers found with the selected criteria. Please try again with different filters.
+                                        </p>
+
+                                    </div>
+                                )}
                                 {data.map((barber: Barber) => {
                                     return (
-                                        <div key={barber.id} className="card bg-white shadow-lg m-2">
+                                        <div key={barber.id} className="card bg-white shadow-lg m-2 w-full">
                                             <div className="card-body p-0">
-                                                <figure className="relative">
+                                                <figure className="relative p-5">
                                                     <Image
                                                         src={barber.image}
                                                         alt="Service Image"
                                                         width={500}
                                                         height={300}
-                                                        className="object-cover w-full"
+                                                        className="object-cover w-full rounded-lg"
                                                     />
-                                                    <div className="absolute top-4 left-4 badge badge-secondary py-2 px-3 capitalize">
-
+                                                    <div className="absolute top-6 left-6 badge badge-secondary py-4 px-5 capitalize text-white ">
                                                         {barber.location}
-
                                                     </div>
-                                                    <div className="absolute top-4 right-4">
-                                                        <button className="btn btn-circle btn-sm btn-outline">
-                                                            <i className="feather-heart" />
+                                                    <div className="absolute top-6 right-6">
+                                                        <button
+                                                            className="btn btn-circle btn-sm btn-outline"
+                                                            onClick={() => handleLike(barber.id)}
+                                                        >
+                                                            {barber.liked ? <FaHeart className="text-red-500" /> : <FaHeart />}
                                                         </button>
                                                     </div>
                                                 </figure>
@@ -218,11 +299,17 @@ function BarbersPage() {
                                                     </p>
                                                     <div className="flex items-center justify-between mt-4 text-black">
                                                         <div className="rating flex flex-row items-center justify-center">
-                                                            <FaStar className="text-yellow-500" />
-                                                            <FaStar className="text-yellow-500" />
-                                                            <FaStar className="text-yellow-500" />
-                                                            <FaStar className="text-yellow-500" />
-                                                            <FaStar className="text-yellow-500" />
+
+                                                            {Array.from({ length: 5 }, (_, index) => {
+                                                                const starIndex = index + 1; // Star indices start from 1
+                                                                return (
+                                                                    <FaStar
+                                                                        key={starIndex}
+                                                                        className={starIndex <= barber.rating ? "text-yellow-500" : "text-gray-400"}
+                                                                    />
+                                                                );
+                                                            })}
+
                                                             <span className="ml-2">(5)</span>
                                                         </div>
                                                         <h6 className="font-semibold">{barber.price} SEK</h6>
