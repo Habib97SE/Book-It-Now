@@ -1,4 +1,7 @@
-import { SignedIn, SignedOut } from "@clerk/nextjs";
+import { SignedIn, SignedOut, SignOutButton } from "@clerk/nextjs";
+import Link from "next/link";
+import { FaArrowDown } from "react-icons/fa";
+import { MdKeyboardArrowDown } from "react-icons/md";
 
 function NavBar() {
 
@@ -20,17 +23,31 @@ function NavBar() {
                                     strokeWidth="2"
                                     d="M4 6h16M4 12h8m-8 6h16" />
                             </svg>
+                            Profile
                         </div>
                         <ul tabIndex={0} className="menu dropdown-content bg-base-100 rounded-box w-52 p-2 shadow-lg">
                             <li><a href="#">Profile</a></li>
                             <li><a href="#">Settings</a></li>
-                            <li><a href="#">Logout</a></li>
+                            <SignOutButton>
+                                <li><a href="#">Sign Out</a></li>
+                            </SignOutButton>
                         </ul>
                     </div>
                 </SignedIn>
                 <SignedOut>
-                    <a href="#" className="mx-3 text-xl text-white">Login</a>
-                    <a href="#" className="btn bg-primaryColor hover:bg-primaryColorHover text-white text-xl">Register</a>
+
+                    <Link href="/sign-in" className="mx-3 text-xl text-white">Login</Link>
+                    {/* Dropdown menu for register personal and provider acocunt */}
+                    <div className="dropdown dropdown-end">
+                        <div tabIndex={0} role="button" className="btn btn-ghost bg-primaryColor hover:bg-primaryColorHover">
+                            Register
+                            <MdKeyboardArrowDown />
+                        </div>
+                        <ul tabIndex={0} className="menu dropdown-content rounded-box w-52 p-2 shadow-lg bg-white text-black">
+                            <li className="hover:bg-gray-50"><a href="/register/personal">Personal</a></li>
+                            <li className="hover:bg-gray-50"><a href="/register/provider">Provider</a></li>
+                        </ul>
+                    </div>
                 </SignedOut>
             </>
         );
@@ -70,15 +87,15 @@ function NavBar() {
                             <li><a href="#">Item 3</a></li>
                         </ul>
                     </div>
-                    <a className="btn btn-ghost text-xl">
+                    <Link href={"/"} className="text-xl">
                         <span className="text-primaryColor">Book It</span> Now.
-                    </a>
+                    </Link>
                 </div>
 
                 {/* Navbar Center */}
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1">
-                        <li><a href="#">Item 1</a></li>
+                        <li><Link href="/barbers">Barbers</Link></li>
                         <li>
                             <details>
                                 <summary>Parent</summary>

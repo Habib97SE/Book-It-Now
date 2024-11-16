@@ -4,9 +4,9 @@ import { FaArrowRight } from "react-icons/fa";
 
 function ServiceSection() {
     return (
-        <section className="bg-pinkTint">
+        <section className="bg-pinkTint min-h-screen">
             <div
-                className="container mx-auto p-4 w-4/5"
+                className="container mx-auto p-4 w-4/5 flex flex-col justify-center items-center"
             >
                 <div className="flex justify-between items-center mb-6">
                     <div>

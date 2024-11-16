@@ -34,7 +34,7 @@ function HowItWorks() {
                     </div>
 
                     <div className="w-full md:w-1/3 p-4">
-                        <div className="work-wrap-box.work-second bg-white rounded-lg p-6 text-center" data-aos="fade-up">
+                        <div className="work-wrap-box work-second bg-white rounded-lg p-6 text-center" data-aos="fade-up">
                             <div className="mb-4">
                                 <span className="inline-block bg-howItWorksIcon py-5 px-7 rounded-lg">
                                     <Image

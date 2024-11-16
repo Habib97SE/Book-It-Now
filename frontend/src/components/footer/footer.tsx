@@ -59,7 +59,7 @@ function Footer() {
 
     return (
 
-        <div>
+        <div className="bg-pinkTint">
             <footer className="footer p-10 bg-white text-gray-600 loading-3">
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                     {renderLinks}

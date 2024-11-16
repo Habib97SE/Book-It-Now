@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaLocationArrow, FaSearch } from 'react-icons/fa';
+import { GoDotFill } from 'react-icons/go';
 
 const HeroSection = () => {
     return (
@@ -39,6 +40,23 @@ const HeroSection = () => {
                         </div>
                     </form>
 
+                    <div className='my-3 flex flex-row'>
+                        <span
+                            className='flex flex-row items-center text-white text-lg'
+                        >
+                            <GoDotFill className='text-orange-500 ' />
+                            <strong>Popular Searches:</strong>
+                        </span>
+                        <button className='border border-dashed rounded-full px-3 py-2 mx-2 hover:border hover:border-solid hover:border-gray-100 hover:text-white hover:bg-black'>
+                            Car Repair Service
+                        </button>
+                        <button className='border border-dashed rounded-full px-3 py-2 mx-2 hover:border hover:border-solid hover:border-white hover:text-white hover:bg-black'>
+                            Car Repair Service
+                        </button>
+                        <button className='border border-dashed rounded-full px-3 py-2 mx-2 hover:border hover:border-solid hover:border-white hover:text-white hover:bg-black'>
+                            Car Repair Service
+                        </button>
+                    </div>
 
                 </div>
             </div>
