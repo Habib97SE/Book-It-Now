@@ -68,6 +68,86 @@ const barbersData = [
         rating: 3,
         price: 532.00,
         liked: false
+    },
+    {
+        id: 6,
+        name: "Barber 6",
+        image: "https://app.truelysell.com/uploads/services/se_full_1631787687service-11.jpg",
+        location: "stockholm",
+        phone: "xxxxxxxx74",
+        rating: 4,
+        price: 632.00,
+        liked: true
+    },
+    {
+        id: 7,
+        name: "Barber 7",
+        image: "https://app.truelysell.com/uploads/services/se_full_1631787687service-11.jpg",
+        location: "gothenburg",
+        phone: "xxxxxxxx74",
+        rating: 5,
+        price: 732.00,
+        liked: false
+    },
+    {
+        id: 8,
+        name: "Barber 8",
+        image: "https://app.truelysell.com/uploads/services/se_full_1631787687service-11.jpg",
+        location: "malmo",
+        phone: "xxxxxxxx74",
+        rating: 5,
+        price: 832.00,
+        liked: true
+    },
+    {
+        id: 9,
+        name: "Barber 9",
+        image: "https://app.truelysell.com/uploads/services/se_full_1631787687service-11.jpg",
+        location: "uppsala",
+        phone: "xxxxxxxx74",
+        rating: 5,
+        price: 932.00,
+        liked: false
+    },
+    {
+        id: 10,
+        name: "Barber 10",
+        image: "https://app.truelysell.com/uploads/services/se_full_1631787687service-11.jpg",
+        location: "stockholm",
+        phone: "xxxxxxxx74",
+        rating: 5,
+        price: 1032.00,
+        liked: true
+    },
+    {
+        id: 11,
+        name: "Barber 11",
+        image: "https://app.truelysell.com/uploads/services/se_full_1631787687service-11.jpg",
+        location: "gothenburg",
+        phone: "xxxxxxxx74",
+        rating: 5,
+        price: 1132.00,
+        liked: false
+    },
+    {
+        id: 12,
+        name: "Barber 12",
+        image: "https://app.truelysell.com/uploads/services/se_full_1631787687service-11.jpg",
+        location: "malmo",
+        phone: "xxxxxxxx74",
+        rating: 5,
+        price: 1232.00,
+        liked: true
+    },
+    {
+        id: 13,
+        name: "Barber 13",
+        image: "https://app.truelysell.com/uploads/services/se_full_1631787687service-11.jpg",
+        location: "uppsala",
+        phone: "xxxxxxxx74",
+        rating: 5,
+        price: 1332.00,
+        liked: false
     }
 ]
 
@@ -265,6 +345,9 @@ function BarbersPage() {
 
                                     </div>
                                 )}
+
+
+
                                 {data.map((barber: Barber) => {
                                     return (
                                         <div key={barber.id} className="card bg-white shadow-lg m-2 w-full">

@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { FaAngleDoubleRight, FaBuilding, FaEnvelope, FaHeadphones } from "react-icons/fa";
 
 const links = [
