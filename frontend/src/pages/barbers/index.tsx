@@ -5,6 +5,7 @@ import Head from "next/head";
 import { Pagination } from "@/components/pagination";
 import { GoDotFill } from "react-icons/go";
 import { BreadCrumbs } from "@/components/BreadCrumbs";
+import Link from "next/link";
 
 interface Barber {
     id: number;
@@ -138,16 +139,6 @@ const barbersData = [
         rating: 5,
         price: 1232.00,
         liked: true
-    },
-    {
-        id: 13,
-        name: "Barber 13",
-        image: "https://app.truelysell.com/uploads/services/se_full_1631787687service-11.jpg",
-        location: "uppsala",
-        phone: "xxxxxxxx74",
-        rating: 5,
-        price: 1332.00,
-        liked: false
     }
 ]
 
@@ -374,7 +365,7 @@ function BarbersPage() {
                                                 </figure>
                                                 <div className="p-4">
                                                     <h3 className="font-bold text-lg">
-                                                        <a href="#">{barber.name}</a>
+                                                        <Link href={`/barbers/${barber.id}`}>{barber.name}</Link>
                                                     </h3>
                                                     <p className="text-gray-600 text-sm">
                                                         <i className="fas fa-phone mr-1"></i> <span>{barber.phone}</span>

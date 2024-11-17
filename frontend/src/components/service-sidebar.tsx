@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useUser, SignIn } from "@clerk/nextjs";
 import Image from "next/image";
-import { FaCircle, FaEnvelope, FaPhoneAlt, FaBug, FaFacebookF, FaTwitter, FaLinkedinIn, FaWhatsapp } from "react-icons/fa";
+import { FaCircle, FaEnvelope, FaPhoneAlt, FaBug, FaFacebookF, FaTwitter, FaLinkedinIn, FaWhatsapp, FaFacebook, FaLink } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 
 const ServiceSidebar = () => {
     const { isSignedIn } = useUser();
@@ -98,58 +99,51 @@ const ServiceSidebar = () => {
                     <h5 className="card-title text-lg font-bold mb-4">Service Availability</h5>
                     <ul className="list-none space-y-8 text-sm">
                         <li className="flex flex-row justify-between">
-                            <span className="font-bold">Monday:</span> <span>09:00am - 11:00pm</span>
+                            <span className="font-bold">Monday:</span> <span>09:00 - 23:00</span>
                         </li>
                         <li className="flex flex-row justify-between">
-                            <span className="font-bold">Tuesday:</span> <span>09:00am - 11:00pm</span>
+                            <span className="font-bold">Tuesday:</span> <span>09:00 - 23:00</span>
                         </li>
                         <li className="flex flex-row justify-between">
-                            <span className="font-bold">Wednesday:</span> <span>09:00am - 11:00pm</span>
+                            <span className="font-bold">Wednesday:</span> <span>09:00 - 23:00</span>
                         </li>
                         <li className="flex flex-row justify-between">
-                            <span className="font-bold">Thursday:</span> <span>09:00am - 11:00pm</span>
+                            <span className="font-bold">Thursday:</span> <span>09:00 - 23:00</span>
                         </li>
                         <li className="flex flex-row justify-between">
-                            <span className="font-bold">Friday:</span> <span>09:00am - 11:00pm</span>
+                            <span className="font-bold">Friday:</span> <span>09:00 - 23:00</span>
                         </li>
                         <li className="flex flex-row justify-between">
-                            <span className="font-bold">Saturday:</span> <span>09:00am - 11:00pm</span>
+                            <span className="font-bold">Saturday:</span> <span>09:00 - 23:00</span>
                         </li>
                         <li className="flex flex-row justify-between">
-                            <span className="font-bold">Sunday:</span> <span>09:00am - 11:00pm</span>
+                            <span className="font-bold">Sunday:</span> <span>09:00 - 23:00</span>
                         </li>
                     </ul>
                 </div>
             </div>
 
             <div className="card shadow-md mt-4">
-
                 <div className="card-body">
-                    <h5 className="card-title text-lg font-bold mb-4">Share the service</h5>
-                    <ul className="flex flex-row justify-around">
-                        <li className="flex flex-row items-center justify-between mb-2">
-                            <a href="#" className="flex flex-row items-center text-2xl">
-                                <FaFacebookF className="bg-blue-500 text-white rounded-full" />
-                            </a>
-                        </li>
-                        <li className="flex flex-row items-center justify-between mb-2">
-                            <a href="#" className="flex flex-row items-center text-2xl">
-                                <FaTwitter className="bg-blue-400 text-white rounded-full" />
-                            </a>
-                        </li>
-                        <li className="flex flex-row items-center justify-between mb-2">
-                            <a href="#" className="flex flex-row items-center text-2xl">
-                                <FaLinkedinIn className="bg-blue-800 text-white rounded-full" />
-                            </a>
-                        </li>
-                        <li className="flex flex-row items-center justify-between mb-2">
-                            <a href="#" className="flex flex-row items-center text-2xl">
-                                <FaWhatsapp className="bg-green-500 text-white rounded-full" />
-                            </a>
-                        </li>
-                    </ul>
+                    <h5 className="card-title text-lg font-bold mb-4">Share Service</h5>
+                    <div className="flex justify-between items-center">
+                        <a href="#">
+                            <FaFacebook className="text-xl text-blue-600 rounded-full" />
+                        </a>
+                        <a href="#">
+                            <FaXTwitter className="text-xl text-blue-400 rounded-full" />
+                        </a>
+                        <a href="#">
+                            <FaEnvelope className="text-xl text-gray-500 rounded-full" />
+                        </a>
+                        <a href="#">
+                            <FaPhoneAlt className="text-xl text-green-500 rounded-full" />
+                        </a>
+                        <a href="#">
+                            <FaLink className="text-xl text-gray-500 rounded-full" />
+                        </a>
+                    </div>
                 </div>
-
             </div>
 
         </div>

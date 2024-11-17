@@ -6,11 +6,11 @@ type BreadCrumb = {
 }
 function BreadCrumbs({ items }: { items: BreadCrumb[] }) {
     return (
-        <div className="breadcrumbs text-sm text-black shadow-2xl">
+        <div className="breadcrumbs text-sm text-black">
             <ul>
                 {items.map((item, index) => (
                     <li key={index}>
-                        <Link href={item.url}>
+                        <Link href={item.url} className="text-gray-500 text-lg">
                             {item.title}
                         </Link>
                     </li>

@@ -104,7 +104,7 @@ function NavBar() {
                                     <li><a href="#">Submenu 2</a></li>
                                 </ul>
                             </li>
-                            <li><a href="#">Item 3</a></li>
+                            <li><Link href={"/contact"}>Contact</Link></li>
                         </ul>
                     </div>
                     <Link href={"/"} className="text-xl">
@@ -125,7 +125,7 @@ function NavBar() {
                                 </ul>
                             </details>
                         </li>
-                        <li><a href="#">Item 3</a></li>
+                        <li><Link href={"/contact"}>Contact</Link></li>
                     </ul>
                 </div>
 

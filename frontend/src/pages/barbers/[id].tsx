@@ -29,6 +29,10 @@ function Barber() {
                         {
                             title: "Barbers",
                             url: "/barbers"
+                        },
+                        {
+                            title: id?.toString(),
+                            url: `/barbers/${id}`
                         }
                     ]} />
                 </header>
