@@ -4,7 +4,7 @@ import { GoDotFill } from 'react-icons/go';
 
 const HeroSection = () => {
     return (
-        <section className="hero bg-cover bg-center herosection-image-one mt-9">
+        <section className="hero bg-cover bg-center herosection-image-one">
             <div className="hero-overlay bg-black bg-opacity-60"></div>
             <div className="container mx-auto px-4 py-12 text-center text-white">
                 <div className="max-w-2xl mx-auto">

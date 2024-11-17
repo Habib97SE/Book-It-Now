@@ -57,3 +57,7 @@ body {
 .breadcrumbs {
     background: url("/images/breadcrumbs.png") no-repeat;
 }
+
+.cl-userButtonPopoverRootBox {
+    display: none;
+}

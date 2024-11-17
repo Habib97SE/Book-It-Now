@@ -1,31 +1,45 @@
-import { SignedIn, SignedOut, SignOutButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut, SignOutButton, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { FaArrowDown } from "react-icons/fa";
 import { MdKeyboardArrowDown } from "react-icons/md";
 
 function NavBar() {
 
+    const [scrolled, setScrolled] = useState(false);
+
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 0); // Change threshold as needed
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
     const ProfileMenu = () => {
+
+
+
         return (
             <>
                 <SignedIn>
-                    <div className="dropdown dropdown-end">
+                    <div className="dropdown dropdown-end text-white">
                         <div tabIndex={0} role="button" className="btn btn-ghost">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-8 w-8"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M4 6h16M4 12h8m-8 6h16" />
-                            </svg>
-                            Profile
+
+                            {/* Prevent Clerk's default dropdown menu for UserButton */}
+                            <UserButton appearance={{
+                                elements: {
+                                    userButtonAvatarBox: "h-10 w-10 rounded-full",
+                                },
+                            }} />
+
                         </div>
-                        <ul tabIndex={0} className="menu dropdown-content bg-base-100 rounded-box w-52 p-2 shadow-lg">
+                        <ul tabIndex={0} className="menu dropdown-content bg-base-100 text-black rounded-box w-52 p-2 shadow-lg">
                             <li><a href="#">Profile</a></li>
                             <li><a href="#">Settings</a></li>
                             <SignOutButton>
@@ -54,7 +68,10 @@ function NavBar() {
     }
 
     return (
-        <div className="sticky top-0 w-full z-50 bg-black/70 backdrop-blur-md">
+        <div
+            className={`sticky text-white top-0 w-full z-50 transition-colors duration-300 ${scrolled ? 'bg-black/70 backdrop-blur-md' : 'bg-black'
+                }`}
+        >
             <div className="navbar max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
                 {/* Navbar Start */}
                 <div className="navbar-start">
@@ -65,22 +82,25 @@ function NavBar() {
                                 className="h-5 w-5"
                                 fill="none"
                                 viewBox="0 0 24 24"
-                                stroke="currentColor">
+                                stroke="currentColor"
+                            >
                                 <path
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
                                     strokeWidth="2"
-                                    d="M4 6h16M4 12h8m-8 6h16" />
+                                    d="M4 6h16M4 12h8m-8 6h16"
+                                />
                             </svg>
                         </div>
                         <ul
                             tabIndex={0}
-                            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow">
+                            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow"
+                        >
                             <li><Link href="/barbers">Barbers</Link></li>
                             <li>
                                 <a href="#">Parent</a>
                                 <ul className="p-2">
-                                    <li className="w-full" ><a href="#">Submenu 1</a></li>
+                                    <li className="w-full"><a href="#">Submenu 1</a></li>
                                     <li><a href="#">Submenu 2</a></li>
                                 </ul>
                             </li>
