@@ -9,7 +9,7 @@ import { BarberCard } from "@/components/barber-card";
 function Barber() {
     const router = useRouter();
 
-    const { id } = router.query;
+    const id = router.query.id;
 
     return (
         <>
@@ -72,33 +72,13 @@ function Barber() {
 
 
                         </div>
-                        <div>
+                        <div
+                            className="px-5 mx-auto"
+                        >
                             <h2>Related Services</h2>
                             <div
                                 className="carousel relative"
                             >
-
-
-                                <BarberCard item={{
-                                    id: 1,
-                                    name: "John Doe",
-                                    phone: "1234567890",
-                                    rating: 5,
-                                    price: 200,
-                                    location: "USA, Kansas city",
-                                    image: "https://app.truelysell.com/uploads/services/se_full_1631787344service-05.jpg",
-                                    liked: false
-                                }} />
-                                <BarberCard item={{
-                                    id: 2,
-                                    name: "John Doe",
-                                    phone: "1234567890",
-                                    rating: 5,
-                                    price: 200,
-                                    location: "USA, Kansas city",
-                                    image: "https://app.truelysell.com/uploads/services/se_full_1631787344service-05.jpg",
-                                    liked: false
-                                }} />
                                 <BarberCard item={{
                                     id: 3,
                                     name: "John Doe",

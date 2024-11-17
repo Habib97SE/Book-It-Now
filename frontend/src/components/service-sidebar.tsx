@@ -3,6 +3,7 @@ import { useUser, SignIn } from "@clerk/nextjs";
 import Image from "next/image";
 import { FaCircle, FaEnvelope, FaPhoneAlt, FaBug, FaFacebookF, FaTwitter, FaLinkedinIn, FaWhatsapp, FaFacebook, FaLink } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import Link from "next/link";
 
 const ServiceSidebar = () => {
     const { isSignedIn } = useUser();
@@ -11,8 +12,6 @@ const ServiceSidebar = () => {
     const handleBookService = () => {
         if (!isSignedIn) {
             setModalOpen(true); // Open the modal for signing in
-        } else {
-            alert("Service booked successfully!");
         }
     };
 
@@ -24,12 +23,13 @@ const ServiceSidebar = () => {
             <div className="card shadow-md mb-4">
                 <div className="card-body bg-gray-50">
                     <div className="text-2xl font-bold mb-4 text-center">$100</div>
-                    <button
-                        className="py-4 px-5 rounded-lg w-full bg-primaryColor hover:bg-primaryColorHover text-white"
+                    <Link
+                        href={"/booking"}
+                        className="py-4 px-5 text-center rounded-lg w-full bg-primaryColor hover:bg-primaryColorHover text-white"
                         onClick={handleBookService}
                     >
                         Book Service
-                    </button>
+                    </Link>
                 </div>
             </div>
 

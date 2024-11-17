@@ -365,7 +365,7 @@ function BarbersPage() {
                                                 </figure>
                                                 <div className="p-4">
                                                     <h3 className="font-bold text-lg">
-                                                        <Link href={`/barbers/${barber.id}`}>{barber.name}</Link>
+                                                        <Link className="hover:text-primaryColorHover" href={`/barbers/${barber.id}`}>{barber.name}</Link>
                                                     </h3>
                                                     <p className="text-gray-600 text-sm">
                                                         <i className="fas fa-phone mr-1"></i> <span>{barber.phone}</span>
