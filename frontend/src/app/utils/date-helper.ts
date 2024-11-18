@@ -8,27 +8,37 @@ type Day = {
     dayNumber: number;
 };
 
+type Days = {
+    month: string;
+    year: number;
+    days: Day[];
+};
+
 type TimeSlot = {
     from: Time;
     to: Time;
 };
 
-function getDaysInMonth(month: number, year: number): Day[] {
-    const date = new Date(year, month, 1);
+function getDaysInMonth(month: number, year: number): Days {
+    const date = new Date(year, month - 1, 1);
     const days: Day[] = [];
-    while (date.getMonth() === month) {
+    while (date.getMonth() === month - 1) {
         days.push({
-            // dayName should be in enghlish
-            dayName: date.toLocaleString("en-US", { weekday: "long" }),
+            dayName: date.toLocaleString("en-US", {
+                weekday: "long",
+            }),
             dayNumber: date.getDate(),
         });
         date.setDate(date.getDate() + 1);
     }
-    console.log(days);
-    return days;
+    return [
+        date.toLocaleString("en-US", { month: "long" }),
+        date.getFullYear(),
+        days,
+    ];
 }
 
-function getDaysInWeek(weekNumber: number): Day[] {
+function getDaysInWeek(weekNumber: number): Days {
     const date = new Date();
     const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
     const pastDaysOfYear =
@@ -48,7 +58,11 @@ function getDaysInWeek(weekNumber: number): Day[] {
         });
         firstDayOfWeek.setDate(firstDayOfWeek.getDate() + 1);
     }
-    return days;
+    return {
+        month: firstDayOfWeek.toLocaleString("en-US", { month: "long" }),
+        year: firstDayOfWeek.getFullYear(),
+        days,
+    };
 }
 
 function getCurrentWeeksNumber(): number {
@@ -78,11 +92,28 @@ function getTimeSlots(): {
     return timeslots;
 }
 
+function getMonthNameOnWeekNumber(weekNumber: number): string {
+    const date = new Date();
+    const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
+    const pastDaysOfYear =
+        (date.valueOf() - firstDayOfYear.valueOf()) / 86400000;
+    const firstDayOfWeek = new Date(
+        date.getFullYear(),
+        0,
+        1 + (weekNumber - 1) * 7 - firstDayOfYear.getDay()
+    );
+    return firstDayOfWeek.toLocaleString("en-US", {
+        month: "long",
+    });
+}
+
 export {
     getDaysInMonth,
     getDaysInWeek,
     getCurrentWeeksNumber,
     getTimeSlots,
+    getMonthNameOnWeekNumber,
     Day,
+    Days,
     TimeSlot,
 };
