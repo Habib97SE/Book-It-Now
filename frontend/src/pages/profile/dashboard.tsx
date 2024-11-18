@@ -6,17 +6,23 @@ import { MdOutlineSpaceDashboard } from "react-icons/md";
 import { PiFileDashedBold } from "react-icons/pi";
 import Image from "next/image";
 import { FaRecycle, FaRegTrashAlt, FaTrash } from "react-icons/fa";
+import Head from "next/head";
 
 function DashboardPage() {
     return (
         <div>
+            <Head>
+                <title>Dashboard</title>
+                <meta name="description" content="Dashboard" />
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
             <h1>Dashboard</h1>
             <div className="grid grid-cols-3 gap-3 mx-4">
                 <div className="col-span-1">
                     <div className="p-2 rounded-lg cursor-pointer ">
                         <div className="card">
 
-                            <ul tabIndex={0} className=" bg-gray-100 text-black rounded-box w-52 p-2 shadow-lg leading-10">
+                            <ul tabIndex={0} className=" bg-gray-100 text-black rounded-box w-8/12 p-2 shadow-lg leading-10">
                                 <div className="flex flex-row items-center border-b-2 border-gray-100">
                                     <Image
                                         src="https://app.truelysell.com/uploads/profile_img/1631796006.jpg"
