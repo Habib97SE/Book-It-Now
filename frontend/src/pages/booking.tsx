@@ -1,4 +1,4 @@
-import { Calendar } from "@/components/calendar";
+import { Calendar } from "@/components/calendar/calendar";
 import { useState } from "react";
 
 function BookingPage() {
