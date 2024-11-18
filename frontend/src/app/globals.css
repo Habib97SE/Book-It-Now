@@ -61,3 +61,43 @@ body {
 .cl-userButtonPopoverRootBox {
     display: none;
 }
+
+/* globals.css or in a custom CSS file imported into your project */
+@keyframes outline {
+    from {
+        stroke-dasharray: 0, calc(3.1416 * 55px * 2);
+    }
+    to {
+        stroke-dasharray: calc(3.1416 * 55px * 2), calc(3.1416 * 55px * 2);
+    }
+}
+
+@keyframes circle {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(0);
+    }
+}
+
+@keyframes check {
+    from {
+        stroke-dasharray: 0, 75px;
+    }
+    to {
+        stroke-dasharray: 75px, 75px;
+    }
+}
+
+@keyframes check-group {
+    from {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.09);
+    }
+    to {
+        transform: scale(1);
+    }
+}

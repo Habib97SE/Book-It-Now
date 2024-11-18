@@ -38,7 +38,13 @@ function ContactPage() {
 
                 ]} />
             </header>
-            <div className="container w-10/12 mx-auto">
+            <div className="container w-10/12 mx-auto py-2">
+                <div>
+                    <p>
+                        If you have any questions or need help, please contact us by filling out the form below. We will get back to you as soon as possible.
+
+                    </p>
+                </div>
                 <form onSubmit={handleSubmit}>
                     <div className="grid grid-cols-2 gap-6">
                         <div>

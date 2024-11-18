@@ -45,7 +45,7 @@ function Footer() {
 
                 <ul>
                     {link.links.map((item, secondIndex) => (
-                        <li key={secondIndex} className="link link-hover flex flex-row items-center transition-transform duration-300 hover:translate-x-2 leading-8">
+                        <li key={secondIndex} className="text-md link link-hover flex flex-row items-center transition-transform duration-1000 hover:text-primaryColor hover:translate-x-2 leading-8">
                             <FaAngleDoubleRight className="text-primaryColor mr-1" />
                             {item.name}
                         </li>
@@ -58,9 +58,9 @@ function Footer() {
 
     return (
 
-        <div className="bg-pinkTint">
+        <div className="bg-pinkTint border-t-2 border-gray-100 ">
             <footer className="footer p-10 bg-white text-gray-600 loading-3">
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-3 justify-center">
                     {renderLinks}
                 </div>
                 <form>
@@ -82,7 +82,7 @@ function Footer() {
 
             </footer>
             <div
-                className="text-lg p-4 bg-gray-100 text-gray-500 text-sm flex flex-row items-center justify-between px-5"
+                className="text-lg p-4 bg-gray-100 text-gray-500 flex flex-row items-center justify-between px-5"
             >
                 <p
 

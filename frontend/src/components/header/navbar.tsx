@@ -1,8 +1,13 @@
-import { SignedIn, SignedOut, SignOutButton, UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut, SignOutButton, UserButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { CiLock } from "react-icons/ci";
 import { FaArrowDown } from "react-icons/fa";
-import { MdKeyboardArrowDown } from "react-icons/md";
+import { FiBook, FiHeart } from "react-icons/fi";
+import { IoSettingsOutline } from "react-icons/io5";
+import { LuMessagesSquare } from "react-icons/lu";
+import { MdKeyboardArrowDown, MdOutlineSpaceDashboard } from "react-icons/md";
+import { PiSignOutFill } from "react-icons/pi";
 
 function NavBar() {
 
@@ -23,6 +28,7 @@ function NavBar() {
 
     const ProfileMenu = () => {
 
+        const { user } = useUser();
 
 
         return (
@@ -30,20 +36,26 @@ function NavBar() {
                 <SignedIn>
                     <div className="dropdown dropdown-end text-white">
                         <div tabIndex={0} role="button" className="btn btn-ghost">
-
                             {/* Prevent Clerk's default dropdown menu for UserButton */}
                             <UserButton appearance={{
                                 elements: {
-                                    userButtonAvatarBox: "h-10 w-10 rounded-full",
+                                    userButtonAvatarBox: "h-10 w-10  rounded-full",
                                 },
                             }} />
 
                         </div>
                         <ul tabIndex={0} className="menu dropdown-content bg-base-100 text-black rounded-box w-52 p-2 shadow-lg">
-                            <li><a href="#">Profile</a></li>
-                            <li><a href="#">Settings</a></li>
+                            <li className="border-b flex flex-row ">
+                                <span>Hi <span className="font-bold"> {user?.fullName}</span></span>
+                            </li>
+                            <li><Link href="/profile/dashboard" className="hover:text-primaryColor hover:bg-lightPink"><MdOutlineSpaceDashboard /> Dashboard</Link></li>
+                            <li><a href="#" className="hover:text-primaryColor hover:bg-lightPink"><FiBook /> My Bookings</a></li>
+                            <li><a href="#" className="hover:text-primaryColor hover:bg-lightPink"><FiHeart /> My Favorites</a></li>
+                            <li><a href="#" className="hover:text-primaryColor hover:bg-lightPink"><IoSettingsOutline /> Profile Settings</a></li>
+                            <li><a href="#" className="hover:text-primaryColor hover:bg-lightPink"><CiLock /> Change Password</a></li>
+
                             <SignOutButton>
-                                <li><a href="#">Sign Out</a></li>
+                                <li className="py-2"><a href="#" className="bg-gray-300 "><PiSignOutFill /> Sign Out</a></li>
                             </SignOutButton>
                         </ul>
                     </div>
