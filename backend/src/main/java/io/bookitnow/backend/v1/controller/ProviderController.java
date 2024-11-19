@@ -2,6 +2,7 @@ package io.bookitnow.backend.v1.controller;
 
 import io.bookitnow.backend.v1.DTOs.requests.ProviderRequest;
 import io.bookitnow.backend.v1.DTOs.responses.ProviderResponse;
+import io.bookitnow.backend.v1.service.MailService;
 import io.bookitnow.backend.v1.service.ProviderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -46,9 +47,13 @@ public class ProviderController {
 
     private final ProviderService providerService;
 
+    private final MailService mailService;
 
-    public ProviderController(ProviderService providerService) {
+
+    public ProviderController(ProviderService providerService,
+                              MailService mailService) {
         this.providerService = providerService;
+        this.mailService = mailService;
     }
 
     /**
@@ -78,6 +83,7 @@ public class ProviderController {
             @RequestParam(required = false) @Size(max = 50) String city,
             @RequestParam(required = false) @Size(max = 50) String name,
             @RequestParam(required = false) @Size(max = 100) String address) {
+
         return ResponseEntity.ok(providerService.getAllProviders(page, pageSize, sort, category, city, name, address));
     }
 

@@ -30,10 +30,7 @@ public class ProviderControllerTest {
 
     private MockMvc mockMvc;
 
-    @BeforeEach
-    void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(new ProviderController(providerService)).build();
-    }
+
 
     private Provider createProvider(){
         return Provider.builder()
