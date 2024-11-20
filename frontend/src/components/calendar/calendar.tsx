@@ -29,6 +29,7 @@ function Calendar({
             day: date,
             time: timeSlot,
         });
+
     };
 
     return (
@@ -39,6 +40,7 @@ function Calendar({
                     Previous
                 </button>
                 <button className="bg-primaryColor text-white px-4 py-2 rounded-lg hover:bg-primaryColorHover">
+
                     Next
                 </button>
             </div>
@@ -66,6 +68,7 @@ function Calendar({
                             </div>
                         );
                     })}
+
             </div>
         </div>
     );

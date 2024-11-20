@@ -4,6 +4,7 @@ import { FaStar } from "react-icons/fa";
 import ServiceCard from "./service-card";
 
 function TabSection({ description, services, logo }: { description: string, services: Service[], logo: string }) {
+
     const [activeTab, setActiveTab] = useState(1); // Default active tab is 1
 
     return (
@@ -36,6 +37,7 @@ function TabSection({ description, services, logo }: { description: string, serv
                     <div>
                         <h2 className="text-xl font-semibold">Service Details</h2>
                         <p>{description}</p>
+
                     </div>
                 )}
                 {activeTab === 2 && (
@@ -45,6 +47,7 @@ function TabSection({ description, services, logo }: { description: string, serv
                         {services.map((service) => (
                             <ServiceCard key={service.id} logo={logo} service={service} />
                         ))}
+
                     </div>
                 )}
                 {activeTab === 3 && (

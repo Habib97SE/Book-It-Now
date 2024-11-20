@@ -15,6 +15,7 @@ function ServiceCard({ service, logo }: { service: Service, logo: string }) {
             <div className="relative">
                 <img
                     src={service.image}
+
                     alt="Carpentry"
                     className='rounded-lg w-full'
                 />
@@ -26,6 +27,7 @@ function ServiceCard({ service, logo }: { service: Service, logo: string }) {
             <h2 className="text-black text-xl font-bold mt-2">{service.name}</h2>
             <p className='text-gray-500 flex flex-row items-center my-2'>
                 <IoMdTime className='mr-2' /> {service.durationInMinutes} mins
+
             </p>
             <footer className='text-black flex flex-row justify-between'>
                 <div className='flex flex-row text-gray-300 items-center my-2'>

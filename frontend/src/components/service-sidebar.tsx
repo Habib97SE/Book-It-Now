@@ -7,6 +7,7 @@ import Link from "next/link";
 import { Provider } from "@/app/types/provider-types";
 
 const ServiceSidebar = ({ item }) => {
+
     const { isSignedIn } = useUser();
     const [isModalOpen, setModalOpen] = useState(false);
 
@@ -23,6 +24,7 @@ const ServiceSidebar = ({ item }) => {
     return (
         <div className="sticky top-32 w-full md:w-[356px]">
             {/* Service Amount */}
+
 
 
             {/* Modal */}
@@ -47,6 +49,7 @@ const ServiceSidebar = ({ item }) => {
                         <div className="w-16 h-16">
                             <Image
                                 src={item.logo}
+
                                 alt="Provider"
                                 className="rounded-full"
                                 width={64}
@@ -56,12 +59,14 @@ const ServiceSidebar = ({ item }) => {
                         <div className="ml-4">
                             <a href="#" className="text-primary font-bold">
                                 {item.name}
+
                             </a>
                             <p className="text-sm text-gray-500">
                                 <FaCircle className="inline text-green-500 mr-1" />
                                 0 secs Online
                             </p>
                             <p className="text-sm text-gray-500">Member since {item.createdAt.toString().split("T")[0]}</p>
+
                         </div>
                     </div>
                     <hr />
@@ -70,6 +75,7 @@ const ServiceSidebar = ({ item }) => {
                             <a href={`mailto:${item.email}`}>
                                 <FaEnvelope className="inline mr-2" />
                                 {item.email}
+
                             </a>
                         </p>
                         <p className="text-sm">
@@ -99,6 +105,7 @@ const ServiceSidebar = ({ item }) => {
                     </div>
                 </div>
             </div>
+
 
 
 

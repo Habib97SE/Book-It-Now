@@ -46,6 +46,7 @@ function Barber() {
                         },
                         {
                             title: data?.provider.name,
+
                             url: `/barbers/${id}`
                         }
                     ]} />
@@ -61,6 +62,7 @@ function Barber() {
                                     <div className="flex items-center gap-2 my-3">
                                         <FaLocationArrow />
                                         <span>{data?.provider.country + " " + data?.provider.city}</span>
+
                                         <FaStar className="text-yellow-500" />
                                         <FaStar className="text-yellow-500" />
                                         <FaStar className="text-yellow-500" />
@@ -73,12 +75,14 @@ function Barber() {
                                     </div>
                                     <Image
                                         src={data?.provider.logo}
+
                                         alt="Barber"
                                         width={500}
                                         height={500}
                                         className="w-full object-cover rounded-lg"
                                     />
                                     <TabSection logo={data.provider.logo} description={data.provider.description} services={data.services} />
+
                                 </div>
 
 
@@ -90,12 +94,14 @@ function Barber() {
                             className="px-5 mx-auto"
                         >
 
+
                         </div>
                     </div>
 
                     {/* Second Column (30%) */}
                     <div className="md:w-4/12 w-full">
                         <ServiceSidebar item={data.provider} />
+
                     </div>
                 </div>
             </div>

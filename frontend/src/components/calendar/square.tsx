@@ -10,6 +10,7 @@ function Square({
     const handleClickOnSquare = () => {
         if (!isSelected) {
             handleChooseTimeSlot(); // Trigger the provided callback
+
         }
     };
 
@@ -20,6 +21,7 @@ function Square({
                 }`}
         >
             <span>{timeslot}</span>
+
         </div>
     );
 }

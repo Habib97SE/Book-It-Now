@@ -88,6 +88,7 @@ function getTimeSlots(): {
             to: { hour: (i + 1).toString(), minute: "00" },
         });
     }
+    console.log(timeslots);
     return timeslots;
 }
 
