@@ -1,7 +1,9 @@
+import { Service } from "@/app/types/provider-types";
 import { useState } from "react";
 import { FaStar } from "react-icons/fa";
+import ServiceCard from "./service-card";
 
-function TabSection() {
+function TabSection({ description, services, logo }: { description: string, services: Service[], logo: string }) {
     const [activeTab, setActiveTab] = useState(1); // Default active tab is 1
 
     return (
@@ -33,13 +35,16 @@ function TabSection() {
                 {activeTab === 1 && (
                     <div>
                         <h2 className="text-xl font-semibold">Service Details</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <p>{description}</p>
                     </div>
                 )}
                 {activeTab === 2 && (
                     <div>
                         <h2 className="text-xl font-semibold">Services Offered</h2>
-                        <p>This is the content for the second tab.</p>
+                        {services.length === 0 && (<div>No services available</div>)}
+                        {services.map((service) => (
+                            <ServiceCard key={service.id} logo={logo} service={service} />
+                        ))}
                     </div>
                 )}
                 {activeTab === 3 && (

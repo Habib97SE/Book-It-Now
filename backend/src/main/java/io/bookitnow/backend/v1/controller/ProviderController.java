@@ -43,6 +43,7 @@ import java.util.List;
         description = "Endpoints for managing providers")
 @RestController
 @RequestMapping("/api/v1/providers")
+@CrossOrigin
 public class ProviderController {
 
     private final ProviderService providerService;
@@ -76,7 +77,7 @@ public class ProviderController {
     })
     @GetMapping
     public ResponseEntity<Object> getAllProviders(
-            @RequestParam(defaultValue = "0") @Min(0) int page,
+            @RequestParam(defaultValue = "1") @Min(0) int page,
             @RequestParam(defaultValue = "10") @Min(1) @Max(50) int pageSize,
             @RequestParam(defaultValue = "name,asc") String sort,
             @RequestParam(required = false) @Size(max = 50) String category,

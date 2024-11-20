@@ -33,7 +33,7 @@ public class BookingService {
         return BookingResponse.builder()
                 .id(booking.getId())
                 .userId(booking.getUserId())
-                .bookingDateTimeStart(booking.getBookingDateTImeStart())
+                .bookingDateTimeStart(booking.getBookingDateTimeStart())
                 .bookingDateTimeEnd(booking.getBookingDateTimeEnd())
                 .durationInMinutes(booking.getDurationInMinutes())
                 .isCancelled(booking.getIsCancelled())
@@ -51,7 +51,7 @@ public class BookingService {
     public Booking mapToBooking(BookingRequest bookingRequest) {
         return Booking.builder()
                 .userId(bookingRequest.getUserId())
-                .bookingDateTImeStart(bookingRequest.getBookingDateTimeStart())
+                .bookingDateTimeStart(bookingRequest.getBookingDateTimeStart())
                 .bookingDateTimeEnd(bookingRequest.getBookingDateTimeEnd())
                 .durationInMinutes(bookingRequest.getDurationInMinutes())
                 .isCancelled(bookingRequest.getIsCancelled())
@@ -120,7 +120,7 @@ public class BookingService {
         Booking booking = bookingRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Booking not found"));
         try {
             booking.setUserId(bookingRequest.getUserId());
-            booking.setBookingDateTImeStart(bookingRequest.getBookingDateTimeStart());
+            booking.setBookingDateTimeStart(bookingRequest.getBookingDateTimeStart());
             booking.setBookingDateTimeEnd(bookingRequest.getBookingDateTimeEnd());
             booking.setDurationInMinutes(bookingRequest.getDurationInMinutes());
             booking.setIsCancelled(bookingRequest.getIsCancelled());

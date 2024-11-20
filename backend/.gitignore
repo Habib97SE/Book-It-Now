@@ -37,3 +37,7 @@ build/
 *.log
 # ignore the data folder
 data/
+
+
+.env.local
+.env

@@ -11,6 +11,8 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+
 /**
  * Controller for managing service items within the application.
  * Provides endpoints for CRUD operations and querying service items by ID and provider ID.
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/api/v1/service-items")
+@CrossOrigin
 public class ServiceItemController {
 
     private final ServiceItemService serviceItemService;
@@ -63,6 +66,22 @@ public class ServiceItemController {
     @GetMapping("/{id}")
     public ResponseEntity<Object> getServiceItemById(@NotNull @PathVariable Long id) {
         return ResponseEntity.ok(serviceItemService.getServiceItemById(id));
+    }
+
+    @GetMapping("/{id}/timeslots")
+    public ResponseEntity<Object> getServiceItemTimeslots(
+            @NotNull @PathVariable Long id,
+            @RequestParam(required = false) String date
+    ) {
+        System.err.println("ServiceItemController.getServiceItemTimeslots");
+        // convert string date to LocalDate
+        LocalDate localDate;
+        if (date == null) {
+            localDate = LocalDate.now();
+        } else {
+            localDate = LocalDate.parse(date);
+        }
+        return ResponseEntity.ok(serviceItemService.getAvailableTimes(id, localDate));
     }
 
     /**

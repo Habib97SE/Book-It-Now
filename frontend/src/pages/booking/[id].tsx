@@ -1,36 +1,23 @@
-import { Calendar } from "@/components/calendar/calendar";
+import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import useSWR from "swr";
+import { Calendar } from "@/components/calendar/calendar";
+import { getTimeSlots } from "@/models/service-model";
+
+function getCurrentDate() {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is zero-indexed
+    const day = String(date.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+}
 
 function BookingPage() {
-
-    const { user } = useUser();
-
-
-    const handlePhoneNumber = () => {
-        const phones = user?.phoneNumbers;
-        if (phones?.length > 0) {
-            // return the first phone number 
-            return phones[0].phoneNumber;
-        }
-        return "";
-    }
-
-    const handleName = () => {
-        const names = user?.fullName;
-        if (names) {
-            return names;
-        }
-        return "";
-    }
-
-    const handleEmail = () => {
-        const emails = user?.primaryEmailAddress?.emailAddress;
-        if (emails) {
-            return emails;
-        }
-        return "";
-    }
+    const { user, isLoading: userLoading } = useUser();
+    const router = useRouter();
+    const { id } = router.query;
 
     const [selectedDetails, setSelectedDetails] = useState({
         date: "",
@@ -38,35 +25,55 @@ function BookingPage() {
     });
 
     const [bookingDetails, setBookingDetails] = useState({
-        name: handleName(),
-        phone: handlePhoneNumber(),
+        name: user?.fullName || "",
+        phone: user?.phoneNumbers?.[0]?.phoneNumber || "",
         userId: user?.id,
-        email: handleEmail(),
+        email: user?.primaryEmailAddress?.emailAddress || "",
         date: "",
         time: "",
         message: "",
     });
 
+    const handleBookedTime = (date: string, time: string) => {
+        console.log("handleBookedTime has been clicked");
+        console.log(date, time);
+        setSelectedDetails({
+            date: date.day,
+            time: date.time,
+        });
+
+        console.dir(selectedDetails);
+    }
+
     const [showModal, setShowModal] = useState(false);
 
-    const handleInputChange = (e: any) => {
-        const { name, value } = e.target;
-        setSelectedDetails((prev) => ({ ...prev, [name]: value }));
-    };
+    // Ensure the user is loaded before proceeding
+    useEffect(() => {
+        if (!user && !userLoading) {
+            console.log("User not logged in");
+        }
+    }, [user, userLoading, router]);
 
+    const { data, error, isLoading } = useSWR({ serviceId: id, date: getCurrentDate() }, getTimeSlots);
 
+    console.log(`selectedDetails: ${selectedDetails.date}, ${selectedDetails.time}`);
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
-        bookingDetails.date = selectedDetails.date;
-        bookingDetails.time = selectedDetails.time;
+        setBookingDetails({
+            ...bookingDetails,
+            date: selectedDetails.date,
+            time: selectedDetails.time,
+        });
         console.log(bookingDetails);
-
     };
 
+    // Check if the user is loading or not
+    if (userLoading) return <div>Loading user data...</div>;
 
+    if (error) return <div className="bg-red-500 px-4 py-4 text-white w-full text-center">Failed to load</div>;
 
-
+    if (isLoading) return <div>Loading time slots...</div>;
 
     return (
         <>
@@ -121,7 +128,7 @@ function BookingPage() {
                                 </div>
                             </div>
 
-                            <Calendar handleBookedTime={setSelectedDetails} />
+                            <Calendar timeslots={data} handleBookedTime={handleBookedTime} />
                             <div className="my-3">
                                 <label htmlFor="message" className="text-gray-600">Message <span className="text-red-500 text-lg">*</span></label>
                                 <textarea
@@ -148,7 +155,7 @@ function BookingPage() {
                                     <p className="font-bold">Senso Kreator</p>
                                     <p className="text-gray-500">
                                         {selectedDetails.date
-                                            ? `Date: ${selectedDetails.date}, Time: ${selectedDetails.time}`
+                                            ? `Date: ${selectedDetails.date}, \nTime: ${selectedDetails.time}`
                                             : "No date and time selected"}
                                     </p>
                                     <p className="font-bold capitalize">{user?.fullName}</p>

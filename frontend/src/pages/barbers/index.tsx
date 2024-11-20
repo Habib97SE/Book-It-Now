@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { FaHeart, FaStar } from "react-icons/fa";
 import Head from "next/head";
@@ -6,178 +6,27 @@ import { Pagination } from "@/components/pagination";
 import { GoDotFill } from "react-icons/go";
 import { BreadCrumbs } from "@/components/BreadCrumbs";
 import Link from "next/link";
-
-interface Barber {
-    id: number;
-    name: string;
-    image: string;
-    location: string;
-    phone: string;
-    rating: number;
-    price: number;
-    liked: boolean;
-}
+import { Provider } from "@/app/types/provider-types";
+import useSWR from "swr";
+import { getProviders } from "@/models/provider-model";
 
 
-const barbersData = [
-    {
-        id: 1,
-        name: "Barber 1",
-        image: "https://app.truelysell.com/uploads/services/se_full_1631787687service-11.jpg",
-        location: "stockholm",
-        phone: "xxxxxxxx74",
-        rating: 5,
-        price: 132.00,
-        liked: false
-    },
-    {
-        id: 2,
-        name: "Barber 2",
-        image: "https://app.truelysell.com/uploads/services/se_full_1631787687service-11.jpg",
-        location: "stockholm",
-        phone: "xxxxxxxx74",
-        rating: 5,
-        price: 232.00,
-        liked: true
-    },
-    {
-        id: 3,
-        name: "Barber 3",
-        image: "https://app.truelysell.com/uploads/services/se_full_1631787687service-11.jpg",
-        location: "gothenburg",
-        phone: "xxxxxxxx74",
-        rating: 5,
-        price: 332.00,
-        liked: false
-    },
-    {
-        id: 4,
-        name: "Barber 4",
-        image: "https://app.truelysell.com/uploads/services/se_full_1631787687service-11.jpg",
-        location: "malmo",
-        phone: "xxxxxxxx74",
-        rating: 5,
-        price: 432.00,
-        liked: true
-    },
-    {
-        id: 5,
-        name: "Barber 5",
-        image: "https://app.truelysell.com/uploads/services/se_full_1631787687service-11.jpg",
-        location: "uppsala",
-        phone: "xxxxxxxx74",
-        rating: 3,
-        price: 532.00,
-        liked: false
-    },
-    {
-        id: 6,
-        name: "Barber 6",
-        image: "https://app.truelysell.com/uploads/services/se_full_1631787687service-11.jpg",
-        location: "stockholm",
-        phone: "xxxxxxxx74",
-        rating: 4,
-        price: 632.00,
-        liked: true
-    },
-    {
-        id: 7,
-        name: "Barber 7",
-        image: "https://app.truelysell.com/uploads/services/se_full_1631787687service-11.jpg",
-        location: "gothenburg",
-        phone: "xxxxxxxx74",
-        rating: 5,
-        price: 732.00,
-        liked: false
-    },
-    {
-        id: 8,
-        name: "Barber 8",
-        image: "https://app.truelysell.com/uploads/services/se_full_1631787687service-11.jpg",
-        location: "malmo",
-        phone: "xxxxxxxx74",
-        rating: 5,
-        price: 832.00,
-        liked: true
-    },
-    {
-        id: 9,
-        name: "Barber 9",
-        image: "https://app.truelysell.com/uploads/services/se_full_1631787687service-11.jpg",
-        location: "uppsala",
-        phone: "xxxxxxxx74",
-        rating: 5,
-        price: 932.00,
-        liked: false
-    },
-    {
-        id: 10,
-        name: "Barber 10",
-        image: "https://app.truelysell.com/uploads/services/se_full_1631787687service-11.jpg",
-        location: "stockholm",
-        phone: "xxxxxxxx74",
-        rating: 5,
-        price: 1032.00,
-        liked: true
-    },
-    {
-        id: 11,
-        name: "Barber 11",
-        image: "https://app.truelysell.com/uploads/services/se_full_1631787687service-11.jpg",
-        location: "gothenburg",
-        phone: "xxxxxxxx74",
-        rating: 5,
-        price: 1132.00,
-        liked: false
-    },
-    {
-        id: 12,
-        name: "Barber 12",
-        image: "https://app.truelysell.com/uploads/services/se_full_1631787687service-11.jpg",
-        location: "malmo",
-        phone: "xxxxxxxx74",
-        rating: 5,
-        price: 1232.00,
-        liked: true
-    }
-]
+
 
 function BarbersPage() {
 
     const [page, setPage] = useState(1);
 
-    const [data, setData] = useState(barbersData);
+
 
     const handleSort = (e: any) => {
-        const sortBy = e.target.value;
-
-        // Sort by price
-        if (sortBy === "Price Low to High") {
-            setData(barbersData.sort((a, b) => a.price - b.price));
-            return;
-        }
-        if (sortBy === "Price High to Low") {
-            setData(barbersData.sort((a, b) => b.price - a.price));
-            return;
-        }
-
-        // Sort by newest
-        if (sortBy === "Newest") {
-            setData(barbersData.sort((a, b) => a.id - b.id));
-            return;
-        }
-
-        // Sort by default
-
-        setData(barbersData);
-        return;
-
+        console.log(e.target.value);
     }
 
     const [priceRange, setPriceRange] = useState(1000);
 
     const onPriceChange = (min: number, max: number) => {
-        setData(barbersData.filter((barber) => barber.price >= min && barber.price <= max));
+        console.log(min, max);
     }
 
     const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -187,22 +36,13 @@ function BarbersPage() {
         onPriceChange(0, newValue); // Update parent component or trigger API call
     };
 
-    const handleLike = (id: number): void => {
-        // Create a new array to avoid mutating the original state
-        const updatedData = data.map((barber) => {
-            if (barber.id === id) {
-                return {
-                    ...barber,
-                    liked: !barber.liked, // Toggle the liked property
-                };
-            }
-            return barber;
-        });
 
-        // Update the state with the new array
-        setData(updatedData);
-    };
 
+    const { data, error, isLoading } = useSWR("data", getProviders);
+
+    if (error) return <div>Failed to load</div>
+
+    if (isLoading) return <div>Loading...</div>
 
     return (
         <>
@@ -266,12 +106,7 @@ function BarbersPage() {
                                             </label>
                                             <select
                                                 id="locations"
-                                                className="select select-bordered w-full bg-white text-black"
-                                                onChange={(e) => {
-                                                    const location = e.target.value;
-                                                    setData(barbersData.filter((barber) => barber.location === location));
-                                                }}
-                                            >
+                                                className="select select-bordered w-full bg-white text-black">
                                                 <option>Choose a location</option>
                                                 <option value={"stockholm"}>Stockholm</option>
                                                 <option value={"gothenburg"}>Gothenburg</option>
@@ -313,6 +148,49 @@ function BarbersPage() {
                             {/* Services List */}
                             <div className="m-3 grid grid-cols-3 gap-3" id="dataList">
 
+                                {error && (
+                                    <div className="alert alert-danger bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative flex items-center">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="h-6 w-6 shrink-0 stroke-current"
+                                            fill="none"
+                                            viewBox="0 0 24 24">
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth="2"
+                                                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        <p>
+                                            Failed to load barbers. Please try again later.
+                                        </p>
+                                    </div>
+                                )}
+
+                                {isLoading && (
+                                    <div>
+                                        <div className="flex w-52 flex-col gap-4">
+                                            <div className="skeleton h-32 w-full"></div>
+                                            <div className="skeleton h-4 w-28"></div>
+                                            <div className="skeleton h-4 w-full"></div>
+                                            <div className="skeleton h-4 w-full"></div>
+                                        </div>
+                                        <div className="flex w-52 flex-col gap-4">
+                                            <div className="skeleton h-32 w-full"></div>
+                                            <div className="skeleton h-4 w-28"></div>
+                                            <div className="skeleton h-4 w-full"></div>
+                                            <div className="skeleton h-4 w-full"></div>
+                                        </div>
+                                        <div className="flex w-52 flex-col gap-4">
+                                            <div className="skeleton h-32 w-full"></div>
+                                            <div className="skeleton h-4 w-28"></div>
+                                            <div className="skeleton h-4 w-full"></div>
+                                            <div className="skeleton h-4 w-full"></div>
+                                        </div>
+                                    </div>
+
+                                )}
+
                                 {data.length === 0 && (
                                     <div
                                         className="alert alert-danger bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative flex items-center"
@@ -339,27 +217,27 @@ function BarbersPage() {
 
 
 
-                                {data.map((barber: Barber) => {
+                                {data.map((barber: Provider) => {
                                     return (
                                         <div key={barber.id} className="card bg-white shadow-lg m-2 w-full">
                                             <div className="card-body p-0">
                                                 <figure className="relative p-5">
                                                     <Image
-                                                        src={barber.image}
+                                                        src={"https://dummyimage.com/500x300"}
                                                         alt="Service Image"
                                                         width={500}
                                                         height={300}
                                                         className="object-cover w-full rounded-lg"
                                                     />
                                                     <div className="absolute top-6 left-6 badge badge-secondary py-4 px-5 capitalize text-white ">
-                                                        {barber.location}
+                                                        {barber.city}
                                                     </div>
                                                     <div className="absolute top-6 right-6">
                                                         <button
                                                             className="btn btn-circle btn-sm btn-outline"
-                                                            onClick={() => handleLike(barber.id)}
+
                                                         >
-                                                            {barber.liked ? <FaHeart className="text-red-500" /> : <FaHeart />}
+                                                            <FaHeart />
                                                         </button>
                                                     </div>
                                                 </figure>

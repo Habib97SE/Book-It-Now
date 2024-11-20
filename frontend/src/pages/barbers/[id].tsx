@@ -6,10 +6,24 @@ import { ServiceSidebar } from "@/components/service-sidebar";
 import { BreadCrumbs } from "@/components/BreadCrumbs";
 import { TabSection } from "@/components/tab";
 import { BarberCard } from "@/components/barber-card";
+import { useEffect, useState } from "react";
+import { Provider } from "@/app/types/provider-types";
+import { getProviderById, getServicesByProviderId } from "@/models/provider-model";
+import useSWR from "swr";
+
 function Barber() {
     const router = useRouter();
 
-    const id = router.query.id;
+    const { id } = router.query;
+
+    const { data, error, isLoading } = useSWR(id, getServicesByProviderId);
+
+
+    if (error) return <div>Failed to load</div>
+
+    if (isLoading) return <div>Loading...</div>
+
+    console.log(data);
 
     return (
         <>
@@ -31,7 +45,7 @@ function Barber() {
                             url: "/barbers"
                         },
                         {
-                            title: id?.toString(),
+                            title: data?.provider.name,
                             url: `/barbers/${id}`
                         }
                     ]} />
@@ -42,11 +56,11 @@ function Barber() {
                         <div className="">
                             <div className="card-body">
                                 <div className=" w-full">
-                                    <h1 className="text-3xl font-bold my-3">Barber</h1>
+                                    <h1 className="text-3xl font-bold my-3">{data?.provider.name}</h1>
 
                                     <div className="flex items-center gap-2 my-3">
                                         <FaLocationArrow />
-                                        <span>USA, Kansas city</span>
+                                        <span>{data?.provider.country + " " + data?.provider.city}</span>
                                         <FaStar className="text-yellow-500" />
                                         <FaStar className="text-yellow-500" />
                                         <FaStar className="text-yellow-500" />
@@ -58,13 +72,13 @@ function Barber() {
                                         Hair cut
                                     </div>
                                     <Image
-                                        src="https://app.truelysell.com/uploads/services/se_full_1631787344service-05.jpg"
+                                        src={data?.provider.logo}
                                         alt="Barber"
                                         width={500}
                                         height={500}
                                         className="w-full object-cover rounded-lg"
                                     />
-                                    <TabSection />
+                                    <TabSection logo={data.provider.logo} description={data.provider.description} services={data.services} />
                                 </div>
 
 
@@ -75,37 +89,13 @@ function Barber() {
                         <div
                             className="px-5 mx-auto"
                         >
-                            <h2>Related Services</h2>
-                            <div
-                                className="carousel relative"
-                            >
-                                <BarberCard item={{
-                                    id: 3,
-                                    name: "John Doe",
-                                    phone: "1234567890",
-                                    rating: 5,
-                                    price: 200,
-                                    location: "USA, Kansas city",
-                                    image: "https://app.truelysell.com/uploads/services/se_full_1631787344service-05.jpg",
-                                    liked: false
-                                }} />
-                                <BarberCard item={{
-                                    id: 4,
-                                    name: "John Doe",
-                                    phone: "1234567890",
-                                    rating: 5,
-                                    price: 200,
-                                    location: "USA, Kansas city",
-                                    image: "https://app.truelysell.com/uploads/services/se_full_1631787344service-05.jpg",
-                                    liked: false
-                                }} />
-                            </div>
+
                         </div>
                     </div>
 
                     {/* Second Column (30%) */}
                     <div className="md:w-4/12 w-full">
-                        <ServiceSidebar />
+                        <ServiceSidebar item={data.provider} />
                     </div>
                 </div>
             </div>

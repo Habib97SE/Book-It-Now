@@ -8,7 +8,7 @@ const HeroSection = () => {
             <div className="hero-overlay bg-black bg-opacity-60"></div>
             <div className="container mx-auto px-4 py-12 text-center text-white">
                 <div className="w-10/12 max-w-3xl mx-auto">
-                    <h1 className="text-5xl font-bold mb-4">World&apos;s Largest Marketplace!!!!</h1>
+                    <h1 className="text-5xl font-bold mb-4">Book your next appointment</h1>
                     <p className="mb-8 text-lg">Search From 100 Awesome Verified Ads!</p>
 
                     <form

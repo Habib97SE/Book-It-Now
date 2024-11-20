@@ -5,11 +5,13 @@ function Square({
     isBooked,
     handleChooseTimeSlot,
 }: {
-    timeslot: TimeSlot;
+    timeslot: string;
     isBooked: boolean;
     handleChooseTimeSlot: () => void;
 }) {
     const handleClickOnSquare = () => {
+        console.log("handleClickOnSquare has been clicked");
+        console.log(timeslot);
         if (!isBooked) {
             handleChooseTimeSlot();
         }
@@ -22,7 +24,7 @@ function Square({
                 }`}
         >
             <span>
-                {timeslot.from.hour}:{timeslot.from.minute} <br /> {timeslot.to.hour}:{timeslot.to.minute}
+                {timeslot}
             </span>
         </div>
     );

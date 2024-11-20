@@ -13,9 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 
 /**
@@ -206,5 +206,38 @@ public class ServiceItemService {
                 .map(this::mapToResponse)
                 .toList();
     }
+
+
+    public Map<String, List<String>> getAvailableTimes(Long serviceItemId, LocalDate startDate) {
+        ServiceItem serviceItem = serviceItemRepository.findById(serviceItemId)
+                .orElseThrow(() -> new NoSuchElementException("Service item not found"));
+
+        Map<String, List<String>> weeklyTimeSlots = new LinkedHashMap<>(); // Map to store slots for each day
+
+        LocalTime startTime = serviceItem.getStartTime();
+        LocalTime endTime = serviceItem.getEndTime();
+        long duration = serviceItem.getDurationInMinutes().longValue();
+
+        for (int i = 0; i < 7; i++) {
+            LocalDate currentDate = startDate.plusDays(i); // Increment date for each day in the week
+            List<String> dailyTimeSlots = new ArrayList<>();
+
+            LocalTime currentSlotStart = startTime;
+
+            while (currentSlotStart.plusMinutes(duration).isBefore(endTime) || currentSlotStart.plusMinutes(duration).equals(endTime)) {
+                LocalTime slotEndTime = currentSlotStart.plusMinutes(duration);
+                dailyTimeSlots.add(currentSlotStart + "-" + slotEndTime);
+                currentSlotStart = slotEndTime;
+            }
+
+            weeklyTimeSlots.put(currentDate.toString(), dailyTimeSlots); // Store the slots with the date as the key
+        }
+
+        System.err.println("ServiceItemService.getAvailableTimeRangesForWeek: " + weeklyTimeSlots);
+        return weeklyTimeSlots;
+    }
+
+
+
 
 }

@@ -106,21 +106,8 @@ public class ProviderService {
      */
     public List<ProviderResponse> getAllProviders(int page, int pageSize, String sort, String category, String city, String name, String address) {
         // Build sorting criteria
-        String[] sortParams = sort.split(",");
-        Sort sortCriteria = Sort.by(Sort.Direction.fromString(sortParams[1]), sortParams[0]);
-        Pageable pageable = PageRequest.of(page, pageSize, sortCriteria);
-
-        // Build filtering specifications
-        Specification<Provider> spec = Specification.where(
-                        category != null ? hasCategory(category) : null)
-                .and(city != null ? hasCity(city) : null)
-                .and(name != null ? hasName(name) : null)
-                .and(address != null ? hasAddress(address) : null);
-
-        Page<Provider> providersPage = repo.findAll(spec, pageable);
-        return providersPage.getContent().stream()
-                .map(this::mapToProviderResponse)
-                .toList();
+        List<Provider> providers = repo.findAll();
+        return providers.stream().map(this::mapToProviderResponse).toList();
     }
 
     // Filter specifications

@@ -5,8 +5,12 @@ import { HowItWorks } from "@/components/how-it-works";
 import { PopularService } from "@/components/popular-service";
 import { ServiceSection } from "@/components/service-section";
 import Head from "next/head";
+import { getProviders } from "@/models/provider-model";
 
 function IndexPage() {
+
+    getProviders();
+
     return (
         <>
             <Head>

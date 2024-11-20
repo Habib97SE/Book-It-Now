@@ -33,7 +33,7 @@ public class Booking {
 
     @FutureOrPresent
     @Column(nullable = false)
-    private LocalDateTime bookingDateTImeStart;
+    private LocalDateTime bookingDateTimeStart;
 
     @FutureOrPresent
     @Column(nullable = false)
