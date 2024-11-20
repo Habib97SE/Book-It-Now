@@ -43,9 +43,9 @@ public class ProviderService {
     private final Logger logger = LoggerFactory.getLogger("mycustomlogger");
 
     public ProviderService(@Autowired ProviderRepository repo,
-                           @Autowired ServiceItemRepository serviceItemRepository) {
+                           @Autowired ServiceItemService serviceItemService) {
         this.repo = repo;
-        this.serviceItemService = new ServiceItemService(serviceItemRepository);
+        this.serviceItemService = serviceItemService;
     }
 
     /**

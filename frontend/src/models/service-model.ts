@@ -15,4 +15,13 @@ async function getTimeSlots(query: object) {
     }
 }
 
-export { getTimeSlots };
+async function getServiceById(id: number) {
+    try {
+        const response = await axios.get(`${BASE_URL}${id}`);
+        return response.data;
+    } catch (error) {
+        return new Error("Something went wrong: " + error.getMessage());
+    }
+}
+
+export { getTimeSlots, getServiceById };

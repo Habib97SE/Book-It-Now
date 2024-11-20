@@ -11,10 +11,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 public class BookingRequest {
     @NotNull
-    @Min(1)
-    private Long userId;
+    private String userId;
 
     @NotNull
     @Min(1)
@@ -29,6 +29,8 @@ public class BookingRequest {
     @NotNull
     @Min(1)
     private Integer durationInMinutes;
+
+    private String notes;
 
     private Boolean isCancelled = false;
 

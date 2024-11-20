@@ -50,7 +50,7 @@ function NavBar() {
                                 <span>Hi <span className="font-bold"> {user?.fullName}</span></span>
                             </li>
                             <li><Link href="/profile/dashboard" className="hover:text-primaryColor hover:bg-lightPink"><MdOutlineSpaceDashboard /> Dashboard</Link></li>
-                            <li><a href="#" className="hover:text-primaryColor hover:bg-lightPink"><FiBook /> My Bookings</a></li>
+                            <li><Link href="/profile/my-bookings" className="hover:text-primaryColor hover:bg-lightPink"><FiBook /> My Bookings</Link></li>
                             <li><a href="#" className="hover:text-primaryColor hover:bg-lightPink"><FiHeart /> My Favorites</a></li>
                             <li><a href="#" className="hover:text-primaryColor hover:bg-lightPink"><IoSettingsOutline /> Profile Settings</a></li>
                             <li><a href="#" className="hover:text-primaryColor hover:bg-lightPink"><CiLock /> Change Password</a></li>

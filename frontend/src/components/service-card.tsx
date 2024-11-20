@@ -21,7 +21,7 @@ function ServiceCard({ service, logo }: { service: Service, logo: string }) {
                 <h2 className="absolute top-3 left-3 bg-pinkTint text-primaryColor rounded-xl py-1 px-2">
                     {service.category}
                 </h2>
-                <img src={logo} className='absolute bottom-3 right-3 rounded-full max-w-8' />
+                <Image src={logo} alt="Service Logo" className='absolute bottom-3 right-3 rounded-full max-w-8' width={32} height={32} />
             </div>
             <h2 className="text-black text-xl font-bold mt-2">{service.name}</h2>
             <p className='text-gray-500 flex flex-row items-center my-2'>

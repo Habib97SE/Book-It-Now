@@ -2,10 +2,12 @@ package io.bookitnow.backend.v1.service;
 
 import io.bookitnow.backend.v1.DTOs.requests.ServiceItemRequest;
 import io.bookitnow.backend.v1.DTOs.responses.ServiceItemResponse;
+import io.bookitnow.backend.v1.entity.Booking;
 import io.bookitnow.backend.v1.entity.Category;
 import io.bookitnow.backend.v1.entity.Provider;
 import io.bookitnow.backend.v1.entity.ServiceItem;
 import io.bookitnow.backend.v1.exception.ServiceItemCreationException;
+import io.bookitnow.backend.v1.repository.BookingRepository;
 import io.bookitnow.backend.v1.repository.ServiceItemRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -14,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 
@@ -29,11 +32,15 @@ import java.util.*;
 @Service
 public class ServiceItemService {
     private final ServiceItemRepository serviceItemRepository;
+    private final BookingRepository bookingRepository;
 
     private final Logger logger = LoggerFactory.getLogger("serviceItemServiceLog");
 
-    public ServiceItemService(ServiceItemRepository serviceItemRepository) {
+
+    public ServiceItemService(ServiceItemRepository serviceItemRepository
+            , BookingRepository bookingRepository) {
         this.serviceItemRepository = serviceItemRepository;
+        this.bookingRepository = bookingRepository;
     }
 
     private LocalTime parseTime(String time) {
@@ -218,6 +225,22 @@ public class ServiceItemService {
         LocalTime endTime = serviceItem.getEndTime();
         long duration = serviceItem.getDurationInMinutes().longValue();
 
+        // Fetch bookings for the given serviceItemId and week range
+        LocalDateTime weekStartDateTime = startDate.atStartOfDay();
+        LocalDateTime weekEndDateTime = startDate.plusDays(6).atTime(23, 59, 59);
+        List<Booking> bookings = bookingRepository.findByServiceItemIdAndBookingDateTimeStartBetween(
+                serviceItemId, weekStartDateTime, weekEndDateTime);
+
+        // Parse bookings into a list of LocalTime ranges for quick comparison
+        Map<LocalDate, List<LocalTime[]>> bookedTimeRanges = new HashMap<>();
+        for (Booking booking : bookings) {
+            LocalDate bookingDate = booking.getBookingDateTimeStart().toLocalDate();
+            bookedTimeRanges
+                    .computeIfAbsent(bookingDate, k -> new ArrayList<>())
+                    .add(new LocalTime[]{booking.getBookingDateTimeStart().toLocalTime(),
+                            booking.getBookingDateTimeEnd().toLocalTime()});
+        }
+
         for (int i = 0; i < 7; i++) {
             LocalDate currentDate = startDate.plusDays(i); // Increment date for each day in the week
             List<String> dailyTimeSlots = new ArrayList<>();
@@ -226,7 +249,17 @@ public class ServiceItemService {
 
             while (currentSlotStart.plusMinutes(duration).isBefore(endTime) || currentSlotStart.plusMinutes(duration).equals(endTime)) {
                 LocalTime slotEndTime = currentSlotStart.plusMinutes(duration);
-                dailyTimeSlots.add(currentSlotStart + "-" + slotEndTime);
+
+                // Check if the slot overlaps with any booked time range
+                LocalTime finalCurrentSlotStart = currentSlotStart;
+                boolean isBooked = bookedTimeRanges.getOrDefault(currentDate, new ArrayList<>()).stream()
+                        .anyMatch(range ->
+                                !(slotEndTime.isBefore(range[0]) || finalCurrentSlotStart.isAfter(range[1])));
+
+                if (!isBooked) {
+                    dailyTimeSlots.add(currentSlotStart + "-" + slotEndTime);
+                }
+
                 currentSlotStart = slotEndTime;
             }
 
@@ -236,6 +269,7 @@ public class ServiceItemService {
         System.err.println("ServiceItemService.getAvailableTimeRangesForWeek: " + weeklyTimeSlots);
         return weeklyTimeSlots;
     }
+
 
 
 

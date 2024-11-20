@@ -29,6 +29,7 @@ import java.util.List;
 @Tag(name = "Booking", description = "Endpoints for booking related operations")
 @RestController
 @RequestMapping("/api/v1/bookings")
+@CrossOrigin(origins = "*")
 public class BookingController {
 
     private final BookingService bookingService;
@@ -70,6 +71,12 @@ public class BookingController {
         return ResponseEntity.ok(bookingService.getBookingById(id));
     }
 
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<BookingResponse>> getBookingsByUserId(@NotNull @PathVariable String userId) {
+        return ResponseEntity.ok(bookingService.getBookingsByUserId(userId));
+    }
+
     /**
      * Create a new booking
      *
@@ -83,6 +90,7 @@ public class BookingController {
     })
     @PostMapping
     public ResponseEntity<BookingResponse> createBooking(@Valid @RequestBody BookingRequest bookingRequest) {
+        System.err.println(bookingRequest.toString());
         return ResponseEntity.ok(bookingService.createBooking(bookingRequest));
     }
 

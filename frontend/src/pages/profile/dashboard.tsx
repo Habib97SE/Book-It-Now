@@ -33,8 +33,7 @@ function DashboardPage() {
                                 <span className="text-4xl text-center font-bold text-black">My Bookings</span>
                             </h1>
                             <div className="flex flex-row justify-center items-center my-5 bg-white">
-                                <ServiceCard />
-                                <ServiceCard />
+
                             </div>
                         </div>
                     </div>
@@ -45,8 +44,7 @@ function DashboardPage() {
                                 <span className="text-4xl text-center font-bold text-black">My Favorites</span>
                             </h1>
                             <div className="flex flex-row justify-center items-center my-5 bg-white">
-                                <ServiceCard />
-                                <ServiceCard />
+
                             </div>
                         </div>
                     </div>

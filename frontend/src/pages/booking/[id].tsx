@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/router";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import { Calendar } from "@/components/calendar/calendar";
-import { getTimeSlots } from "@/models/service-model";
+import { getServiceById, getTimeSlots } from "@/models/service-model";
+import { getServicesByProviderId } from "@/models/provider-model";
+import { createBooking } from "@/models/booking-model";
+import { BookingRequest } from "@/app/types/booking-types";
 
 function getCurrentDate() {
     const date = new Date();
@@ -18,20 +21,22 @@ function BookingPage() {
     const { user, isLoading: userLoading } = useUser();
     const router = useRouter();
     const { id } = router.query;
+    console.log(id);
 
     const [selectedDetails, setSelectedDetails] = useState({
         date: "",
         time: "",
     });
 
-    const [bookingDetails, setBookingDetails] = useState({
-        name: user?.fullName || "",
-        phone: user?.phoneNumbers?.[0]?.phoneNumber || "",
+    const { data: serviceData, error: serviceError, isLoading: serviceLoading } = useSWR(id, getServiceById);
+
+    const [bookingDetails, setBookingDetails] = useState<BookingRequest>({
         userId: user?.id,
-        email: user?.primaryEmailAddress?.emailAddress || "",
-        date: "",
-        time: "",
-        message: "",
+        serviceItemId: id,
+        bookingDateTimeStart: "",
+        bookingDetailsEnd: "",
+        durationInMinutes: 0,
+        notes: "",
     });
 
     const handleBookedTime = (date: string, time: string) => {
@@ -42,38 +47,44 @@ function BookingPage() {
             time: date.time,
         });
 
-        console.dir(selectedDetails);
     }
 
     const [showModal, setShowModal] = useState(false);
 
-    // Ensure the user is loaded before proceeding
-    useEffect(() => {
-        if (!user && !userLoading) {
-            console.log("User not logged in");
-        }
-    }, [user, userLoading, router]);
+
 
     const { data, error, isLoading } = useSWR({ serviceId: id, date: getCurrentDate() }, getTimeSlots);
 
-    console.log(`selectedDetails: ${selectedDetails.date}, ${selectedDetails.time}`);
+
 
     const handleSubmit = (e: any) => {
+
+        if (user?.id === undefined) {
+            setShowModal(true);
+            return;
+        }
+
         e.preventDefault();
-        setBookingDetails({
-            ...bookingDetails,
-            date: selectedDetails.date,
-            time: selectedDetails.time,
-        });
+        bookingDetails.bookingDateTimeStart = selectedDetails.date + "T" + selectedDetails.time.split("-")[0];
+        bookingDetails.bookingDateTimeEnd = selectedDetails.date + "T" + selectedDetails.time.split("-")[1];
+        bookingDetails.durationInMinutes = serviceData.durationInMinutes;
+        bookingDetails.userId = user?.id;
+        bookingDetails.serviceItemId = id;
+
+        const fetchData = async () => {
+            const response = await createBooking(bookingDetails);
+            console.log(response);
+        }
+
         console.log(bookingDetails);
+
+        fetchData();
     };
 
-    // Check if the user is loading or not
-    if (userLoading) return <div>Loading user data...</div>;
 
-    if (error) return <div className="bg-red-500 px-4 py-4 text-white w-full text-center">Failed to load</div>;
+    if (error || serviceError) return <div className="bg-red-500 px-4 py-4 text-white w-full text-center">Failed to load</div>;
 
-    if (isLoading) return <div>Loading time slots...</div>;
+    if (userLoading || isLoading || serviceLoading) return <div>Loading data ...</div>;
 
     return (
         <>
@@ -108,10 +119,8 @@ function BookingPage() {
                                         type="email"
                                         id="email"
                                         name="email"
-                                        value={bookingDetails.email}
                                         required={true}
                                         className="w-full border border-gray-200 p-2 rounded-lg bg-white"
-                                        onChange={(e) => { setBookingDetails({ ...bookingDetails, email: e.target.value }) }}
                                     />
                                 </div>
                                 <div>
@@ -120,10 +129,8 @@ function BookingPage() {
                                         type="text"
                                         id="phone"
                                         name="phone"
-                                        value={bookingDetails.phone}
                                         required={true}
                                         className="w-full border border-gray-200 p-2 rounded-lg bg-white"
-                                        onChange={(e) => { setBookingDetails({ ...bookingDetails, phone: e.target.value }) }}
                                     />
                                 </div>
                             </div>
@@ -137,7 +144,7 @@ function BookingPage() {
                                     cols={30}
                                     rows={10}
                                     className="w-full border border-gray-200 p-2 rounded-lg bg-white"
-                                    onChange={(e) => { setBookingDetails({ ...bookingDetails, message: e.target.value }) }}
+                                    onChange={(e) => { setBookingDetails({ ...bookingDetails, notes: e.target.value }) }}
                                 ></textarea>
                             </div>
 
@@ -159,7 +166,7 @@ function BookingPage() {
                                             : "No date and time selected"}
                                     </p>
                                     <p className="font-bold capitalize">{user?.fullName}</p>
-                                    <p className="text-gray-500">{bookingDetails.phone}</p>
+                                    <p className="text-gray-500">{bookingDetails.email}</p>
                                     {/* Comment */}
 
                                     {bookingDetails.message && (
@@ -172,11 +179,11 @@ function BookingPage() {
                             </div>
                             <div className="my-2  border-b-2">
                                 <ul>
-                                    <li className="flex flex-row justify-between my-4"><span className="font-bold">Haircut</span><span>900 SEK</span></li>
+                                    <li className="flex flex-row justify-between my-4"><span className="font-bold">Haircut</span><span>{serviceData.price} SEK</span></li>
                                 </ul>
                             </div>
                             <div>
-                                <p className="flex flex-row justify-between font-bold">Total<span>900 SEK</span></p>
+                                <p className="flex flex-row justify-between font-bold">Total<span>{serviceData.price} SEK</span></p>
                             </div>
                             <div className="my-4">
                                 <div className="my-4">

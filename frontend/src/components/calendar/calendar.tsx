@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Square } from "./square";
 
 type TimeSlot = {
@@ -19,11 +19,12 @@ function Calendar({
     timeslots: Record<string, string[]>; // timeslots is an object with date strings as keys and array of timeslot strings
     handleBookedTime: (details: { day: string; time: string }) => void;
 }) {
-
+    const [selectedSquare, setSelectedSquare] = useState<{ date: string; time: string } | null>(null);
 
     const handleChoosingTimeSlot = (date: string, timeSlot: string) => {
         console.log("handleChoosingTimeSlot has been clicked");
         console.log(date, timeSlot);
+        setSelectedSquare({ date, time: timeSlot }); // Update selected square
         handleBookedTime({
             day: date,
             time: timeSlot,
@@ -33,41 +34,38 @@ function Calendar({
     return (
         <div className="flex flex-col items-center gap-2 rounded-lg border border-gray-200 p-4">
             <h1 className="text-2xl font-bold">Calendar</h1>
-            <h2 className="text-lg font-semibold">
-
-            </h2>
             <div className="flex flex-row items-center gap-2">
-                <button
-                    className="bg-primaryColor text-white px-4 py-2 rounded-lg hover:bg-primaryColorHover"
-                >
+                <button className="bg-primaryColor text-white px-4 py-2 rounded-lg hover:bg-primaryColorHover">
                     Previous
                 </button>
-                <button
-                    className="bg-primaryColor text-white px-4 py-2 rounded-lg hover:bg-primaryColorHover"
-                >
+                <button className="bg-primaryColor text-white px-4 py-2 rounded-lg hover:bg-primaryColorHover">
                     Next
                 </button>
             </div>
             <div className="grid grid-cols-7 gap-2">
-                {timeslots && (
+                {timeslots &&
                     Object.keys(timeslots).map((date) => {
                         return (
                             <div key={date} className="flex flex-col items-center gap-2">
-                                <h3 className="text-md font-semibold">{date.split("-")[1] + "-" + date.split("-")[2]}</h3>
+                                <h3 className="text-md font-semibold">
+                                    {date.split("-")[1] + "-" + date.split("-")[2]}
+                                </h3>
                                 {timeslots[date].map((timeSlot) => {
                                     return (
                                         <Square
                                             key={timeSlot}
                                             timeslot={timeSlot}
-                                            isBooked={false}
+                                            isSelected={
+                                                selectedSquare?.date === date &&
+                                                selectedSquare?.time === timeSlot
+                                            }
                                             handleChooseTimeSlot={() => handleChoosingTimeSlot(date, timeSlot)}
                                         />
                                     );
                                 })}
                             </div>
                         );
-                    })
-                )}
+                    })}
             </div>
         </div>
     );

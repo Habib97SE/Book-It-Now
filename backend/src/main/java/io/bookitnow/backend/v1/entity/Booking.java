@@ -25,7 +25,7 @@ public class Booking {
 
 
     @Column(nullable = false)
-    private Long userId;
+    private String userId;
 
     @ManyToOne
     @JoinColumn(name = "service_item_id", nullable = false)
@@ -41,6 +41,8 @@ public class Booking {
 
     @Min(1)
     private Integer durationInMinutes;
+
+    private String notes;
 
     @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean isCancelled;
