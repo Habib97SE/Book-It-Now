@@ -30,6 +30,7 @@ type Service = {
     category: string;
     createdAt: Date;
     updatedAt: Date;
+    providerId: number;
 };
 
 type ServicesAndProvider = {

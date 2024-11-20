@@ -20,10 +20,10 @@ function ProfileSidebar() {
 
     return (
         <div className="col-span-1">
-            <div className="p-2 rounded-lg cursor-pointer ">
-                <div className="card">
+            <div className="p-2 rounded-lg cursor-pointer text-center">
+                <div className="card bg-gray-100 text-black rounded-box w-8/12 p-2 shadow-lg ">
 
-                    <ul tabIndex={0} className=" bg-gray-100 text-black rounded-box w-8/12 p-2 shadow-lg leading-10">
+                    <ul tabIndex={0} className="   leading-10 text-center">
                         <div className="flex flex-row items-center border-b-2 border-gray-100">
                             <Image
                                 src={user?.imageUrl}

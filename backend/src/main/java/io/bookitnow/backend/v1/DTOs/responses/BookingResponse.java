@@ -12,9 +12,12 @@ import java.time.LocalDateTime;
 @Setter
 @Builder
 public class BookingResponse {
+    private String bookingNumber;
     private Long id;
     private String userId;
     private Long serviceItemId;
+    private String email;
+    private String phone;
     private LocalDateTime bookingDateTimeStart;
     private LocalDateTime bookingDateTimeEnd;
     private Integer durationInMinutes;

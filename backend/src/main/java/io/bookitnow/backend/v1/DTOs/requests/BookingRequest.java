@@ -1,5 +1,6 @@
 package io.bookitnow.backend.v1.DTOs.requests;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -19,6 +20,11 @@ public class BookingRequest {
     @NotNull
     @Min(1)
     private Long serviceItemId;
+
+    @Email(message = "Email should be valid")
+    private String email;
+
+    private String phone;
 
     @NotNull
     private LocalDateTime bookingDateTimeStart;

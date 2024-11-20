@@ -37,6 +37,9 @@ function BookingPage() {
         bookingDetailsEnd: "",
         durationInMinutes: 0,
         notes: "",
+        email: "",
+        phone: "",
+        agreedToTerms: false,
     });
 
     const handleBookedTime = (date: string, time: string) => {
@@ -48,16 +51,20 @@ function BookingPage() {
         });
 
     }
-
-    const [showModal, setShowModal] = useState(false);
-
-
-
     const { data, error, isLoading } = useSWR({ serviceId: id, date: getCurrentDate() }, getTimeSlots);
+
+    const [errorInForm, setErrorInForm] = useState(false);
+    const [message, setMessage] = useState("");
 
 
 
     const handleSubmit = (e: any) => {
+
+        if (bookingDetails.agreedToTerms === false) {
+            setErrorInForm(true);
+            setMessage("Please agree to the terms and conditions");
+            return;
+        }
 
         if (user?.id === undefined) {
             setShowModal(true);
@@ -73,10 +80,11 @@ function BookingPage() {
 
         const fetchData = async () => {
             const response = await createBooking(bookingDetails);
-            console.log(response);
+            if (response) {
+                console.log("Booking has been created");
+                router.push("/profile/my-bookings");
+            }
         }
-
-        console.log(bookingDetails);
 
         fetchData();
     };
@@ -88,20 +96,7 @@ function BookingPage() {
 
     return (
         <>
-            {showModal && (
-                <dialog id="my_modal_1" className="modal">
-                    <div className="modal-box">
-                        <h3 className="font-bold text-lg">Hello!</h3>
-                        <p className="py-4">Press ESC key or click the button below to close</p>
-                        <div className="modal-action">
-                            <form method="dialog">
-                                {/* if there is a button in form, it will close the modal */}
-                                <button className="btn">Close</button>
-                            </form>
-                        </div>
-                    </div>
-                </dialog>
-            )}
+
             <div className="flex flex-row justify-center items-center my-5 bg-white">
                 <div>
                     <h1 className="text-4xl text-center font-bold">Booking Service</h1>
@@ -121,6 +116,8 @@ function BookingPage() {
                                         name="email"
                                         required={true}
                                         className="w-full border border-gray-200 p-2 rounded-lg bg-white"
+                                        value={bookingDetails.email}
+                                        onChange={(e) => { setBookingDetails({ ...bookingDetails, email: e.target.value }) }}
                                     />
                                 </div>
                                 <div>
@@ -131,6 +128,8 @@ function BookingPage() {
                                         name="phone"
                                         required={true}
                                         className="w-full border border-gray-200 p-2 rounded-lg bg-white"
+                                        value={bookingDetails.phone}
+                                        onChange={(e) => { setBookingDetails({ ...bookingDetails, phone: e.target.value }) }}
                                     />
                                 </div>
                             </div>
@@ -167,6 +166,7 @@ function BookingPage() {
                                     </p>
                                     <p className="font-bold capitalize">{user?.fullName}</p>
                                     <p className="text-gray-500">{bookingDetails.email}</p>
+                                    <p className="text-gray-500">{bookingDetails.phone}</p>
                                     {/* Comment */}
 
                                     {bookingDetails.message && (
@@ -187,7 +187,13 @@ function BookingPage() {
                             </div>
                             <div className="my-4">
                                 <div className="my-4">
-                                    <input type="checkbox" name="terms" id="terms" />
+                                    <input
+                                        type="checkbox"
+                                        name="terms"
+                                        id="terms"
+                                        className="mr-2"
+                                        onChange={(e) => { setBookingDetails({ ...bookingDetails, agreedToTerms: e.target.checked }) }}
+                                    />
                                     <label htmlFor="terms" className="text-gray-600 px-2">
                                         I agree to the terms and conditions
                                     </label>
@@ -198,7 +204,11 @@ function BookingPage() {
                                     Book Now
                                 </button>
                             </div>
-
+                            <div className="my-4">
+                                {errorInForm && (
+                                    <p className="text-red-500 text-center">{message}</p>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>

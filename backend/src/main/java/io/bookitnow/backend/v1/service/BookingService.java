@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 /**
  * Service class for booking related operations
@@ -28,6 +29,10 @@ public class BookingService {
         this.serviceItemRepository = serviceItemRepository;
     }
 
+    private String generateBookingNumber() {
+        return "UBID-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+    }
+
     /**
      * Maps a booking entity to a booking response
      *
@@ -37,8 +42,11 @@ public class BookingService {
     public BookingResponse mapToResponse(Booking booking) {
         return BookingResponse.builder()
                 .id(booking.getId())
+                .bookingNumber(booking.getBookingNumber())
                 .userId(booking.getUserId())
                 .serviceItemId(booking.getServiceItem().getId())
+                .email(booking.getEmail())
+                .phone(booking.getPhone())
                 .bookingDateTimeStart(booking.getBookingDateTimeStart())
                 .bookingDateTimeEnd(booking.getBookingDateTimeEnd())
                 .durationInMinutes(booking.getDurationInMinutes())
@@ -60,8 +68,11 @@ public class BookingService {
                 .orElseThrow(() -> new IllegalArgumentException("ServiceItem not found"));
 
         return Booking.builder()
+                .bookingNumber(generateBookingNumber())
                 .userId(bookingRequest.getUserId())
-                .serviceItem(serviceItem) // Map the service item
+                .serviceItem(serviceItem)
+                .email(bookingRequest.getEmail())
+                .phone(bookingRequest.getPhone())
                 .bookingDateTimeStart(bookingRequest.getBookingDateTimeStart())
                 .bookingDateTimeEnd(bookingRequest.getBookingDateTimeEnd())
                 .durationInMinutes(bookingRequest.getDurationInMinutes())

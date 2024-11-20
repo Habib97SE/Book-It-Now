@@ -1,6 +1,7 @@
 package io.bookitnow.backend.v1.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.PastOrPresent;
@@ -23,6 +24,8 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    public String bookingNumber;
+
 
     @Column(nullable = false)
     private String userId;
@@ -30,6 +33,12 @@ public class Booking {
     @ManyToOne
     @JoinColumn(name = "service_item_id", nullable = false)
     private ServiceItem serviceItem;
+
+    @Email(message = "Email should be valid")
+    private String email;
+
+
+    private String phone;
 
     @FutureOrPresent
     @Column(nullable = false)
