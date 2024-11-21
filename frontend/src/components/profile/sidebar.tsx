@@ -33,7 +33,7 @@ function ProfileSidebar() {
                                 height={40}
                             />
                             <div className="ml-2">
-                                <h1 className="text-lg font-bold">John Doe</h1>
+                                <h1 className="text-lg font-bold">{user?.fullName}</h1>
                                 <span className="text-gray-500 text-sm">{() => { handleMemberSince() }}</span>
                             </div>
                         </div>

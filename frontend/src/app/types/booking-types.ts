@@ -1,4 +1,5 @@
 type BookingRequest = {
+    message: ReactNode;
     userId: string;
     serviceItemId: string;
     email: string;

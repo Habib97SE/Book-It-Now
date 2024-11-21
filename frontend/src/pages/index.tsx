@@ -21,6 +21,7 @@ function IndexPage() {
             </Head>
             <HeroSection />
             <FeatureSection />
+            {/* Categories */}
             <ServiceSection />
             <HowItWorks />
             <HomeBlogSection />

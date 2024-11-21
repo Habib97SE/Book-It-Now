@@ -7,6 +7,7 @@ import { getServiceById, getTimeSlots } from "@/models/service-model";
 import { getProviderById, getServicesByProviderId } from "@/models/provider-model";
 import { createBooking } from "@/models/booking-model";
 import { BookingRequest } from "@/app/types/booking-types";
+import Head from "next/head";
 
 function getCurrentDate() {
     const date = new Date();
@@ -21,7 +22,10 @@ function BookingPage() {
     const { user, isLoading: userLoading } = useUser();
     const router = useRouter();
     const { id } = router.query;
-    console.log(id);
+
+    if (!id) {
+        return <div>Loading...</div>;
+    }
 
     const [selectedDetails, setSelectedDetails] = useState({
         date: "",
@@ -95,9 +99,17 @@ function BookingPage() {
 
     if (userLoading || isLoading || serviceLoading || providerLoading) return <div>Loading data ...</div>;
 
+    // if user is not logged in, redirect to login page
+    if (!user) {
+        router.push("/sign-in");
+        return <div>Loading...</div>;
+    }
+
     return (
         <>
-
+            <Head>
+                <title>Booking service at {providerData?.name}</title>
+            </Head>
             <div className="flex flex-row justify-center items-center my-5 bg-white">
                 <div>
                     <h1 className="text-4xl text-center font-bold">Booking Service</h1>
@@ -109,8 +121,12 @@ function BookingPage() {
                     <div className="col-span-2">
                         <div>
                             <h1 className="text-lg font-bold">
-                                {serviceData.name}
+                                {providerData?.name}
                             </h1>
+                            <p>
+                                Address: <span className="font-bold text-black">{providerData?.address}, {providerData?.city} {providerData?.postalCode}</span>
+                            </p>
+
                         </div>
                         <form onSubmit={handleSubmit}>
 
@@ -166,10 +182,8 @@ function BookingPage() {
                                     height={50}
                                 />
                                 <div className="pl-4">
-                                    <p className="font-bold">{providerData?.name}</p>
-                                    <p>
-                                        {providerData?.address}, {providerData?.city} {providerData?.postalCode}
-                                    </p>
+                                    <p className="font-bold">{serviceData.name}</p>
+
                                     <p className="text-gray-500">
                                         {selectedDetails.date
                                             ? `Date: ${selectedDetails.date}, \nTime: ${selectedDetails.time}`
@@ -180,9 +194,9 @@ function BookingPage() {
                                     <p className="text-gray-500">{bookingDetails.phone}</p>
                                     {/* Comment */}
 
-                                    {bookingDetails.message && (
+                                    {bookingDetails.notes && (
                                         <p className="bg-gray-200 p-3 my-2 capitalize">
-                                            {bookingDetails.message}
+                                            {bookingDetails.notes}
                                         </p>
                                     )}
                                 </div>

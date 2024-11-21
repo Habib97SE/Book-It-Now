@@ -12,7 +12,10 @@ async function getProviders(): Promise<Provider[] | Error> {
         const response = await axios.get(BASE_URL);
         return response.data;
     } catch (error) {
-        return new Error("Something went wrong: " + error.getMessage());
+        if (error instanceof Error) {
+            return new Error("Something went wrong: " + error.message);
+        }
+        return new Error("Something went wrong, please try again later");
     }
 }
 
@@ -45,7 +48,10 @@ async function getServicesByProviderId(
 
         return providerAndServices;
     } catch (error) {
-        return new Error("Something went wrong: " + error.getMessage());
+        if (error instanceof Error) {
+            return new Error("Something went wrong: " + error.message);
+        }
+        return new Error("Something went wrong, please try again later");
     }
 }
 

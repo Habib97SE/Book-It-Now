@@ -16,7 +16,9 @@ const FeatureSection = () => {
 
     if (isLoading) return <div>Loading...</div>;
 
-    if (error) return <div>Error: {error.message}</div>;
+    if (error) return <div className='bg-red-500 text-white py-3 px-4 text-center' >Error: {error.message}</div>;
+
+    if (data instanceof Error) return <div className='bg-red-500 text-white py-3 px-4 text-center' >Error: {data.message}</div>;
 
 
     return (
@@ -53,7 +55,10 @@ const FeatureSection = () => {
                                     </h3>
                                 </div>
                                 <div className='absolute bottom-4 right-4 z-10'>
-                                    <FaClone className="text-white text-2xl" />
+                                    <span className='bg-gray-200 py-2 px-1'>
+                                        {provider.name}
+                                    </span>
+
                                 </div>
 
                             </div>

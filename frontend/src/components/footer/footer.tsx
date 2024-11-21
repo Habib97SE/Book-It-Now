@@ -1,32 +1,32 @@
 "use client";
 
+import Link from "next/link";
 import { FaAngleDoubleRight, FaBuilding, FaEnvelope, FaHeadphones } from "react-icons/fa";
 
 const links = [
     {
         title: "Categories",
         links: [
-            { name: "Car wash", url: "#" },
-            { name: "Carpentry", url: "#" },
-            { name: "Cleaning", url: "#" },
-            { name: "Computer", url: "#" },
+            { name: "Barbers", url: "/barbers" },
+            { name: "Nail Art", url: "/nail-arts" },
+            { name: "Spa", url: "/spa" },
         ],
     },
     {
         title: "Quick Links",
         links: [
-            { name: "About us", url: "#" },
-            { name: "Contact us", url: "#" },
+            { name: "About us", url: "/about" },
+            { name: "Contact us", url: "/contact" },
             { name: "FAQ", url: "#" },
-            { name: "Blog", url: "#" },
+            { name: "Blog", url: "http://blog.bookitnow.se" },
         ],
     },
     {
         title: "Contact us",
         links: [
-            { name: <span className="flex flex-row items-center"><FaBuilding className="mr-2" /> Lustgardsgatan 19, Stockholm</span>, url: "#" },
-            { name: <span className="flex flex-row items-center"><FaHeadphones className="mr-2" /> 340958</span>, url: "#" },
-            { name: <span className="flex flex-row items-center"><FaEnvelope className="mr-2" /> habib@appliedtechnology.se</span>, url: "#" },
+            { name: <span className="flex flex-row items-center"><FaBuilding className="mr-2" /> Lustgardsgatan 19, Stockholm, Sweden</span>, url: "#" },
+            { name: <span className="flex flex-row items-center"><FaHeadphones className="mr-2" /> +46- 8 123 34 56</span>, url: "#" },
+            { name: <span className="flex flex-row items-center"><FaEnvelope className="mr-2" /> support@bookitnow.se</span>, url: "#" },
         ]
     }
 ]
@@ -45,9 +45,11 @@ function Footer() {
 
                 <ul>
                     {link.links.map((item, secondIndex) => (
-                        <li key={secondIndex} className="text-md link link-hover flex flex-row items-center transition-transform duration-1000 hover:text-primaryColor hover:translate-x-2 leading-8">
-                            <FaAngleDoubleRight className="text-primaryColor mr-1" />
-                            {item.name}
+                        <li key={secondIndex} className="text-md link link-hover  transition-transform duration-1000 hover:text-primaryColor hover:translate-x-2 leading-8">
+                            <Link href={item.url} className="flex flex-row items-center">
+                                <FaAngleDoubleRight className="text-primaryColor mr-1" />
+                                {item.name}
+                            </Link>
                         </li>
                     ))}
                 </ul>
@@ -72,7 +74,7 @@ function Footer() {
                         <div className="join bg-white">
                             <input
                                 type="text"
-                                placeholder="username@site.com"
+                                placeholder="name@example.com"
                                 spellCheck="false"
                                 className="input input-bordered join-item text-black bg-white" />
                             <button className="btn btn-primary join-item bg-primaryColor hover:bg-primaryColorHover text-white">Subscribe</button>

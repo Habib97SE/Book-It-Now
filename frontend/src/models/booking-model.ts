@@ -12,8 +12,11 @@ async function createBooking(
         console.log(response.data);
         return response.data;
     } catch (error) {
-        console.log(error);
-        return new Error("Something went wrong: " + error.getMessage());
+        if (error instanceof Error) {
+            console.log(error.message);
+            return new Error("Something went wrong: " + error.message);
+        }
+        return new Error("Something went wrong");
     }
 }
 

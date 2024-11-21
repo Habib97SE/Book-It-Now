@@ -28,58 +28,91 @@ function NavBar() {
     }, []);
 
     const ProfileMenu = () => {
-
-        const { user } = useUser();
-
+        const { user, isSignedIn } = useUser();
 
         return (
             <>
                 <SignedIn>
                     <div className="dropdown dropdown-end text-white">
                         <div tabIndex={0} role="button" className="btn btn-ghost">
-                            {/* Prevent Clerk's default dropdown menu for UserButton */}
-                            <UserButton appearance={{
-                                elements: {
-                                    userButtonAvatarBox: "h-10 w-10  rounded-full",
-                                },
-                            }} />
-
+                            <UserButton
+                                appearance={{
+                                    elements: {
+                                        userButtonAvatarBox: "h-10 w-10 rounded-full",
+                                    },
+                                }}
+                            />
                         </div>
-                        <ul tabIndex={0} className="menu dropdown-content bg-base-100 text-black rounded-box w-52 p-2 shadow-lg">
-                            <li className="border-b flex flex-row ">
-                                <span>Hi <span className="font-bold"> {user?.fullName}</span></span>
+                        <ul
+                            tabIndex={0}
+                            className="menu dropdown-content bg-base-100 text-black rounded-box w-52 p-2 shadow-lg"
+                        >
+                            <li className="border-b flex flex-row">
+                                <span>
+                                    Hi <span className="font-bold">{isSignedIn && user?.fullName}</span>
+                                </span>
                             </li>
-                            <li><Link href="/profile/dashboard" className="hover:text-primaryColor hover:bg-lightPink"><MdOutlineSpaceDashboard /> Dashboard</Link></li>
-                            <li><Link href="/profile/my-bookings" className="hover:text-primaryColor hover:bg-lightPink"><FiBook /> My Bookings</Link></li>
-
-                            <li><a href="#" className="hover:text-primaryColor hover:bg-lightPink"><FiHeart /> My Favorites</a></li>
-                            <li><a href="#" className="hover:text-primaryColor hover:bg-lightPink"><IoSettingsOutline /> Profile Settings</a></li>
-                            <li><a href="#" className="hover:text-primaryColor hover:bg-lightPink"><CiLock /> Change Password</a></li>
-
+                            <li>
+                                <Link href="/profile/dashboard" className="hover:text-primaryColor hover:bg-lightPink">
+                                    <MdOutlineSpaceDashboard /> Dashboard
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/profile/my-bookings" className="hover:text-primaryColor hover:bg-lightPink">
+                                    <FiBook /> My Bookings
+                                </Link>
+                            </li>
+                            <li>
+                                <a href="#" className="hover:text-primaryColor hover:bg-lightPink">
+                                    <FiHeart /> My Favorites
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" className="hover:text-primaryColor hover:bg-lightPink">
+                                    <IoSettingsOutline /> Profile Settings
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" className="hover:text-primaryColor hover:bg-lightPink">
+                                    <CiLock /> Change Password
+                                </a>
+                            </li>
                             <SignOutButton>
-                                <li className="py-2"><a href="#" className="bg-gray-300 "><PiSignOutFill /> Sign Out</a></li>
+                                <li className="py-2">
+                                    <a href="#" className="bg-gray-300">
+                                        <PiSignOutFill /> Sign Out
+                                    </a>
+                                </li>
                             </SignOutButton>
                         </ul>
                     </div>
                 </SignedIn>
                 <SignedOut>
-
-                    <Link href="/sign-in" className="mx-3 text-xl text-white">Login</Link>
-                    {/* Dropdown menu for register personal and provider acocunt */}
+                    <Link href="/sign-in" className="mx-3 text-xl text-white">
+                        Login
+                    </Link>
                     <div className="dropdown dropdown-end">
                         <div tabIndex={0} role="button" className="btn btn-ghost bg-primaryColor hover:bg-primaryColorHover">
                             Register
                             <MdKeyboardArrowDown />
                         </div>
-                        <ul tabIndex={0} className="menu dropdown-content rounded-box w-52 p-2 shadow-lg bg-white text-black">
-                            <li className="hover:bg-gray-50"><a href="/sign-up">Create account for booking</a></li>
-                            <li className="hover:bg-gray-50"><a href="/register/provider">Create account as service provider</a></li>
+                        <ul
+                            tabIndex={0}
+                            className="menu dropdown-content rounded-box w-52 p-2 shadow-lg bg-white text-black"
+                        >
+                            <li className="hover:bg-gray-50">
+                                <a href="/sign-up">Create account for booking</a>
+                            </li>
+                            <li className="hover:bg-gray-50">
+                                <a href="/register/provider">Create account as service provider</a>
+                            </li>
                         </ul>
                     </div>
                 </SignedOut>
             </>
         );
-    }
+    };
+
 
     return (
         <div
@@ -111,14 +144,8 @@ function NavBar() {
                             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow"
                         >
                             <li><Link href="/barbers">Barbers</Link></li>
-                            <li>
-                                <a href="#">Parent</a>
-                                <ul className="p-2">
-                                    <li className="w-full"><a href="#">Submenu 1</a></li>
-                                    <li><a href="#">Submenu 2</a></li>
-                                </ul>
-                            </li>
-                            <li><Link href={"/contact"}>Contact</Link></li>
+                            <li><Link href="/about">About us</Link></li>
+                            <li><Link href={"/contact"}>Contact us</Link></li>
                         </ul>
                     </div>
                     <Link href={"/"} className="text-xl">
@@ -130,15 +157,7 @@ function NavBar() {
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1">
                         <li><Link href="/barbers">Barbers</Link></li>
-                        <li>
-                            <details>
-                                <summary>Parent</summary>
-                                <ul className="p-2">
-                                    <li><a href="#">Submenu 1</a></li>
-                                    <li><a href="#">Submenu 2</a></li>
-                                </ul>
-                            </details>
-                        </li>
+                        <li><Link href="/about">About</Link></li>
                         <li><Link href={"/contact"}>Contact</Link></li>
                     </ul>
                 </div>

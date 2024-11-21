@@ -61,6 +61,12 @@ function DashboardPage() {
                                 <span className="text-4xl text-center font-bold text-black">My Bookings</span>
                             </h1>
                             <div className="flex flex-row justify-start">
+                                {bookingsData?.length === 0 && (
+                                    <div className="flex flex-col items-center justify-center w-full h-96">
+                                        <PiFileDashedBold className="text-9xl text-gray-300" />
+                                        <h1 className="text-2xl text-gray-400">No Bookings</h1>
+                                    </div>
+                                )}
                                 {bookingsData?.slice(0, 2).map((booking) => (
                                     <BookingCardDashboard
                                         key={booking.id}

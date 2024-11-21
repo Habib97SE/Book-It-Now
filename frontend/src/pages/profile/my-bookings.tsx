@@ -65,6 +65,11 @@ function MyBookingPage() {
                                 <span className="text-4xl text-center font-bold text-black">My Bookings</span>
                             </h1>
                             <div className="flex flex-row flex-wrap justify-around items-center my-5 bg-white">
+                                {data?.length === 0 && (
+                                    <div className="text-center text-gray-500">
+                                        You have no bookings yet.
+                                    </div>
+                                )}
                                 {data?.map((booking) => (
                                     <BookingCard
                                         key={booking.id}

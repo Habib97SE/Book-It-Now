@@ -69,18 +69,18 @@ function BookingCardDashboard({ item }: { item: Booking }) {
 
                 {/* Contact Details */}
                 <div className="flex flex-col gap-1 mt-2">
-                    <div className="flex items-center gap-2 text-sm">
-                        <FaUser className="text-purple-500" />
-                        <span>{item.email}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm">
-                        <FaEnvelope className="text-yellow-500" />
-                        <span>{item.email}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm">
-                        <FaPhone className="text-red-500" />
-                        <span>{item.phone}</span>
-                    </div>
+                    {item.email && (
+                        <div className="flex items-center gap-2 text-sm">
+                            <FaUser className="text-purple-500" />
+                            <span>{item.email}</span>
+                        </div>
+                    )}
+                    {item.phone && (
+                        <div className="flex items-center gap-2 text-sm">
+                            <FaPhone className="text-blue-500" />
+                            <span>{item.phone}</span>
+                        </div>
+                    )}
                 </div>
             </div>
 
