@@ -1,7 +1,44 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@400;700&family=Poppins:wght@400;700&family=Raleway:wght@400;700&family=Source+Sans+Pro:wght@400;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Poppins for main titles */
+h1,
+h2 {
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+}
+
+/* Montserrat for section titles or navigation */
+h3,
+nav {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+}
+
+/* Lato for body text */
+body,
+p,
+span {
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+}
+
+/* Raleway for smaller headers or accent text */
+h4,
+h5 {
+    font-family: "Raleway", sans-serif;
+    font-weight: 700;
+}
+
+/* Source Sans Pro for buttons and call-to-actions */
+button,
+a {
+    font-family: "Source Sans Pro", sans-serif;
+    font-weight: 700;
+}
 body {
     color: var(--foreground);
     background: var(--background);

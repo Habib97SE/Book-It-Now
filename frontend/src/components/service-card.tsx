@@ -25,9 +25,9 @@ function ServiceCard({ service, logo }: { service: Service, logo: string }) {
                 </h2>
                 <Image src={logo} alt="Service Logo" className='absolute bottom-3 right-3 rounded-full max-w-8' width={32} height={32} />
             </div>
-            <h2 className="text-black text-xl font-bold mt-2">{service.name}</h2>
+            <h2 className="text-black text-xl font-bold m-2">{service.name}</h2>
             <p className='text-gray-500 flex flex-row items-center my-2'>
-                <IoMdTime className='mr-2' /> {service.durationInMinutes} mins
+                <IoMdTime className='m-2' /> {service.durationInMinutes} mins
 
             </p>
             <footer className='text-black flex flex-row justify-between'>

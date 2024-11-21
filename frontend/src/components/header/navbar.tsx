@@ -47,8 +47,8 @@ function NavBar() {
                             tabIndex={0}
                             className="menu dropdown-content bg-base-100 text-black rounded-box w-52 p-2 shadow-lg"
                         >
-                            <li className="border-b flex flex-row">
-                                <span>
+                            <li className="border-b flex flex-row hover:bg-none">
+                                <span className="hover:bg-none">
                                     Hi <span className="font-bold">{isSignedIn && user?.fullName}</span>
                                 </span>
                             </li>

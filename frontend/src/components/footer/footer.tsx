@@ -25,7 +25,7 @@ const links = [
         title: "Contact us",
         links: [
             { name: <span className="flex flex-row items-center"><FaBuilding className="mr-2" /> Lustgardsgatan 19, Stockholm, Sweden</span>, url: "#" },
-            { name: <span className="flex flex-row items-center"><FaHeadphones className="mr-2" /> +46- 8 123 34 56</span>, url: "#" },
+            { name: <span className="flex flex-row items-center"><FaHeadphones className="mr-2" /> +46- 8 123 45 67</span>, url: "#" },
             { name: <span className="flex flex-row items-center"><FaEnvelope className="mr-2" /> support@bookitnow.se</span>, url: "#" },
         ]
     }
