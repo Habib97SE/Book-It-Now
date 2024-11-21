@@ -16,6 +16,19 @@ function Barber() {
 
     const { id } = router.query;
 
+    if (!id) {
+        return <div className="flex flex-row justify-center items-center">
+
+            <div className="flex w-52 flex-col gap-4">
+                <div className="skeleton h-32 w-full"></div>
+                <div className="skeleton h-4 w-28"></div>
+                <div className="skeleton h-4 w-full"></div>
+                <div className="skeleton h-4 w-full"></div>
+            </div>
+
+        </div>
+    }
+
     const { data, error, isLoading } = useSWR(id, getServicesByProviderId);
 
 
@@ -23,7 +36,6 @@ function Barber() {
 
     if (isLoading) return <div>Loading...</div>
 
-    console.log(data);
 
     return (
         <>
@@ -45,7 +57,7 @@ function Barber() {
                             url: "/barbers"
                         },
                         {
-                            title: data?.provider.name,
+                            title: data?.provider?.name,
 
                             url: `/barbers/${id}`
                         }
@@ -57,31 +69,31 @@ function Barber() {
                         <div className="">
                             <div className="card-body">
                                 <div className=" w-full">
-                                    <h1 className="text-3xl font-bold my-3">{data?.provider.name}</h1>
+                                    <h1 className="text-3xl font-bold my-3">{data?.provider?.name}</h1>
 
-                                    <div className="flex items-center gap-2 my-3">
+                                    <div className="flex items-center gap-2 my-3 capitalize text-gray-600">
                                         <FaLocationArrow />
-                                        <span>{data?.provider.country + " " + data?.provider.city}</span>
+                                        <span>{data?.provider?.country + " " + data?.provider?.city}</span>
 
-                                        <FaStar className="text-yellow-500" />
-                                        <FaStar className="text-yellow-500" />
-                                        <FaStar className="text-yellow-500" />
-                                        <FaStar className="text-yellow-500" />
-                                        <FaStar className="text-yellow-500" />
-                                        <span>5.0</span>
+                                        <FaStar className="text-gray-500" />
+                                        <FaStar className="text-gray-500" />
+                                        <FaStar className="text-gray-500" />
+                                        <FaStar className="text-gray-500" />
+                                        <FaStar className="text-gray-500" />
+                                        <span>(0)</span>
                                     </div>
                                     <div className="badge badge-primary py-4 px-6 rounded-lg text-white my-3">
                                         Hair cut
                                     </div>
                                     <Image
-                                        src={data?.provider.logo}
+                                        src={data?.provider?.logo}
 
                                         alt="Barber"
                                         width={500}
                                         height={500}
                                         className="w-full object-cover rounded-lg"
                                     />
-                                    <TabSection logo={data.provider.logo} description={data.provider.description} services={data.services} />
+                                    <TabSection logo={data.provider?.logo} description={data.provider?.description} services={data?.services} />
 
                                 </div>
 

@@ -97,13 +97,13 @@ function BookingCard({
 
                     {/* Booking Details */}
                     <div className="booking-det-info flex-grow ml-4">
-                        <h3 className="text-lg font-semibold text-gray-800">
+                        <h3 className="text-lg capitalize font-semibold text-gray-800">
                             {serviceData.name}
 
                         </h3>
                         <ul className="booking-details text-sm text-gray-600 space-y-2">
                             <li>
-                                <span className="font-medium">Booking Id</span>: {item.bookingNumber}
+                                <span className="font-medium">Booking Number</span>: {item.bookingNumber}
                             </li>
                             <li className="li-date flex items-center">
                                 <span className="font-medium">Booking Date</span>: {formatDate(item.bookingDateTimeStart)} {formatTime(item.bookingDateTimeStart)} - {formatTime(item.bookingDateTimeEnd)}
@@ -128,8 +128,10 @@ function BookingCard({
                                         />
                                     </div>
                                     <span>{providerData?.name}</span>
-                                    <p className="my-3 text-sm text-gray-500 flex flex-row items-center"><FaPhone className="mr-3" /> {providerData.phone}</p>
-                                    <p className="mt-3text-sm text-gray-500 flex flex-row items-center"><FaEnvelope className="mr-3" /> {providerData.email}</p>
+                                    <div>
+                                        <p className="my-3 text-sm text-gray-500 flex flex-row items-center"><FaPhone className="mr-3" /> {providerData.phone}</p>
+                                        <p className="mt-3text-sm text-gray-500 flex flex-row items-center"><FaEnvelope className="mr-3" /> {providerData.email}</p>
+                                    </div>
                                 </div>
 
                             </li>

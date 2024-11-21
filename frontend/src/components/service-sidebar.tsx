@@ -23,23 +23,7 @@ const ServiceSidebar = ({ item }) => {
 
     return (
         <div className="sticky top-32 w-full md:w-[356px]">
-            {/* Service Amount */}
 
-
-
-            {/* Modal */}
-            {isModalOpen && (
-                <div className="modal modal-open">
-                    <div>
-                        <div className="modal-box">
-                            <button className="modal-close" onClick={closeModal}>
-                                &times;
-                            </button>
-                            <SignIn routing="hash" forceRedirectUrl={`/barbers/${1}`} />
-                        </div>
-                    </div>
-                </div>
-            )}
 
             {/* Service Provider Info */}
             <div className="card shadow-md mb-4">
@@ -63,11 +47,17 @@ const ServiceSidebar = ({ item }) => {
                             </a>
                             <p className="text-sm text-gray-500">
                                 <FaCircle className="inline text-green-500 mr-1" />
-                                0 secs Online
+                                10 secs Online
                             </p>
                             <p className="text-sm text-gray-500">Member since {item.createdAt.toString().split("T")[0]}</p>
 
                         </div>
+
+                    </div>
+                    <div className="capitalize leading-8">
+                        {item.address}, <br />
+                        {item.city} <br />
+                        {item.postalCode} {item.country}
                     </div>
                     <hr />
                     <div className="mt-4 bg-gray-50 p-3">
@@ -95,7 +85,7 @@ const ServiceSidebar = ({ item }) => {
             <div className="card shadow-md">
                 <div className="card-body">
                     <h1 className="font-bold text0lg">Follow the barber on</h1>
-                    <div className="flex justify-center items-center">
+                    <div className="flex justify-start py-4 items-center">
                         <a href={item.facebook} className="mx-3">
                             <FaFacebook className="text-xl text-blue-600 rounded-full" />
                         </a>

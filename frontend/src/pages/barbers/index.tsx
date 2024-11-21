@@ -227,14 +227,14 @@ function BarbersPage() {
                                             <div className="card-body p-0">
                                                 <figure className="relative p-5">
                                                     <Image
-                                                        src={"https://dummyimage.com/500x300"}
+                                                        src={barber.logo}
 
                                                         alt="Service Image"
                                                         width={500}
                                                         height={300}
                                                         className="object-cover w-full rounded-lg"
                                                     />
-                                                    <div className="absolute top-6 left-6 badge badge-secondary py-4 px-5 capitalize text-white ">
+                                                    <div className="absolute top-6 left-6 badge badge-secondary py-4 px-5 capitalize text-black bg-gray-100 border-gray-100">
                                                         {barber.city}
 
                                                     </div>
@@ -264,14 +264,13 @@ function BarbersPage() {
                                                                 return (
                                                                     <FaStar
                                                                         key={starIndex}
-                                                                        className={starIndex <= barber.rating ? "text-yellow-500" : "text-gray-400"}
+                                                                        className="text-yellow-400"
                                                                     />
                                                                 );
                                                             })}
 
                                                             <span className="ml-2">(5)</span>
                                                         </div>
-                                                        <h6 className="font-semibold">{barber.price} SEK</h6>
                                                     </div>
                                                 </div>
                                             </div>

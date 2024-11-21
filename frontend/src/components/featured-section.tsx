@@ -4,20 +4,19 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { FaArrowRight, FaCircle, FaClone } from 'react-icons/fa';
+import useSWR from 'swr';
 
 
 
 const FeatureSection = () => {
 
-    const [providers, setProviders] = useState<Provider[]>([]);
 
-    useEffect(() => {
-        const fetchProviders = async () => {
-            const result: Promise<Provider[]> = await getProviders();
-            setProviders(result);
-        };
-        fetchProviders();
-    }, [])
+    const { data, error, isLoading } = useSWR("data", getProviders);
+
+
+    if (isLoading) return <div>Loading...</div>;
+
+    if (error) return <div>Error: {error.message}</div>;
 
 
     return (
@@ -36,11 +35,11 @@ const FeatureSection = () => {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {providers.map((provider: Provider) => (
+                    {data.map((provider: Provider) => (
                         <Link key={provider.id} href={`barbers/${provider.id}`} className="block hover:shadow-lg transition-shadow">
                             <div className="relative rounded-xl">
                                 <Image
-                                    src={"https://dummyimage.com/381x286"}
+                                    src={provider.logo}
 
                                     alt="Category Image"
                                     className="w-full h-auto hover:scale-110 duration-500 rounded-xl"
@@ -56,6 +55,7 @@ const FeatureSection = () => {
                                 <div className='absolute bottom-4 right-4 z-10'>
                                     <FaClone className="text-white text-2xl" />
                                 </div>
+
                             </div>
                         </Link>
                     ))}

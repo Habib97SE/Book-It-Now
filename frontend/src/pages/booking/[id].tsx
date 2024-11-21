@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import useSWR, { useSWRConfig } from "swr";
 import { Calendar } from "@/components/calendar/calendar";
 import { getServiceById, getTimeSlots } from "@/models/service-model";
-import { getServicesByProviderId } from "@/models/provider-model";
+import { getProviderById, getServicesByProviderId } from "@/models/provider-model";
 import { createBooking } from "@/models/booking-model";
 import { BookingRequest } from "@/app/types/booking-types";
 
@@ -52,6 +52,7 @@ function BookingPage() {
 
     }
     const { data, error, isLoading } = useSWR({ serviceId: id, date: getCurrentDate() }, getTimeSlots);
+    const { data: providerData, error: providerError, isLoading: providerLoading } = useSWR(serviceData?.providerId, getProviderById);
 
     const [errorInForm, setErrorInForm] = useState(false);
     const [message, setMessage] = useState("");
@@ -90,9 +91,9 @@ function BookingPage() {
     };
 
 
-    if (error || serviceError) return <div className="bg-red-500 px-4 py-4 text-white w-full text-center">Failed to load</div>;
+    if (error || serviceError || providerError) return <div className="bg-red-500 px-4 py-4 text-white w-full text-center">Failed to load</div>;
 
-    if (userLoading || isLoading || serviceLoading) return <div>Loading data ...</div>;
+    if (userLoading || isLoading || serviceLoading || providerLoading) return <div>Loading data ...</div>;
 
     return (
         <>
@@ -106,10 +107,17 @@ function BookingPage() {
             <div className="container mx-auto mt-10 bg-white text-black">
                 <div className="grid grid-cols-3">
                     <div className="col-span-2">
+                        <div>
+                            <h1 className="text-lg font-bold">
+                                {serviceData.name}
+                            </h1>
+                        </div>
                         <form onSubmit={handleSubmit}>
+
                             <div className="grid grid-cols-2 gap-6 my-3">
+
                                 <div>
-                                    <label htmlFor="email" className="text-gray-600">Email <span className="text-red-500 text-lg">*</span></label>
+                                    <label htmlFor="email" className="text-gray-600">Email</label>
                                     <input
                                         type="email"
                                         id="email"
@@ -121,7 +129,7 @@ function BookingPage() {
                                     />
                                 </div>
                                 <div>
-                                    <label htmlFor="phone" className="text-gray-600">Phone <span className="text-red-500 text-lg">*</span></label>
+                                    <label htmlFor="phone" className="text-gray-600">Phone</label>
                                     <input
                                         type="text"
                                         id="phone"
@@ -153,12 +161,15 @@ function BookingPage() {
                         <div className="w-10/12 mx-auto card shadow-md p-4">
                             <div className="flex flex-row items-center border-b-2 border-gray-100">
                                 <img
-                                    src="https://cdn.bokadirekt.se/ucdn/1ea38723-07e1-4a08-bfb7-b65f2388b276/-/quality/better/-/preview/60x60/"
+                                    src={serviceData.image}
                                     width={50}
                                     height={50}
                                 />
                                 <div className="pl-4">
-                                    <p className="font-bold">Senso Kreator</p>
+                                    <p className="font-bold">{providerData?.name}</p>
+                                    <p>
+                                        {providerData?.address}, {providerData?.city} {providerData?.postalCode}
+                                    </p>
                                     <p className="text-gray-500">
                                         {selectedDetails.date
                                             ? `Date: ${selectedDetails.date}, \nTime: ${selectedDetails.time}`
@@ -195,7 +206,7 @@ function BookingPage() {
                                         onChange={(e) => { setBookingDetails({ ...bookingDetails, agreedToTerms: e.target.checked }) }}
                                     />
                                     <label htmlFor="terms" className="text-gray-600 px-2">
-                                        I agree to the terms and conditions
+                                        I agree to the <a href="#" className="border-b border-blue-500 text-blue-500">terms and conditions</a>
                                     </label>
                                 </div>
                                 <button

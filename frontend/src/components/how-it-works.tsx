@@ -7,7 +7,7 @@ function HowItWorks() {
             <div className="container mx-auto px-4">
                 <div className="text-center mb-10">
                     <h2 className="text-3xl font-bold text-gray-800">How It Works</h2>
-                    <p className="mt-3 text-gray-600">How It Works Content</p>
+                    <p className="mt-3 text-gray-600">To book an appointment is easy</p>
                 </div>
                 <div className="flex flex-wrap justify-center">
                     <div className="w-full md:w-1/3 p-4">
@@ -18,7 +18,7 @@ function HowItWorks() {
                             <div className="mb-4">
                                 <span className="inline-block bg-howItWorksIcon py-5 px-7 rounded-lg">
                                     <Image
-                                        src="https://app.truelysell.com/assets/img/icons/work-icon-01.svg"
+                                        src="https://app.truelysell.com/assets/img/icons/work-icon-02.svg"
                                         alt="Amazing Places"
                                         width={40}
                                         height={40}
@@ -26,9 +26,9 @@ function HowItWorks() {
                                     />
                                 </span>
                             </div>
-                            <h5 className="text-lg font-semibold text-gray-800">Amazing Places</h5>
+                            <h5 className="text-lg font-semibold text-gray-800">Visit our website</h5>
                             <p className="text-gray-600 mt-2">
-                                Aliquam Lorem Ante, Dapibus In, Viverra Quis, Feugiat Phasellus Viverra Nulla Ut Metus Varius Laoree
+                                Visit the services you are interested in and book an appointment
                             </p>
                         </div>
                     </div>
@@ -38,7 +38,7 @@ function HowItWorks() {
                             <div className="mb-4">
                                 <span className="inline-block bg-howItWorksIcon py-5 px-7 rounded-lg">
                                     <Image
-                                        src="https://app.truelysell.com/assets/img/icons/work-icon-02.svg"
+                                        src="https://app.truelysell.com/assets/img/icons/work-icon-01.svg"
                                         alt="Find What You Want"
                                         width={40}
                                         height={40}
@@ -46,9 +46,9 @@ function HowItWorks() {
                                     />
                                 </span>
                             </div>
-                            <h5 className="text-lg font-semibold text-gray-800">Find What You Want</h5>
+                            <h5 className="text-lg font-semibold text-gray-800">Book your appointment</h5>
                             <p className="text-gray-600 mt-2">
-                                Aliquam Lorem Ante, Dapibus In, Viverra Quis, Feugiat Phasellus Viverra Nulla Ut Metus Varius Laoree
+                                If you find a service you like, book an appointment, you can see a calendar with all available times and dates
                             </p>
                         </div>
                     </div>
@@ -66,9 +66,9 @@ function HowItWorks() {
                                     />
                                 </span>
                             </div>
-                            <h5 className="text-lg font-semibold text-gray-800">Choose What To Do</h5>
+                            <h5 className="text-lg font-semibold text-gray-800">Go to the address</h5>
                             <p className="text-gray-600 mt-2">
-                                Aliquam Lorem Ante, Dapibus In, Viverra Quis, Feugiat Phasellus Viverra Nulla Ut Metus Varius Laoree
+                                Go to the address of the service provider and enjoy your service
                             </p>
                         </div>
                     </div>

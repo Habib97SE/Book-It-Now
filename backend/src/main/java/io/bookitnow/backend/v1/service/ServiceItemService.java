@@ -219,19 +219,18 @@ public class ServiceItemService {
         ServiceItem serviceItem = serviceItemRepository.findById(serviceItemId)
                 .orElseThrow(() -> new NoSuchElementException("Service item not found"));
 
-        Map<String, List<String>> weeklyTimeSlots = new LinkedHashMap<>(); // Map to store slots for each day
+        Map<String, List<String>> weeklyTimeSlots = new LinkedHashMap<>();
 
         LocalTime startTime = serviceItem.getStartTime();
         LocalTime endTime = serviceItem.getEndTime();
         long duration = serviceItem.getDurationInMinutes().longValue();
 
-        // Fetch bookings for the given serviceItemId and week range
         LocalDateTime weekStartDateTime = startDate.atStartOfDay();
         LocalDateTime weekEndDateTime = startDate.plusDays(6).atTime(23, 59, 59);
+
         List<Booking> bookings = bookingRepository.findByServiceItemIdAndBookingDateTimeStartBetween(
                 serviceItemId, weekStartDateTime, weekEndDateTime);
 
-        // Parse bookings into a list of LocalTime ranges for quick comparison
         Map<LocalDate, List<LocalTime[]>> bookedTimeRanges = new HashMap<>();
         for (Booking booking : bookings) {
             LocalDate bookingDate = booking.getBookingDateTimeStart().toLocalDate();
@@ -242,15 +241,14 @@ public class ServiceItemService {
         }
 
         for (int i = 0; i < 7; i++) {
-            LocalDate currentDate = startDate.plusDays(i); // Increment date for each day in the week
+            LocalDate currentDate = startDate.plusDays(i);
             List<String> dailyTimeSlots = new ArrayList<>();
-
             LocalTime currentSlotStart = startTime;
 
-            while (currentSlotStart.plusMinutes(duration).isBefore(endTime) || currentSlotStart.plusMinutes(duration).equals(endTime)) {
+            while (currentSlotStart.plusMinutes(duration).isBefore(endTime) ||
+                    currentSlotStart.plusMinutes(duration).equals(endTime)) {
                 LocalTime slotEndTime = currentSlotStart.plusMinutes(duration);
 
-                // Check if the slot overlaps with any booked time range
                 LocalTime finalCurrentSlotStart = currentSlotStart;
                 boolean isBooked = bookedTimeRanges.getOrDefault(currentDate, new ArrayList<>()).stream()
                         .anyMatch(range ->
@@ -263,12 +261,12 @@ public class ServiceItemService {
                 currentSlotStart = slotEndTime;
             }
 
-            weeklyTimeSlots.put(currentDate.toString(), dailyTimeSlots); // Store the slots with the date as the key
+            weeklyTimeSlots.put(currentDate.toString(), dailyTimeSlots);
         }
 
-        System.err.println("ServiceItemService.getAvailableTimeRangesForWeek: " + weeklyTimeSlots);
         return weeklyTimeSlots;
     }
+
 
 
 

@@ -23,8 +23,6 @@ function IndexPage() {
             <FeatureSection />
             <ServiceSection />
             <HowItWorks />
-            <ServiceSection />
-            <PopularService />
             <HomeBlogSection />
         </>
     );

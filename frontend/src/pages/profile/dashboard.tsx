@@ -13,10 +13,23 @@ import { useUser } from "@clerk/nextjs";
 import ServiceCard from "@/components/service-card";
 import { ProfileSidebar } from "@/components/profile/sidebar";
 import { BreadCrumbs } from "@/components/BreadCrumbs";
+import { getBookingsByUserId } from "@/models/booking-model";
+import useSWR from "swr";
+import { BookingCard } from "@/components/booking-card";
+import { BookingCardDashboard } from "@/components/profile/booking-card-dashboard";
 
 function DashboardPage() {
 
     const { user } = useUser();
+
+    const { data: bookingsData, error: bookingsError, isLoading: bookingsLoading } = useSWR(user?.id, getBookingsByUserId);
+
+    if (bookingsError) return <div>Error: {bookingsError.message}</div>;
+
+
+    function showToast(message: string, type: "success" | "error" | "info" | "warning") {
+        console.log(message, type);
+    }
 
     return (
         <div>
@@ -47,18 +60,60 @@ function DashboardPage() {
                             <h1>
                                 <span className="text-4xl text-center font-bold text-black">My Bookings</span>
                             </h1>
+                            <div className="flex flex-row justify-start">
+                                {bookingsData?.slice(0, 2).map((booking) => (
+                                    <BookingCardDashboard
+                                        key={booking.id}
+                                        item={booking}
+                                    />
+                                ))}
+                            </div>
                             <div className="flex flex-row justify-center items-center my-5 bg-white">
+                                {/* Show 3 skeleton for loading  */}
+                                {bookingsLoading && (
+                                    <>
+                                        <div className="flex w-52 flex-col gap-4">
+                                            <div className="flex items-center gap-4">
+                                                <div className="skeleton h-16 w-16 shrink-0 rounded-full"></div>
+                                                <div className="flex flex-col gap-4">
+                                                    <div className="skeleton h-4 w-20"></div>
+                                                    <div className="skeleton h-4 w-28"></div>
+                                                </div>
+                                            </div>
+                                            <div className="skeleton h-32 w-full"></div>
+                                        </div>
+                                        <div className="flex w-52 flex-col gap-4">
+                                            <div className="flex items-center gap-4">
+                                                <div className="skeleton h-16 w-16 shrink-0 rounded-full"></div>
+                                                <div className="flex flex-col gap-4">
+                                                    <div className="skeleton h-4 w-20"></div>
+                                                    <div className="skeleton h-4 w-28"></div>
+                                                </div>
+                                            </div>
+                                            <div className="skeleton h-32 w-full"></div>
+                                        </div>
+                                        <div className="flex w-52 flex-col gap-4">
+                                            <div className="flex items-center gap-4">
+                                                <div className="skeleton h-16 w-16 shrink-0 rounded-full"></div>
+                                                <div className="flex flex-col gap-4">
+                                                    <div className="skeleton h-4 w-20"></div>
+                                                    <div className="skeleton h-4 w-28"></div>
+                                                </div>
+                                            </div>
+                                            <div className="skeleton h-32 w-full"></div>
+                                        </div>
+                                    </>
+                                )}
+                                {/* Show booking cards */}
+
+
+
 
                             </div>
                         </div>
                     </div>
                     <div className="p-2 mt-2 rounded-lg cursor-pointer bg-white">
-                        <div>
-                            {/* A list of bookings */}
-                            <h1>
-                                <span className="text-4xl text-center font-bold text-black">My Favorites</span>
-                            </h1>
-                        </div>
+
 
                     </div>
                 </div>

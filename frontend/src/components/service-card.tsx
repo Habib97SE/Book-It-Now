@@ -11,13 +11,14 @@ function ServiceCard({ service, logo }: { service: Service, logo: string }) {
     console.log(service);
 
     return (
-        <div className='bg-white p-4 rounded-xl shadow-md inline-block'>
+        <div className='bg-white py-4 rounded-xl shadow-md inline-block'>
             <div className="relative">
-                <img
+                <Image
                     src={service.image}
-
+                    width={300}
+                    height={200}
                     alt="Carpentry"
-                    className='rounded-lg w-full'
+                    className='rounded-lg w-full w-[300px] h-[200px] object-cover'
                 />
                 <h2 className="absolute top-3 left-3 bg-pinkTint text-primaryColor rounded-xl py-1 px-2">
                     {service.category}
@@ -44,7 +45,7 @@ function ServiceCard({ service, logo }: { service: Service, logo: string }) {
                         {service.price} SEK
                     </h3>
 
-                    <Link className='bg-primaryColor text-white px-4 py-2 rounded-lg' href={`/booking/${service.id}`}>
+                    <Link className='bg-primaryColor text-white px-4 py-2 m-2 rounded-lg' href={`/booking/${service.id}`}>
                         Book
                     </Link>
                 </div>
