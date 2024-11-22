@@ -11,9 +11,11 @@ import useSWR from "swr";
 function BookingCard({
     item,
     onShowToast,
+    onCancelSuccess,
 }: {
     item: Booking;
     onShowToast: (message: string, type: "success" | "error" | "info" | "warning") => void;
+    onCancelSuccess: () => void;
 }) {
     const [isModalOpen, setModalOpen] = useState(false);
 
@@ -32,6 +34,7 @@ function BookingCard({
         if (response) {
             setModalOpen(false);
             onShowToast("Booking has been cancelled", "success");
+            onCancelSuccess();
         }
     };
 

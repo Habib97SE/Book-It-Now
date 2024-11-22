@@ -15,32 +15,38 @@ type DayWithTimeSlots = {
 function Calendar({
     timeslots,
     handleBookedTime,
+    onPreviousWeek,
+    onNextWeek,
 }: {
-    timeslots: Record<string, string[]>; // timeslots is an object with date strings as keys and array of timeslot strings
+    timeslots: Record<string, string[]>;
     handleBookedTime: (details: { day: string; time: string }) => void;
+    onPreviousWeek: () => void;
+    onNextWeek: () => void;
 }) {
     const [selectedSquare, setSelectedSquare] = useState<{ date: string; time: string } | null>(null);
 
     const handleChoosingTimeSlot = (date: string, timeSlot: string) => {
-        console.log("handleChoosingTimeSlot has been clicked");
-        console.log(date, timeSlot);
-        setSelectedSquare({ date, time: timeSlot }); // Update selected square
+        setSelectedSquare({ date, time: timeSlot });
         handleBookedTime({
             day: date,
             time: timeSlot,
         });
-
     };
 
     return (
         <div className="flex flex-col items-center gap-2 rounded-lg border border-gray-200 p-4">
             <h1 className="text-2xl font-bold">Calendar</h1>
             <div className="flex flex-row items-center gap-2">
-                <button className="bg-primaryColor text-white px-4 py-2 rounded-lg hover:bg-primaryColorHover">
+                <button
+                    onClick={onPreviousWeek}
+                    className="bg-primaryColor text-white px-4 py-2 rounded-lg hover:bg-primaryColorHover"
+                >
                     Previous
                 </button>
-                <button className="bg-primaryColor text-white px-4 py-2 rounded-lg hover:bg-primaryColorHover">
-
+                <button
+                    onClick={onNextWeek}
+                    className="bg-primaryColor text-white px-4 py-2 rounded-lg hover:bg-primaryColorHover"
+                >
                     Next
                 </button>
             </div>
@@ -68,7 +74,6 @@ function Calendar({
                             </div>
                         );
                     })}
-
             </div>
         </div>
     );

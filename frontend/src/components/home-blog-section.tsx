@@ -4,7 +4,7 @@ import Image from "next/image";
 
 function HomeBlogSection() {
     return (
-        <section className="bg-pinkTint mx-auto py-10">
+        <section className="bg-white mx-auto py-10">
             <div className="w-11/12 mx-auto">
                 <div className="flex justify-between items-center mb-6">
                     <div>
@@ -21,7 +21,7 @@ function HomeBlogSection() {
                     </Link>
                 </div>
                 <div className="flex justify-center flex-wrap gap-4">
-                    <div className="bg-white rounded-xl p-3 w-[300px]">
+                    <div className="bg-pinkTint rounded-xl p-3 w-[300px]">
                         <Image
                             src="/images/blog-article-2.webp"
                             alt="How to choose an electrical service provider"
@@ -45,7 +45,7 @@ function HomeBlogSection() {
                             </Link>
                         </footer>
                     </div>
-                    <div className="bg-white rounded-xl p-3 w-[300px]">
+                    <div className="bg-pinkTint rounded-xl p-3 w-[300px]">
                         <Image
                             src="/images/blog-article-3.jpg"
                             alt="How to choose an electrical service provider"
@@ -69,7 +69,7 @@ function HomeBlogSection() {
                             </Link>
                         </footer>
                     </div>
-                    <div className="bg-white rounded-xl p-3 w-[300px]">
+                    <div className="bg-pinkTint rounded-xl p-3 w-[300px]">
                         <Image
                             src="/images/blog-article-1.webp"
                             alt="How to choose an electrical service provider"

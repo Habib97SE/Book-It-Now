@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 function HowItWorks() {
     return (
-        <section className="py-16 bg-white">
+        <section className="py-16 bg-pinkTint">
             <div className="container mx-auto px-4">
                 <div className="text-center mb-10">
                     <h2 className="text-3xl font-bold text-gray-800">How to Book Your Appointment Online</h2>
@@ -33,7 +33,7 @@ function HowItWorks() {
                     </div>
 
                     <div className="w-full md:w-1/3 p-4">
-                        <div className="work-wrap-box work-second bg-white rounded-lg p-6 text-center" data-aos="fade-up">
+                        <div className="work-wrap-box work-second rounded-lg p-6 text-center" data-aos="fade-up">
                             <div className="mb-4">
                                 <span className="inline-block bg-howItWorksIcon py-5 px-7 rounded-lg">
                                     <Image
@@ -53,7 +53,7 @@ function HowItWorks() {
                     </div>
 
                     <div className="w-full md:w-1/3 p-4">
-                        <div className="bg-white rounded-lg p-6 text-center" data-aos="fade-up">
+                        <div className=" rounded-lg p-6 text-center" data-aos="fade-up">
                             <div className="mb-4">
                                 <span className="inline-block bg-howItWorksIcon py-5 px-7 rounded-lg">
                                     <Image

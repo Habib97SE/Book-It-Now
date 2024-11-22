@@ -8,6 +8,7 @@ import { getProviderById, getServicesByProviderId } from "@/models/provider-mode
 import { createBooking } from "@/models/booking-model";
 import { BookingRequest } from "@/app/types/booking-types";
 import Head from "next/head";
+import Image from "next/image";
 
 function getCurrentDate() {
     const date = new Date();
@@ -41,14 +42,12 @@ function BookingPage() {
         bookingDetailsEnd: "",
         durationInMinutes: 0,
         notes: "",
-        email: "",
-        phone: "",
+        email: user?.primaryEmailAddress?.emailAddress || "",
+        phone: "0761296363",
         agreedToTerms: false,
     });
 
     const handleBookedTime = (date: string, time: string) => {
-        console.log("handleBookedTime has been clicked");
-        console.log(date, time);
         setSelectedDetails({
             date: date.day,
             time: date.time,
@@ -61,7 +60,7 @@ function BookingPage() {
     const [errorInForm, setErrorInForm] = useState(false);
     const [message, setMessage] = useState("");
 
-
+    const [clickedBookButton, setClickedBookButton] = useState(false);
 
     const handleSubmit = (e: any) => {
 
@@ -70,6 +69,8 @@ function BookingPage() {
             setMessage("Please agree to the terms and conditions");
             return;
         }
+
+        setClickedBookButton(true);
 
         if (user?.id === undefined) {
             setShowModal(true);
@@ -83,15 +84,23 @@ function BookingPage() {
         bookingDetails.userId = user?.id;
         bookingDetails.serviceItemId = id;
 
+        if (!bookingDetails.email || !bookingDetails.phone) {
+            bookingDetails.email = user?.primaryEmailAddress?.emailAddress || "";
+            bookingDetails.phone = user?.phoneNumbers[0].phoneNumber || "";
+        }
+
         const fetchData = async () => {
             const response = await createBooking(bookingDetails);
             if (response) {
+
                 console.log("Booking has been created");
                 router.push("/profile/my-bookings");
             }
         }
 
         fetchData();
+
+        setClickedBookButton(false);
     };
 
 
@@ -119,15 +128,30 @@ function BookingPage() {
             <div className="container mx-auto mt-10 bg-white text-black">
                 <div className="grid grid-cols-3">
                     <div className="col-span-2">
-                        <div>
-                            <h1 className="text-lg font-bold">
-                                {providerData?.name}
-                            </h1>
-                            <p>
-                                Address: <span className="font-bold text-black">{providerData?.address}, {providerData?.city} {providerData?.postalCode}</span>
-                            </p>
+                        <div className="flex flex-row justify-start">
+                            <Image
+                                src={providerData?.logo}
+                                alt="Provider Logo"
+                                width={100}
+                                height={100}
+                                className="object-cover mr-2"
+                            />
+                            <div>
+                                <h1 className="text-lg font-bold">
+                                    {providerData?.name}
+                                </h1>
+                                <p>
+                                    Address: <span className="font-bold text-black">{providerData?.address}, {providerData?.city} {providerData?.postalCode}</span>
+                                </p>
+                            </div>
 
                         </div>
+                        <p>
+                            Phone: <span className="font-bold text-black">{providerData?.phone}</span>
+                        </p>
+                        <p>
+                            Email: <span className="font-bold text-black">{providerData?.email}</span>
+                        </p>
                         <form onSubmit={handleSubmit}>
 
                             <div className="grid grid-cols-2 gap-6 my-3">
@@ -138,7 +162,6 @@ function BookingPage() {
                                         type="email"
                                         id="email"
                                         name="email"
-                                        required={true}
                                         className="w-full border border-gray-200 p-2 rounded-lg bg-white"
                                         value={bookingDetails.email}
                                         onChange={(e) => { setBookingDetails({ ...bookingDetails, email: e.target.value }) }}
@@ -150,7 +173,6 @@ function BookingPage() {
                                         type="text"
                                         id="phone"
                                         name="phone"
-                                        required={true}
                                         className="w-full border border-gray-200 p-2 rounded-lg bg-white"
                                         value={bookingDetails.phone}
                                         onChange={(e) => { setBookingDetails({ ...bookingDetails, phone: e.target.value }) }}
@@ -226,7 +248,7 @@ function BookingPage() {
                                 <button
                                     onClick={handleSubmit}
                                     className="bg-primaryColor hover:bg-primaryColorHover   text-white px-4 py-2 w-full rounded-lg">
-                                    Book Now
+                                    {clickedBookButton ? <span className="loading loading-dots loading-md"></span> : "Book Now"}
                                 </button>
                             </div>
                             <div className="my-4">

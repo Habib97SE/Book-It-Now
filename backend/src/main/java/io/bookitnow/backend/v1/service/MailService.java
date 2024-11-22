@@ -17,12 +17,12 @@ import com.sendgrid.*;
 @Service
 public class MailService {
 
-    public void sendEmail () {
+    public void sendEmail (String to, String subject, String body) {
         Email from = new Email("habib@tidstrend.se");
-        String subject = "Sending with SendGrid is Fun";
-        Email to = new Email("hezarehee.h@gmail.com");
-        Content content = new Content("text/plain", "and easy to do anywhere, even with Java");
-        Mail mail = new Mail(from, subject, to, content);
+
+        Email toEmail = new Email(to);
+        Content content = new Content("text/plain", body);
+        Mail mail = new Mail(from, subject, toEmail, content);
         SendGrid sendGrid = new SendGrid("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");
         Request request = new Request();
         try {
@@ -30,10 +30,7 @@ public class MailService {
             request.setEndpoint("mail/send");
             request.setBody(mail.build());
             Response response = sendGrid.api(request);
-            System.err.println(response.getStatusCode());
-            System.err.println(response.getBody());
-            System.err.println(response.getHeaders());
-            System.err.println("Email sent successfully");
+            System.out.println(response.getStatusCode());
         } catch (Exception ex) {
             ex.printStackTrace();
             System.err.println("Error sending email");

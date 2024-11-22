@@ -19,7 +19,19 @@ const ServiceSidebar = ({ item }) => {
 
     const closeModal = () => setModalOpen(false);
 
-    console.log(item);
+    // if item is not available, then show loading state
+    if (!item) {
+        return (
+            <div className="flex flex-row justify-center items-center">
+                <div className="flex w-52 flex-col gap-4">
+                    <div className="skeleton h-32 w-full"></div>
+                    <div className="skeleton h-4 w-28"></div>
+                    <div className="skeleton h-4 w-full"></div>
+                    <div className="skeleton h-4 w-full"></div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="sticky top-32 w-full md:w-[356px]">

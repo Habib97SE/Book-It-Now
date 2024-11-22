@@ -231,6 +231,7 @@ public class ServiceItemService {
         List<Booking> bookings = bookingRepository.findByServiceItemIdAndBookingDateTimeStartBetween(
                 serviceItemId, weekStartDateTime, weekEndDateTime);
 
+        // Map of booked time ranges for each day of the week
         Map<LocalDate, List<LocalTime[]>> bookedTimeRanges = new HashMap<>();
         for (Booking booking : bookings) {
             LocalDate bookingDate = booking.getBookingDateTimeStart().toLocalDate();
@@ -240,6 +241,9 @@ public class ServiceItemService {
                             booking.getBookingDateTimeEnd().toLocalTime()});
         }
 
+        LocalDate today = LocalDate.now();
+        LocalTime currentTime = LocalTime.now();
+
         for (int i = 0; i < 7; i++) {
             LocalDate currentDate = startDate.plusDays(i);
             List<String> dailyTimeSlots = new ArrayList<>();
@@ -248,6 +252,12 @@ public class ServiceItemService {
             while (currentSlotStart.plusMinutes(duration).isBefore(endTime) ||
                     currentSlotStart.plusMinutes(duration).equals(endTime)) {
                 LocalTime slotEndTime = currentSlotStart.plusMinutes(duration);
+
+                // Skip if the slot is in the past for today's date
+                if (currentDate.isEqual(today) && currentSlotStart.isBefore(currentTime)) {
+                    currentSlotStart = slotEndTime;
+                    continue;
+                }
 
                 LocalTime finalCurrentSlotStart = currentSlotStart;
                 boolean isBooked = bookedTimeRanges.getOrDefault(currentDate, new ArrayList<>()).stream()
@@ -266,6 +276,7 @@ public class ServiceItemService {
 
         return weeklyTimeSlots;
     }
+
 
 
 

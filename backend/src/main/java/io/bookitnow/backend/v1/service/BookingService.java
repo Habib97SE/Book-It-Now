@@ -22,11 +22,14 @@ public class BookingService {
 
     private final BookingRepository bookingRepository;
     private final ServiceItemRepository serviceItemRepository;
+    private final MailService mailService;
 
     public BookingService(BookingRepository bookingRepository,
-                          ServiceItemRepository serviceItemRepository) {
+                          ServiceItemRepository serviceItemRepository,
+                          MailService mailService) {
         this.bookingRepository = bookingRepository;
         this.serviceItemRepository = serviceItemRepository;
+        this.mailService = mailService;
     }
 
     private String generateBookingNumber() {
@@ -143,6 +146,19 @@ public class BookingService {
 
             Booking booking = mapToBooking(bookingRequest);
             bookingRepository.save(booking);
+
+            String emailSubject = "Booking confirmation " + booking.getBookingNumber();
+            String emailBody = "Your booking has been confirmed.\n";
+            emailBody += "Booking number: " + booking.getBookingNumber() + "\n";
+            emailBody += "Service item: " + booking.getServiceItem().getName() + "\n";
+            emailBody += "Booking date and time: " + booking.getBookingDateTimeStart() + "\n";
+            emailBody += "Duration: " + booking.getDurationInMinutes() + " minutes\n";
+            emailBody += "Notes: " + booking.getNotes() + "\n";
+            emailBody += "Thank you for booking with us!";
+
+
+            mailService.sendEmail(booking.getEmail(), emailSubject, emailBody);
+
             return mapToResponse(booking);
         } catch (Exception e) {
             System.err.println("Exception: " + e.getMessage());

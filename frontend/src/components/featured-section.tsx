@@ -37,7 +37,7 @@ const FeatureSection = () => {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {data.map((provider: Provider) => (
+                    {data?.map((provider: Provider) => (
                         <Link key={provider.id} href={`barbers/${provider.id}`} className="block hover:shadow-lg transition-shadow">
                             <div className="relative rounded-xl">
                                 <Image
