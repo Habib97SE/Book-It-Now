@@ -208,7 +208,16 @@ public class BookingService {
             throw new IllegalArgumentException("Invalid booking id");
         }
         try {
+            Booking booking = bookingRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Booking not found"));
             bookingRepository.deleteById(id);
+            String subject = "Booking cancellation";
+            String body = "Your booking with booking number " + booking.getBookingNumber() + " has been cancelled\n";
+            body += "Service item: " + booking.getServiceItem().getName() + "\n";
+            body += "Booking date and time: " + booking.getBookingDateTimeStart() + "\n";
+            body += "Duration: " + booking.getDurationInMinutes() + " minutes\n";
+            body += "Notes: " + booking.getNotes() + "\n";
+            body += "We hope to see you soon!";
+            mailService.sendEmail(booking.getEmail(), subject, body);
         } catch (Exception e) {
             throw new NoSuchElementException("Booking not found");
         }
